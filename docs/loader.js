@@ -1,3 +1,5 @@
+// Archived b/c I couldn't get it to work
+
 // Function to include and run a script
 function includeScript(url) {
     return new Promise((resolve, reject) => {
@@ -32,14 +34,16 @@ const scripts = [ // Also in the order that they will be run
 let totalScripts = scripts.length;
 let scriptsRun = 0;
 
-for (let x in scripts) {
-    console.log(scripts[x]);
-    includeScript(scripts[x])
-        .then(() => {
-            scriptsRun++;
-            console.log(`Script ${scripts[x]} has run`);
-        })
-        .catch(error => {
-            console.error(`Failed to run script ${scripts[x]}:`, error);
-        });
-}
+window.addEventListener("load", () => {
+    for (let x in scripts) {
+        console.log(scripts[x]);
+        includeScript(scripts[x])
+            .then(() => {
+                scriptsRun++;
+                console.log(`Script ${scripts[x]} has run`);
+            })
+            .catch(error => {
+                console.error(`Failed to run script ${scripts[x]}:`, error);
+            });
+    }
+});
