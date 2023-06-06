@@ -420,6 +420,7 @@ String.prototype.random = function(qty) {
     return output;
 }
 }
+// {
 Array.prototype.random = function(qty) {
     let output = "";
     if(qty > 0){for (i = 0; i < qty; i++) {
@@ -428,7 +429,7 @@ Array.prototype.random = function(qty) {
     return output;
 }
 
-Object.getFast = function(object, id) { // search by convert to string, fast but omits document and class data
+eMath.getFast = function(object, id) { // search by convert to string, fast but omits document and class data
     object = JSON.stringify(object);
     const length = id.toString().replace(/\\/g, "").length;
     const searchIndex = object.search(id);
@@ -489,9 +490,9 @@ Object.getFast = function(object, id) { // search by convert to string, fast but
     }
     return JSON.parse(output);
 };
-Object.prototype.getFast = function(id) { return Object.getF(this, id) };
+// Object.prototype.getFast = function(id) { return Object.getF(this, id) };
 
-Object.get = function (object, id) { // recursive search
+eMath.get = function (object, id) { // recursive search
     try {
         for (let i = 0; i < Object.keys(object).length; i++) {
             if (Object.keys(object)[i] == "sign") break;
@@ -509,14 +510,14 @@ Object.get = function (object, id) { // recursive search
         return null;
     }
 }
-Object.prototype.get = function (id) { return Object.get(this, id) }
-//Types
-String.prototype.isString = true;
-Decimal.prototype.isDecimal = true;
-Object.prototype.isObject = true;
-Array.prototype.isArray = true;
-Array.prototype.isObject = false; //this because all arrays are objects but not all objects are arrays for some reason
-
+// Object.prototype.get = function (id) { return Object.get(this, id) }
+// //Types
+// String.prototype.isString = true;
+// Decimal.prototype.isDecimal = true;
+// Object.prototype.isObject = true;
+// Array.prototype.isArray = true;
+// Array.prototype.isObject = false; //this because all arrays are objects but not all objects are arrays for some reason
+// }
 eMath.decimal = {};
 for (let x of eMath.decimalFunctions) {
     Decimal[x["name"]] = x["value"];
@@ -529,11 +530,11 @@ const TS = x => new Date(x != undefined ? x : new Date());
 const VER = 0.0306
 const EINF = Decimal.dInf
 
-Math.lerp = function (value1, value2, amount) {
-	amount = amount < 0 ? 0 : amount;
-	amount = amount > 1 ? 1 : amount;
-	return value1 + (value2 - value1) * amount;
-};
+// Math.lerp = function (value1, value2, amount) {
+// 	amount = amount < 0 ? 0 : amount;
+// 	amount = amount > 1 ? 1 : amount;
+// 	return value1 + (value2 - value1) * amount;
+// };
 
 Decimal.prototype.clone = function() {
     return this;

@@ -1,7 +1,7 @@
-const config = {
+const game = new Phaser.Game({
+    title: "Stellar Odyssey",
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    // canvas: document.getElementById("canvasGame"),
     physics: {
         default: "arcade",
         arcade: {
@@ -36,6 +36,4 @@ const config = {
             emitter.startFollow(logo);
         },
     },
-};
-
-const game = new Phaser.Game(config);
+});

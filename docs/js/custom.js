@@ -114,10 +114,10 @@ const custom = {
                 grid-row-end: 32;*/
                 let templateX = "";
                 let templateY = "";
-                for (i = 0; i < grid.x_size; i++) {
+                for (let i = 0; i < grid.x_size; i++) {
                     templateX += `${gridSizeX} `;
                 }
-                for (i = 0; i < grid.y_size; i++) {
+                for (let i = 0; i < grid.y_size; i++) {
                     templateY += `${gridSizeY} `;
                 }
                 this.gridElement.style.gridTemplateColumns = templateX;

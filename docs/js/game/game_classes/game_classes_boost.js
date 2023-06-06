@@ -98,7 +98,7 @@ Game.classes.boost = class {
                 value: (x1, x2) => E(x1).pentate(E(x2)),
             }
         ];
-        for(i = 0; i < listOfBoosts.length; i++) { //iterate through the array and add the "item" property
+        for (let i = 0; i < listOfBoosts.length; i++) { //iterate through the array and add the "item" property
             listOfBoosts[i] = Object.assign(listOfBoosts[i], {
                 items: [],
             });
