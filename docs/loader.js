@@ -12,9 +12,9 @@ function includeScript(url) {
 }
 
 const scripts = [ // Also in the order that they will be run
-    "//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.min.js",
-    "js/phaserSetup.js",
-    "js/break_eternity.js",
+    "https://pixijs.download/release/pixi.js",
+    "js/import/pixi-filters.js",
+    "js/import/break_eternity.js",
     "js/eMath.js",
     "js/format.js",
     "js/game.js",
@@ -22,10 +22,15 @@ const scripts = [ // Also in the order that they will be run
 
     "js/game/game_format.js",
 
-    "js/game/game_classes/game_classes/boost.js",
-    "js/game/game_classes/game_classes/currency_layer.js",
-    "js/game/game_classes/game_classes/game_classes_grid.js",
-    "js/game/game_classes/game_classes/game_classes_obb.js",
+    "js/game/game_classes/game_classes_boost.js",
+    "js/game/game_classes/game_classes_currency_layer.js",
+    "js/game/game_classes/game_classes_grid.js",
+    "js/game/game_classes/game_classes_obb.js",
+
+    "js/pixiSetup.js",
+    "js/player.js",
+    // "js/particles.js", // Fix later
+    "js/massParticles.js",
 ]
 
 // Function to run all scripts
@@ -34,10 +39,10 @@ const scripts = [ // Also in the order that they will be run
 let totalScripts = scripts.length;
 let scriptsRun = 0;
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async function () {
     for (let x in scripts) {
         console.log(scripts[x]);
-        includeScript(scripts[x])
+        await includeScript(scripts[x])
             .then(() => {
                 scriptsRun++;
                 console.log(`Script ${scripts[x]} has run`);
