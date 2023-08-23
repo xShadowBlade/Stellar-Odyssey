@@ -8,7 +8,7 @@ function addStaticCircle(x, y) {
     staticCircle.x = x;
     staticCircle.y = y;
 
-    app.stage.addChild(staticCircle);
+    Game.addToStage(staticCircle);
 }
 
 // Function to generate and add static circles within a box
@@ -27,7 +27,7 @@ function spawnStaticCircles() {
 }
 
 // Set up a timer to spawn static circles every 5 seconds
-const spawnInterval = 5000; // 5000 milliseconds = 5 seconds
+const spawnInterval = 1000; // 5000 milliseconds = 5 seconds
 let lastSpawnTime = 0;
 
 app.ticker.add((delta) => {
