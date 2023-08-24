@@ -10,17 +10,19 @@ Game["player"] = {
         // Add a glow filter to the circle
         circle.filters = [
             new PIXI.filters.GlowFilter({
-                quality: 0.5
+                quality: 1,
+                // innerStrength: 4,
+                // outerStrength: 4,
             })
         ];
 
         // Add the circle to the stage
         return app.stage.addChild(circle);
     })(),
-    acceleration: 0.01,
+    acceleration: 0.02,
     velocity: { x: 0, y: 0 },
     restoringForce: 0.005,
-    friction: 0.97,
+    friction: 0.95,
     position: { 
         x: 0, 
         y: 0 ,
@@ -34,6 +36,8 @@ Game["addToStage"] = function (child, correctPositionOnly = false) {
     child.pivot.x = -camera.position.x;
     child.pivot.y = -camera.position.y;
 }
+
+
 
 // Camera properties
 const camera = {

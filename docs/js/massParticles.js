@@ -30,6 +30,11 @@ function spawnStaticCircles() {
 const spawnInterval = 1000; // 5000 milliseconds = 5 seconds
 let lastSpawnTime = 0;
 
+const box = new Graphics();
+box.lineStyle(2, 0xFFFFFF)
+box.drawRect(0, 0, 300, 200);
+Game.addToStage(box);
+
 app.ticker.add((delta) => {
     const currentTime = performance.now();
     
