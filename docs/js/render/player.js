@@ -46,29 +46,24 @@ const camera = {
     position: { x: 0, y: 0 },
 };
 
-// Keyboard input
-const keys = [];
-function logKey(key, type) {
-    key = key.key;
-    if (type && !keys.includes(key)) keys.push(key); else if (!type && keys.includes(key)) keys.splice(keys.indexOf(key), 1);
-}
-// Key event listeners
-document.addEventListener('keydown', (e) => logKey(e, true));
-document.addEventListener('keyup', (e) => logKey(e, false));
+Game["keys"]["addKey"]("Move Up", "w");
+Game["keys"]["addKey"]("Move Left", "a");
+Game["keys"]["addKey"]("Move Down", "s");
+Game["keys"]["addKey"]("Move Right", "d");
 
 // Update loop
 app.ticker.add(() => {
     // Update velocity based on keyboard input
-    if (keys.includes("w")) {
+    if (Game["keys"]["isPressing"]("Move Up")) {
         Game.player.velocity.y -= Game.player.acceleration;
     }
-    if (keys.includes("a")) {
+    if (Game["keys"]["isPressing"]("Move Left")) {
         Game.player.velocity.x -= Game.player.acceleration;
     }
-    if (keys.includes("s")) {
+    if (Game["keys"]["isPressing"]("Move Down")) {
         Game.player.velocity.y += Game.player.acceleration;
     }
-    if (keys.includes("d")) {
+    if (Game["keys"]["isPressing"]("Move Right")) {
         Game.player.velocity.x += Game.player.acceleration;
     }
     Game.player.position.x += Game.player.velocity.x;

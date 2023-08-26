@@ -25,14 +25,3 @@ function main() { //t = no decimal
     timestamp = E(Date.now());
     Game["functions"].loopF(deltaT);
 }
-function save() {
-    if (!Game["data"]) {return} //check if data exists
-    Game["data"].playtime.timeLastPlayed = Date.now();
-    localStorage.setItem("data", btoa(eMath.encrypt(JSON.stringify(Game.data), Game.key)))
-}
-function load() {
-    if (!Game["data"]) {return} //check if data exists
-    if (Game["data"].playtime.timeLastPlayed != 0) {Game["data"].playtime.passive += Date.now() - Game["data"].playtime.timeLastPlayed;}
-
-    if (localStorage.getItem("data")) console.log(JSON.parse(eMath.decrypt(atob(localStorage.getItem("data")))));
-}
