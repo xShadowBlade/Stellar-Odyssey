@@ -19,6 +19,11 @@ Game["keys"] = {
             }
         }
     },
+    /**
+     * @description Adds a keynind 
+     * @param {string} name 
+     * @param {string} key 
+     */
     addKey: function (name, key) {
         for (let i = 0; i < Game["keys"]["binds"].length; i++) {
             let current = Game["keys"]["binds"][i];

@@ -1,3 +1,0 @@
-Game["functions"].gainMass = function () {
-    
-};
