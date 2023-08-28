@@ -1,4 +1,13 @@
-Game["player"] = {
+(function() {
+const { app } = Game.PIXI;
+// Camera properties
+Game.camera = {
+    damping: 0.1,    // Adjust the camera damping value
+    lookahead: -100, // Adjust the lookahead distance
+    position: { x: 0, y: 0 },
+};
+const { camera } = Game;
+Game.player = {
     sprite: (function() {
         // Create the circle sprite
         const circle = new PIXI.Graphics();
@@ -30,21 +39,11 @@ Game["player"] = {
         _y: 0,
     },
 }
-
-Game["addToStage"] = function (child, correctPositionOnly = false) {
+Game.addToStage = function (child, correctPositionOnly = false) {
     !correctPositionOnly ? app.stage.addChild(child) : 0;
     child.pivot.x = -camera.position.x;
     child.pivot.y = -camera.position.y;
 }
-
-
-
-// Camera properties
-const camera = {
-    damping: 0.1,    // Adjust the camera damping value
-    lookahead: -100, // Adjust the lookahead distance
-    position: { x: 0, y: 0 },
-};
 
 Game["keys"]["addKey"]("Move Up", "w");
 Game["keys"]["addKey"]("Move Left", "a");
@@ -103,3 +102,4 @@ app.ticker.add(() => {
     Game.player.position._x = (app.screen.width / 2 - camera.lookahead + Game.player.position.x) + 2 * camera.position.x;
     Game.player.position._y = (app.screen.height / 2 - camera.lookahead + Game.player.position.y) + 2 * camera.position.y;
 });
+})();

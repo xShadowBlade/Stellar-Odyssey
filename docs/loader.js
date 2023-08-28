@@ -1,3 +1,4 @@
+(function() {
 // Function to include and run a script
 function includeScript(url) {
     return new Promise((resolve, reject) => {
@@ -28,20 +29,21 @@ const scripts = [ // Also in the order that they will be run
     "js/eMath.js",
     "js/format.js",
     "js/game.js",
-    "js/save.js",
     "js/keybinds.js",
 
-    "js/game/game_format.js",
+    "js/game/format.js",
 
-    "js/game/game_classes/game_classes_boost.js",
-    "js/game/game_classes/game_classes_currency_layer.js",
-    "js/game/game_classes/game_classes_grid.js",
-    "js/game/game_classes/game_classes_obb.js",
+    "js/game/classes/boost.js",
+    // "js/game/classes/currency_layer.js",
+    "js/game/classes/grid.js",
+    // "js/game/classes/obb.js",
+    "js/game/classes/currency.js",
 
     "js/features/playtime.js",
     "js/features/mass.js",
+    "js/features/chronos.js",
 
-    "js/functions/gainQuarks.js",
+    // "js/functions/gainParticles.js",
 
     "js/pixiSetup.js",
     "js/main.js",
@@ -49,6 +51,9 @@ const scripts = [ // Also in the order that they will be run
     "js/render/player.js",
     // "js/particles.js", // Fix later
     "js/render/massParticles.js",
+
+    // This last
+    "js/save.js",
 ]
 const stylesheets = [
     "css/style.css",
@@ -73,7 +78,10 @@ window.addEventListener("load", async function () {
     // Load scripts
     for (let x = 0; x < scripts.length; x++) {
         // console.log(scripts[x]);
-        console.groupCollapsed(`${scripts[x]}`)
+
+        // console.groupCollapsed(`${scripts[x]}`);
+        console.group(`${scripts[x]}`);
+
         console.log(`${Date.now()} | Script ${scripts[x]} has initiated`);
         console.time(scripts[x])
         loadingProgress.innerHTML = `${scriptsRun}/${scripts.length}`;
@@ -112,3 +120,4 @@ window.addEventListener("load", async function () {
     console.groupEnd();
     document.body.removeChild(document.querySelector('.loading-screen'));
 });
+})();

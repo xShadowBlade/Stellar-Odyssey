@@ -1,13 +1,16 @@
+Game["data"].particles = {
+    currency: new Game.classes.currency(),
+}
+
+/*
 Game["data"].mass = new Game.classes.currencyLayer([
     {
         name: "currencies",
-        properties: new Game.classes.obb([
+        properties: new Game.classes.obb(
         {
-            name: "quarks",
-            properties: {
-            }
+            quarks: {}
         },
-    ], Game.classes.currencyLayer.methods.currencies())
+        Game.classes.currencyLayer.methods.currencies())
     },
     {
         name: "upgrades",
@@ -71,3 +74,4 @@ Game["data"].mass = new Game.classes.currencyLayer([
         ])
     },
 ]);
+*/

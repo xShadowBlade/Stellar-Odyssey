@@ -1,6 +1,12 @@
 Game.dataManagement = (function () {
+    const normalData = Game.data;
     const compileData = (data = Game["data"]) => LZString144.compressToBase64(JSON.stringify(data));
     const decompileData = (data = localStorage.getItem("data")) => JSON.parse(LZString144.decompressFromBase64(data));
+    const resetData = function (reload = false) {
+        Game.data = normalData
+        Game.dataManagement.saveData()
+        if (reload) location.href = location.href;
+    }
     const saveData = function () {
         if (!Game["data"]) {return} //check if data exists
         Game["data"].playtime.timeLastPlayed = Date.now();
@@ -39,12 +45,12 @@ Game.dataManagement = (function () {
 
         }
     }
-    const loadData = function (loadedData = decompileData()) {
+    const loadData = function () {
         if (!Game["data"]) {return} //check if data exists
         // if (Game["data"].playtime.timeLastPlayed != 0) {Game["data"].playtime.passive += Date.now() - Game["data"].playtime.timeLastPlayed;}
         
         // let loadedData = decompileData();
-        console.log(loadedData);
+        
 
         // if (localStorage.getItem("data")) console.log(decompileData(localStorage.getItem("data")));
 
@@ -60,7 +66,7 @@ Game.dataManagement = (function () {
                 if (typeof obj[prop] === 'string') {
                     try {
                         const processedValue = E(obj[prop]);
-                        obj[prop] = processedValue.process;
+                        obj[prop] = processedValue;
                     } catch (error) {
                         // Handle any errors from function E()
                         console.error(`Error processing value: ${obj[prop]}`);
@@ -69,14 +75,31 @@ Game.dataManagement = (function () {
                     processObject(obj[prop]); // Recurse into nested objects
                 }
             }
+            return obj;
         }
 
         // Example object
 
         // Process the object
-        processObject(loadedData);
-
-        console.log(loadedData);  
+        let loadedData = decompileData();
+        console.log(loadedData);
+        console.log(loadedData = processObject(loadedData));  
+        
+        // Add new / updated properties
+        function deepMerge(source, target) {
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (!target.hasOwnProperty(key)) {
+                        target[key] = source[key];
+                    } else if (typeof source[key] === 'object' && typeof target[key] === 'object') {
+                        deepMerge(source[key], target[key]);
+                    }
+                }
+            }
+        }
+          
+        console.log(deepMerge(normalData, loadedData));
+          
     }
-    return { compileData, decompileData, saveData, exportData, loadData }
+    return { resetData, compileData, decompileData, saveData, exportData, loadData }
 })();

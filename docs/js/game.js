@@ -1,4 +1,9 @@
 const Game = {
+    version: {
+        saveAPI: 1,
+        phase: "alpha",
+        version: "0.1.0",
+    },
     classes: {},
     data: {},
     functions: {

@@ -1,7 +1,7 @@
 Game.classes.boost = class {
     constructor(baseEffect, ...boosts) {
         this.boost = boosts;
-        this.baseEffect = baseEffect;
+        this.baseEffect = E(baseEffect);
         /*ex.
         new boost({
             id: "reallyCoolBoost124",

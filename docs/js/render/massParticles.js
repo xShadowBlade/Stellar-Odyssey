@@ -1,4 +1,6 @@
-const { Application, Graphics, GlowFilter, ParticleContainer, Texture, Rectangle } = PIXI;
+(function() {
+const { Graphics } = PIXI;
+const { app } = Game.PIXI;
 // Function to generate and add a static circle
 function addStaticCircle(x, y) {
     const staticCircle = new Graphics();
@@ -44,3 +46,4 @@ app.ticker.add((delta) => {
         lastSpawnTime = currentTime;
     }
 });
+})();
