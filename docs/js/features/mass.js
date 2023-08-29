@@ -1,3 +1,5 @@
+import Game from ".././game.js";
+import { E } from ".././eMath.js";
 Game["data"].particles = {
     currency: new Game.classes.currency(),
 }

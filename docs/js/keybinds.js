@@ -1,3 +1,4 @@
+import Game from ".././game.js";
 Game["keys"] = {
     keysPressed: [],
     binds: [

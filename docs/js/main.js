@@ -10,6 +10,8 @@ Saving/loading
 // const temp = {
     
 // }
+import Game from ".././game.js";
+import { E } from ".././eMath.js";
 Game.PIXI.app.ticker.add(function(dt) {
     dt = E(dt).plus(Game["data"].playtime.timewarp); //Time since last update (scale factor)
     Game["data"].playtime.timewarp = E(); //reset timewarp

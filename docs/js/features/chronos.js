@@ -1,3 +1,5 @@
+import Game from ".././game.js";
+import { E } from ".././eMath.js";
 Game.data.chronos = {
     value: E(0),
     boost: new Game.classes.boost(100),

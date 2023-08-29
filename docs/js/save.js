@@ -1,3 +1,5 @@
+import Game from ".././game.js";
+import { E } from ".././eMath.js";
 Game.dataManagement = (function () {
     const normalData = Game.data;
     const compileData = (data = Game["data"]) => LZString144.compressToBase64(JSON.stringify(data));

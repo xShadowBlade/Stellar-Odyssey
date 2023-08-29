@@ -1,4 +1,4 @@
-(function() {
+import Game from ".././game.js";
 const { app } = Game.PIXI;
 // Camera properties
 Game.camera = {
@@ -17,9 +17,10 @@ Game.player = {
         circle.y = app.screen.height / 2;
 
         // Add a glow filter to the circle
+
         circle.filters = [
             new PIXI.filters.GlowFilter({
-                quality: 1,
+                quality: 0.1,
                 // innerStrength: 4,
                 // outerStrength: 4,
             })
@@ -102,4 +103,3 @@ app.ticker.add(() => {
     Game.player.position._x = (app.screen.width / 2 - camera.lookahead + Game.player.position.x) + 2 * camera.position.x;
     Game.player.position._y = (app.screen.height / 2 - camera.lookahead + Game.player.position.y) + 2 * camera.position.y;
 });
-})();

@@ -1,4 +1,4 @@
-(function() {
+import Game from ".././game.js";
 const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 // Function to generate and add a static circle
@@ -46,4 +46,3 @@ app.ticker.add((delta) => {
         lastSpawnTime = currentTime;
     }
 });
-})();

@@ -364,6 +364,7 @@ const eMath = {
         return output;
     }
 }
+export default eMath;
 { // String Prototypes
 String.prototype.forEach = function(callbackfn) {
     for(i = 0; i < this.length; i++) {
@@ -523,12 +524,12 @@ for (let x of eMath.decimalFunctions) {
     Decimal[x["name"]] = x["value"];
     eMath.decimal[x["name"]] = x["value"];
 }
-function E(x){return new Decimal(x)};
+export function E(x){return new Decimal(x)};
 
-const TS = x => new Date(x != undefined ? x : new Date());
+export const TS = x => new Date(x != undefined ? x : new Date());
 
-const VER = 0.0306
-const EINF = Decimal.dInf
+export const VER = 0.0306
+export const EINF = Decimal.dInf
 
 // Math.lerp = function (value1, value2, amount) {
 // 	amount = amount < 0 ? 0 : amount;
@@ -558,7 +559,7 @@ Decimal.prototype.softcap = function (start, power, mode) {
     return x
 }
 
-function scale(x, s, p, mode, rev=false) {
+export function scale(x, s, p, mode, rev=false) {
     s = E(s)
     p = E(p)
     if (x.gte(s)) {
