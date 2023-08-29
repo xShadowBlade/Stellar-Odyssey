@@ -1,5 +1,3 @@
-import Game from ".././game.js";
-import { E } from ".././eMath.js";
 Game.classes.currency = class {
     constructor () {
         this.value = E(0);

@@ -1,4 +1,3 @@
-import Game from ".././game.js";
 Game.classes.grid = class {
     constructor(x_size, y_size) {
         /*new Game.classes.grid(5, 5)

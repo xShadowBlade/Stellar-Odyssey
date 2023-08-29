@@ -21,7 +21,6 @@ const Game = {
     },
     features: {}
 }
-export default Game;
 // function addLoopFunction(name, func) {Game["functions"].loop[name] = func}
 // function addStartFunction(name, func) {Game["functions"].start[name] = func}
 // addStartFunction("master", () => {

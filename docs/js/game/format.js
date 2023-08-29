@@ -1,5 +1,3 @@
-import Game from ".././game.js";
-import { E } from ".././eMath.js";
 Game["format"] = {
     metric: function(num, type) {
         num = E(num);

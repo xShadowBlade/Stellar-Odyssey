@@ -1,5 +1,3 @@
-import Game from ".././game.js";
-import { E } from ".././eMath.js";
 Game.classes.boost = class {
     constructor(baseEffect, ...boosts) {
         this.boost = boosts;

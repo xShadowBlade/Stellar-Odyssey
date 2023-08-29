@@ -1,31 +1,28 @@
 (function() {
 // Function to include and run a script
-function includeScript(url, isModule) {
+function includeScript(url) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = url;
-        script.type = isModule ? "module" : "text/javascript";
         script.onload = resolve;
         script.onerror = reject;
         document.head.appendChild(script);
     });
 }
-// function includeStylesheet(url) {
-//     return new Promise((resolve, reject) => {
-//         const style = document.createElement('link');
-//         style.rel = "stylesheet";
-//         style.href = url;
-//         style.onload = resolve;
-//         style.onerror = reject;
-//         document.head.appendChild(style);
-//     });
-// }
+function includeStylesheet(url) {
+    return new Promise((resolve, reject) => {
+        const style = document.createElement('link');
+        style.rel = "stylesheet";
+        style.href = url;
+        style.onload = resolve;
+        style.onerror = reject;
+        document.head.appendChild(style);
+    });
+}
 
 const scripts = [ // Also in the order that they will be run
     "https://pixijs.download/release/pixi.js",
     "js/import/pixi-filters.js",
-    "js/import/pixi-viewport.js",
-
     "js/import/break_eternity.js",
     "js/import/lz-string-1.4.4.js",
 
@@ -89,7 +86,7 @@ window.addEventListener("load", async function () {
         console.time(scripts[x])
         loadingProgress.innerHTML = `${scriptsRun}/${scripts.length}`;
         loadingText.innerHTML = `Loading: ${scripts[x]}`;
-        await includeScript(scripts[x], !(["js/format.js", "js/import/break_eternity.js"].includes(scripts[x]))) // Exceptions to modules are in the array
+        await includeScript(scripts[x])
             .then(() => {
                 scriptsRun++;
                 console.log(`${Date.now()} | Script ${scripts[x]} has run`);
