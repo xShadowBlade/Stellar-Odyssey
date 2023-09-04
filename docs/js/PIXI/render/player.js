@@ -1,10 +1,14 @@
+/* 
+* Player movement and camera movement
+*/
+
 (function() {
 const { app } = Game.PIXI;
 // Camera properties
 Game.camera = {
-    damping: 0.1,    // Adjust the camera damping value
-    lookahead: -100, // Adjust the lookahead distance
-    position: { x: 0, y: 0 },
+    x: 0, 
+    y: 0,
+    smoothDamp: 0.15,
 };
 const { camera } = Game;
 Game.player = {
@@ -19,16 +23,18 @@ Game.player = {
         // Add a glow filter to the circle
         circle.filters = [
             new PIXI.filters.GlowFilter({
-                quality: 1,
+                quality: 0.1,
                 // innerStrength: 4,
                 // outerStrength: 4,
             })
         ];
 
         // Add the circle to the stage
-        return app.stage.addChild(circle);
+
+        return new Game.classes.sprite(circle, "Circle");
+        // return app.stage.addChild(circle);
     })(),
-    acceleration: 0.02,
+    acceleration: 0.2,
     velocity: { x: 0, y: 0 },
     restoringForce: 0.005,
     friction: 0.95,
@@ -39,11 +45,6 @@ Game.player = {
         _y: 0,
     },
 }
-Game.addToStage = function (child, correctPositionOnly = false) {
-    !correctPositionOnly ? app.stage.addChild(child) : 0;
-    child.pivot.x = -camera.position.x;
-    child.pivot.y = -camera.position.y;
-}
 
 Game["keys"]["addKey"]("Move Up", "w");
 Game["keys"]["addKey"]("Move Left", "a");
@@ -51,7 +52,7 @@ Game["keys"]["addKey"]("Move Down", "s");
 Game["keys"]["addKey"]("Move Right", "d");
 
 // Update loop
-app.ticker.add(() => {
+app.ticker.add((dt) => {
     // Update velocity based on keyboard input
     if (Game["keys"]["isPressing"]("Move Up")) {
         Game.player.velocity.y -= Game.player.acceleration;
@@ -68,15 +69,6 @@ app.ticker.add(() => {
     Game.player.position.x += Game.player.velocity.x;
     Game.player.position.y += Game.player.velocity.y;
 
-    // Apply restoring force towards the center
-    const centerX = app.screen.width / 2;
-    const centerY = app.screen.height / 2;
-    const distanceX = centerX - Game.player.sprite.x;
-    const distanceY = centerY - Game.player.sprite.y;
-    Game.player.velocity.x += distanceX * Game.player.restoringForce;
-    Game.player.velocity.y += distanceY * Game.player.restoringForce;
-
-    // Apply velocity to position
     Game.player.sprite.x += Game.player.velocity.x;
     Game.player.sprite.y += Game.player.velocity.y;
 
@@ -84,22 +76,18 @@ app.ticker.add(() => {
     Game.player.velocity.x *= Game.player.friction;
     Game.player.velocity.y *= Game.player.friction;
 
-    // Update camera position with damping and lookahead
-    const targetX = Game.player.sprite.x + Game.player.velocity.x * camera.lookahead;
-    const targetY = Game.player.sprite.y + Game.player.velocity.y * camera.lookahead;
-    camera.position.x += (targetX - app.screen.width / 2 - app.stage.pivot.x) * camera.damping;
-    camera.position.y += (targetY - app.screen.height / 2 - app.stage.pivot.y) * camera.damping;
-
-    app.stage.children.forEach(element => Game.addToStage(element, true));
-
-    Game.player.sprite.pivot.x = -Game.player.position.x;
-    Game.player.sprite.pivot.y = -Game.player.position.y;
-
-    // Keep the circle centered on the screen
-    Game.player.sprite.x = app.screen.width / 2;
-    Game.player.sprite.y = app.screen.height / 2;
-
-    Game.player.position._x = (app.screen.width / 2 - camera.lookahead + Game.player.position.x) + 2 * camera.position.x;
-    Game.player.position._y = (app.screen.height / 2 - camera.lookahead + Game.player.position.y) + 2 * camera.position.y;
+    // Camera Movement Damping
+    function smoothDamp(current, target, smoothing, deltaTime) {
+        // Calculate the difference between current and target
+        var difference = target - current;
+    
+        // Calculate the change based on smoothing and deltaTime
+        var change = difference * smoothing * deltaTime;
+    
+        // Apply the change to the current value
+        return current + change;
+    }
+    Game.camera.x = smoothDamp(Game.camera.x, Game.player.position.x, Game.camera.smoothDamp, dt);
+    Game.camera.y = smoothDamp(Game.camera.y, Game.player.position.y, Game.camera.smoothDamp, dt);
 });
 })();

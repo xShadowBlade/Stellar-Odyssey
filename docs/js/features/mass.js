@@ -1,6 +1,21 @@
-Game["data"].particles = {
+(function () {
+
+Game["data"].quarks = {
     currency: new Game.classes.currency(),
 }
+
+// When pressing the massCollect key, check if collides
+
+// for (let i = 0; i < massParticles.length; i++) {
+//     const particle = massParticles[i];
+
+//     // Check for collision between playerSprite and the current particle
+//     if (playerSprite.intersects.collides(particle.sprite)) {
+//     // Collision detected, return the colliding particle
+//     return particle;
+//     }
+// }
+})();
 
 /*
 Game["data"].mass = new Game.classes.currencyLayer([

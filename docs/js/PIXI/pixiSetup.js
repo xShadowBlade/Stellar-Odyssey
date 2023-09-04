@@ -4,5 +4,4 @@ Game["PIXI"] = {
         resizeTo: window,
     }),
 };
-// const app = Game["PIXI"].app;
 document.body.appendChild(Game.PIXI.app.view);

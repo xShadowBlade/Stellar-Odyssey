@@ -1,15 +1,14 @@
 Game.data.chronos = {
-    value: E(0),
-    boost: new Game.classes.boost(100),
+    currency: new Game.classes.currency(),
     lastReward: E(0),
 }
 //Daily Reward
 Game.functions.claimDailyReward = (function () {
     let { chronos } = Game.data;
     return function (skipTime = false) {
-        if (skipTime || chronos.lastReward.sub(Date.now()).mul(-1).gte(E(43200000))) { // 43200000 is 12 hours
+        if (skipTime || chronos.lastReward.sub(Date.now()).mul(-1).gte(E(43200000))) { // 43200000 is 12 hours, checks if time elasped is greater
             chronos.lastReward = E(Date.now());
-            return chronos.value = chronos.value.add(chronos.boost.calculate());
+            return chronos.currency.gain();
         }
     }
 })()

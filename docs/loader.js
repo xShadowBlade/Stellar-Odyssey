@@ -1,3 +1,9 @@
+/**
+ * @file loader.js
+ * @description
+ * This JavaScript file handles the loading of external scripts and stylesheets required for a web application or game. 
+ * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
+ */
 (function() {
 // Function to include and run a script
 function includeScript(url) {
@@ -9,25 +15,26 @@ function includeScript(url) {
         document.head.appendChild(script);
     });
 }
-function includeStylesheet(url) {
-    return new Promise((resolve, reject) => {
-        const style = document.createElement('link');
-        style.rel = "stylesheet";
-        style.href = url;
-        style.onload = resolve;
-        style.onerror = reject;
-        document.head.appendChild(style);
-    });
-}
+// function includeStylesheet(url) {
+//     return new Promise((resolve, reject) => {
+//         const style = document.createElement('link');
+//         style.rel = "stylesheet";
+//         style.href = url;
+//         style.onload = resolve;
+//         style.onerror = reject;
+//         document.head.appendChild(style);
+//     });
+// }
 
 const scripts = [ // Also in the order that they will be run
     "https://pixijs.download/release/pixi.js",
     "js/import/pixi-filters.js",
     "js/import/break_eternity.js",
     "js/import/lz-string-1.4.4.js",
-
-    "js/eMath.js",
-    "js/format.js",
+    "js/import/eMath.js",
+    "js/import/format.js",
+    "js/import/pixi-intersects.js",
+    
     "js/game.js",
     "js/keybinds.js",
 
@@ -45,12 +52,14 @@ const scripts = [ // Also in the order that they will be run
 
     // "js/functions/gainParticles.js",
 
-    "js/pixiSetup.js",
+    "js/PIXI/pixiSetup.js",
     "js/main.js",
 
-    "js/render/player.js",
+    "js/PIXI/sprite.js",
+
+    "js/PIXI/render/player.js",
     // "js/particles.js", // Fix later
-    "js/render/massParticles.js",
+    "js/PIXI/render/massParticles.js",
 
     // This last
     "js/save.js",
