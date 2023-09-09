@@ -36,30 +36,30 @@ const scripts = [ // Also in the order that they will be run
     "js/import/pixi-intersects.js",
     
     "js/game.js",
-    "js/keybinds.js",
 
     "js/game/format.js",
 
     "js/game/classes/boost.js",
-    // "js/game/classes/currency_layer.js",
     "js/game/classes/grid.js",
-    // "js/game/classes/obb.js",
     "js/game/classes/currency.js",
+
+    
+
+    // "js/functions/gainParticles.js",
+
+    "js/PIXI/pixiSetup.js",
+    "js/keybinds.js",
+    "js/main.js",
+    "js/PIXI/sprite.js",
 
     "js/features/playtime.js",
     "js/features/mass.js",
     "js/features/chronos.js",
 
-    // "js/functions/gainParticles.js",
-
-    "js/PIXI/pixiSetup.js",
-    "js/main.js",
-
-    "js/PIXI/sprite.js",
-
     "js/PIXI/render/player.js",
     // "js/particles.js", // Fix later
     "js/PIXI/render/massParticles.js",
+    // "js/PIXI/render/background.js", // Fix later
 
     // This last
     "js/save.js",

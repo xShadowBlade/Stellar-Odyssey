@@ -36,15 +36,8 @@ let lastSpawnTime = 0;
 // const box = new Graphics();
 // box.lineStyle(2, 0xFFFFFF)
 // box.drawRect(0, 0, 300, 200);
-// Game.addToStage(box);
-
-app.ticker.add((delta) => {
-    const currentTime = performance.now();
-    
-    // Check if 5 seconds have passed since the last spawn
-    if (currentTime - lastSpawnTime >= spawnInterval) {
-        Game.static.massParticles.push(spawnStaticCircles());
-        lastSpawnTime = currentTime;
-    }
+// Game.addToStage(box)
+eventSystem.addEvent("Mass Spawn", "interval", E(1000).div(Game.data.quarks.regenRate), () => {
+    if (Game.data.quarks.maxParticles.gt(Game.static.massParticles.length)) Game.static.massParticles.push(spawnStaticCircles())
 });
 })();

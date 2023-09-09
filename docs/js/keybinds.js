@@ -48,9 +48,10 @@ Game["keys"] = {
      *
      * @param {string} name - The name of the key binding.
      * @param {string} key - The key associated with the binding.
-     * @example Game["keys"]["addKey"]("Move Up", "w");
+     * @param {function} [fn] - The function executed when the binding is pressed 
+     * @example addKey("Move Up", "w", () => Game.player.velocity.y -= Game.player.acceleration);
      */
-    addKey: function (name, key) {
+    addKey: function (name, key, fn) {
         for (let i = 0; i < Game["keys"]["binds"].length; i++) {
             let current = Game["keys"]["binds"][i];
             // console.log(current);
@@ -59,14 +60,29 @@ Game["keys"] = {
                 return;
             }
         }
-        // else
-        Game["keys"]["binds"].push(
-            {
-                name: name,
-                key: key
-            }
-        )
+        // if not found (new keybind entirely)
+        Game["keys"]["binds"].push({ name, key, fn });
+        if (typeof fn == "function") {
+            Game.PIXI.app.ticker.add((dt) => {
+                if (Game["keys"]["isPressing"](name)) fn(dt);
+            })
+        }
     },
+    /**
+     * Adds or updates multiple key bindings.
+     *
+     * @param {Array} keys - An array of key binding objects.
+     * @example
+     * addKeys([
+     *     { name: "Move Up", key: "w", fn: () => Game.player.velocity.y -= Game.player.acceleration },
+     *     // Add more key bindings here...
+     * ]);
+     */
+    addKeys: function (keys) {
+        for (const keyBinding of keys) {
+            this.addKey(keyBinding.name, keyBinding.key, keyBinding.fn);
+        }
+    }
 }
 
 const logKey = function(key, type) {
@@ -76,4 +92,6 @@ const logKey = function(key, type) {
 // Key event listeners
 document.addEventListener('keydown', (e) => logKey(e, true));
 document.addEventListener('keyup', (e) => logKey(e, false));
+
+Game.keys.addKey("Debug - Reload", "\`", () => location.href = location.href);
 })();

@@ -6,122 +6,10 @@ const eMath = {
             "0.4a": "Added quick sort, moved onload to init"
         }
     },
-    number: class {
-        constructor(layers, base, e) {
-            //if (typeof(name) != "string") {throw("endlessNum: Invalid variable type for operation [new Number(name)]")}
-            if (typeof(layers) != "number" && layers != undefined) {throw("TypeError: {endlessNum} Invalid variable type for operation [new Number(layers)]")}
-            if (typeof(base) != "number" && layers != undefined) {throw("TypeError: {endlessNum} Invalid variable type for operation [new Number(base)]")}
-            if (typeof(e) != "number" && layers != undefined) {throw("TypeError: {endlessNum} Invalid variable type for operation [new Number(e)]")}
-            this.layers = layers > 1 ? layers + 1: 1;
-            this.base = base != undefined ? base : 0;
-            this.e = e != undefined ? e : 0;
-            if (layers > 1) {
-                for (i = 0; i < layers; i++) {
-                    this[`e${i + 1}`] = 0; 
-                }
-            }
-        }
-        display() {return(eMath.settings[0] == 0 ? `${this.base}e${eMath.settings[1] == 0 ? "+" : ""}${this.e}` : `${this.base * Math.pow(10, this.e % 3)}e${eMath.settings[1] == 0 ? "+" : ""}${(this.e - this.e % 3)}`)}
-        convertBase() {
-            if (this.base >= 10) {
-                this.e += this.base.toString().length - 1;
-                this.base /= Math.pow(10, this.base.toString().length - 1);
-            }
-            
-            if (this.base < 1) {
-                this.e -= this.base.toString().length - 1;
-                this.base *= (this.base.toString().length - 1) * 10;
-            }
-            
-        }
-        static max_safe = 21;
-        add(number, type) {
-            if(typeof(type) == "number" && typeof(number) == "object" && type == 1){
-
-                if (number.e - this.e <= 0 - eMath.number.max_safe) {} else if (number.e - this.e > eMath.number.max_safe) {
-
-                    this.base = number.base;
-                    this.e = number.e;
-                } else {
-                    if (number.e >= this.e) { //number is bigger
-                        let control = number.e - this.e;
-                        this.base = number.base + this.base / Math.pow(10, control);
-                        this.e = number.e;
-                        this.convertBase();
-                    } else if (number.e <= this.e) { //this is bigger
-                        let control = this.e - number.e;
-                        this.base += number.base / Math.pow(10, control);
-                        this.convertBase();
-                    }
-                }
-            } else {
-                this.base += number;
-                this.convertBase();
-            }
-        }
-        subtract(number, type) {
-            if(typeof(type) == "number" && typeof(number) == "object" && type == 1){
-
-                if (number.e - this.e <= 0 - eMath.number.max_safe) {} else if (number.e - this.e > eMath.number.max_safe) {
-
-                    this.base = 0 - number.base;
-                    this.e = 0 - number.e;
-                } else {
-                    if (number.e >= this.e) { //number is bigger
-                        let control = number.e - this.e;
-                        this.base = number.base - this.base / Math.pow(10, control);
-                        this.e = number.e;
-                        console.log(this.base, this.e);
-
-                        this.convertBase();
-                    } else if (number.e <= this.e) { //this is bigger
-                        let control = this.e - number.e;
-                        this.base -= number.base / Math.pow(10, control);
-                        console.log(this.base, this.e);
-                        
-                        this.convertBase();
-                    }
-                }
-            } else {
-                this.base += number;
-                this.convertBase();
-            }
-        }
-        
-        multiply(number, type) {
-            if(typeof(type) == "number" && typeof(number) == "object" && type == 1){
-                this.base *= number.base;
-                this.e += number.e;
-                this.convertBase();
-            } else {
-                this.base *= number;;
-                this.convertBase()
-            }
-        }
-    },
     settings: [
         0, //notation: 0 = scientific; 1 = engineering
         0, //display: 0 = (+); 1 = ()
     ],
-    equation: {
-        solve: function(eq) {
-            eq = this.parse(eq);
-        },
-        parse: function(eq) {
-            let output;
-            eq.forEachAdvanced(function(char) {
-                console.log(char.value);
-                switch (char.value) {
-                    case "=":
-                        
-                        output = eq.split(char.index);
-                        return;
-                    break;
-                }
-            });
-            return output;
-        },
-    },
     time: function(funct, rep) {
         let timeStart = new Date();
         for (i = 0; i < (rep ? rep : 1); i++) {
@@ -362,6 +250,28 @@ const eMath = {
             }
         })
         return output;
+    },
+    
+    /**
+     * Smoothly interpolates between the current value and the target value over time
+     * using a smoothing factor and deltaTime.
+     *
+     * @param {number} current - The current value to interpolate from.
+     * @param {number} target - The target value to interpolate towards.
+     * @param {number} smoothing - The smoothing factor controlling the interpolation speed.
+     *                           A higher value results in slower interpolation.
+     * @param {number} deltaTime - The time elapsed since the last frame in seconds.
+     * @returns {number} - The interpolated value between `current` and `target`.
+     */
+    smoothDamp: function (current, target, smoothing, deltaTime) {
+        // Calculate the difference between current and target
+        var difference = target - current;
+    
+        // Calculate the change based on smoothing and deltaTime
+        var change = difference * smoothing * deltaTime;
+    
+        // Apply the change to the current value
+        return current + change;
     }
 }
 { // String Prototypes
@@ -548,6 +458,15 @@ Decimal.prototype.modular=Decimal.prototype.mod=function (other){
     return this.sub(this.div(other).floor().mul(other));
 };
 
+/**
+ * Applies a soft cap to a Decimal value using a specified soft cap function.
+ *
+ * @param {Decimal} start - The value at which the soft cap starts.
+ * @param {number} power - The power or factor used in the soft cap calculation.
+ * @param {string} mode - The soft cap mode. Use "pow" for power soft cap, "mul" for multiplication soft cap,
+ *                       or "exp" for exponential soft cap.
+ * @returns {Decimal} - The Decimal value after applying the soft cap.
+ */
 Decimal.prototype.softcap = function (start, power, mode) {
     var x = this.clone()
     if (x.gte(start)) {
@@ -557,7 +476,16 @@ Decimal.prototype.softcap = function (start, power, mode) {
     }
     return x
 }
-
+/**
+ * Scales a currency value using a specified scaling function.
+ *
+ * @param {Decimal} x - The value of the currency to be scaled.
+ * @param {Decimal} s - The value at which scaling starts.
+ * @param {Decimal} p - The scaling factor.
+ * @param {string} mode - The scaling mode. Use "pow" for power scaling or "exp" for exponential scaling.
+ * @param {boolean} [rev=false] - Whether to reverse the scaling operation (unscaling).
+ * @returns {Decimal} - The scaled currency value.
+ */
 function scale(x, s, p, mode, rev=false) {
     s = E(s)
     p = E(p)

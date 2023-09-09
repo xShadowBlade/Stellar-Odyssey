@@ -29,6 +29,7 @@ Game.classes.sprite = class {
         this.sprite.x = this.x - Game.camera.x;
         this.sprite.y = this.y - Game.camera.y;
     }
+
     /**
      * Checks if this sprite collides with another sprite.
      *
@@ -37,5 +38,19 @@ Game.classes.sprite = class {
      */
     collides (other) {
         return this.intersects[`collides${other.collisionShape}`](other.intersects);
+    }
+
+    /**
+     * yeet
+     */
+    remove (parent) {
+        this.x = this.y = Infinity; // buggy collision detection
+        this.sprite.parent.removeChild(this.sprite);
+        if (typeof parent == "array") {
+            const index = parent.indexOf(this);
+            if (index !== -1) {
+                parent.splice(index, 1);
+            }
+        } else if (typeof parent == "object") delete this;
     }
 }

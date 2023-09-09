@@ -1,92 +1,85 @@
 (function () {
-
 Game["data"].quarks = {
     currency: new Game.classes.currency(),
+    /** 
+     * Rate of regeneration
+     * in x per second
+    */
+    regenRate: E(2),
+    absorbRate: E(2),
+    maxParticles: E(10),
 }
+Game["static"].quarks = {
+    currency: new Game.classes.currencyStatic(() => Game["data"].quarks.currency),
+}
+Game["static"].quarks.currency.addUpgrade([
+    {
+        name: "Value",
+        cost: E(5),
+        costScaling: n => Decimal.pow(1.2,scale(E(n),1e6,2,0)).mul(10).ceil(),
+        maxLevel: E(1000),
+        effect: function () {
+            const { level } = this;
+            Game["static"].quarks.currency.boost.bSet(
+                "valueUpg1Quarks",
+                "Quarks Value - Quarks",
+                "Quarks Value - Quarks",
+                n => E(n).mul(level),
+                2
+            );
+        }
+    },
+    {
+        name: "Capacity",
+        cost: E(25),
+        costScaling: n => Decimal.pow(1.3,scale(E(n),1e6,2,0)).mul(10).ceil(),
+        maxLevel: E(100),
+        effect: function (level) {
+            
+        }
+    },
+    {
+        name: "Regeneration",
+        cost: E(100),
+        costScaling: n => Decimal.pow(1.5,scale(E(n),1e6,2,0)).mul(10).ceil(),
+        maxLevel: E(30),
+        effect: function (level) {
+            
+        }
+    },
+    {
+        name: "Speed",
+        cost: E(1000),
+        costScaling: n => Decimal.pow(3,scale(E(n),1e6,2,0)).mul(100).ceil(),
+        maxLevel: E(5),
+        effect: function (level) {
+            
+        }
+    },
+])
 
 // When pressing the massCollect key, check if collides
+Game.keys.addKey("Collect Quarks", " ", function (dt) {
+    if (Game.player.state == "idle") {
+        for (let i = 0; i < Game.static.massParticles.length; i++) {
+            const particle = Game.static.massParticles[i];
 
-// for (let i = 0; i < massParticles.length; i++) {
-//     const particle = massParticles[i];
-
-//     // Check for collision between playerSprite and the current particle
-//     if (playerSprite.intersects.collides(particle.sprite)) {
-//     // Collision detected, return the colliding particle
-//     return particle;
-//     }
-// }
+            // Check for collision between playerSprite and the current particle
+            if (Game.player.sprite.collides(particle)) {
+                // Collision detected
+                Game.player.state = ["lockedToMass", particle];
+                eventSystem.addEvent("massCollect", "timeout", E(1000).div(Game["data"].quarks.absorbRate), function () {
+                    Game.player.state = ["lockedToMassExit"];
+                    console.log("gainMass");
+                    const index = Game.static.massParticles.indexOf(particle);
+                    Game.static.massParticles[index].remove();
+                    Game.static.massParticles.splice(index, 1);
+                    Game["static"].quarks.currency.gain();
+                    console.log(Game.data.quarks.currency.value.toString());
+                });
+                break;
+            }
+        }
+    }
+});
 })();
-
-/*
-Game["data"].mass = new Game.classes.currencyLayer([
-    {
-        name: "currencies",
-        properties: new Game.classes.obb(
-        {
-            quarks: {}
-        },
-        Game.classes.currencyLayer.methods.currencies())
-    },
-    {
-        name: "upgrades",
-        properties: new Game.classes.obb([
-        {
-            name: "quarks",
-            properties: new Game.classes.obb([ //upgName, upgCostScaling, upgCostScalingType, upgCost, upgMxLvl, upgEffect)
-                {
-                    name: "value",
-                    properties: {
-                        displayName: "Value",
-                        display: document.getElementById("button-up-gain"),
-                        costScaling: "3",
-                        costScalingType: "multiply",
-                        cost: E("10"),
-                        mxLvl: E("1000"),
-                        description: Function("return `Increases value by ${this.effectMult.toString()}x`"),
-                        effect: function() {
-                            
-                        }
-                    }
-                },
-                {
-                    name: "capacity",
-                    properties: {
-                        costScaling: "25",
-                        costScalingType: "multiply",
-                        cost: E("25"),
-                        mxLvl: E("20"),
-                        effect: function() {
-                            
-                        }
-                    }
-                },
-                {
-                    name: "regeneration",
-                    properties: {
-                        costScaling: "10",
-                        costScalingType: "multiply",
-                        cost: E("100"),
-                        mxLvl: E("20"),
-                        effect: function() {
-                            
-                        }
-                    }
-                },
-                {
-                    name: "speed",
-                    properties: {
-                        costScaling: "1000",
-                        costScalingType: "multiply",
-                        cost: E("1000"),
-                        mxLvl: E("20"),
-                        effect: function() {
-                            
-                        }
-                    }
-                }
-            ], Game.classes.currencyLayer.methods.upgrades("Game.data.points.currencies.points"))
-        },
-        ])
-    },
-]);
-*/

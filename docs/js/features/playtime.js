@@ -6,5 +6,4 @@ Game["data"].playtime = { //in milliseconds
     passive: E(),
     points: E(),
     timeLastPlayed: E(),
-    boost: new Game.classes.boost("1"),
 }

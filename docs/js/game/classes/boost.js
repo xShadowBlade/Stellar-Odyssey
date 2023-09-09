@@ -13,20 +13,27 @@
  *   value: E(124),
  * });
  */
-Game.classes.boost = class {
+Game.classes.boostStatic = class {
     /**
      * Constructs a new boost manager.
      *
      * @constructor
-     * @param {number} baseEffect - The base effect value to which boosts are applied.
+     * @param {number} [baseEffect] - The base effect value to which boosts are applied.
+     * @param {function} pointer - returns Game.classes.boost
      * @param {...Object} boosts - An array of boost objects to initialize with.
      */
-    constructor(baseEffect, ...boosts) {
+    constructor(baseEffect = 1, pointer, ...boosts) {
         /**
          * An array of boost objects.
          * @type {Object[]}
          */
         this.boost = boosts;
+
+        /**
+         * A function that returns the pointer of the data
+         * @type {function}
+         */
+        this.pointer = pointer;
 
         /**
          * The base effect value.
@@ -43,7 +50,7 @@ Game.classes.boost = class {
      */
     bGet(id) {
         let output = null;
-        for (i = 0; i < this.boost.length; i++) {
+        for (let i = 0; i < this.boost.length; i++) {
             if (i == this.boost.length) break;
             if (id == this.boost[i].id) { 
                 output = this.boost[i];
@@ -66,27 +73,15 @@ Game.classes.boost = class {
      * @param {string} id - The ID of the boost.
      * @param {string} name - The name of the boost.
      * @param {string} desc - The description of the boost.
-     * @param {string} type - The type of the boost.
-     * @param {number} value - The value of the boost.
+     * @param {function} value - The value of the boost (function).
+     * @param {number} order - The order of the boost (higher order are go first)
      */
-    bSet(id, name, desc, type, value) {
+    bSet(id, name, desc, value, order) {
         let bCheck = this.bGet(id);
         if (!bCheck) {
-            this.boost.push({
-                "id": id,
-                "name": name,
-                "desc": desc,
-                "type": type,
-                "value": value,
-            });
+            this.boost.push({ id, name, desc, value, order });
         } else {
-            bCheck = {
-                "id": id,
-                "name": name,
-                "desc": desc,
-                "type": type,
-                "value": value,
-            }
+            bCheck = { id, name, desc, value, order }
         }
     };
 
@@ -115,65 +110,14 @@ Game.classes.boost = class {
      */
     calculate(base = this.baseEffect) {
         let output = E(base);
-        let listOfBoosts = [ //also in the order that they will be applied
-            {
-                name: ["add", "plus"],
-                value: (x1, x2) => E(x1).plus(E(x2)),
-            },
-            {
-                name: ["sub", "subtract", "minus"],
-                value: (x1, x2) => E(x1).minus(E(x2)),
-            },
-            {
-                name: ["mul", "multiply", "times"],
-                value: (x1, x2) => E(x1).times(E(x2)),
-            },
-            {
-                name: ["div", "divide", "over", "divided", "divide by", "divided by"],
-                value: (x1, x2) => E(x1).divide(E(x2)),
-            },
-            {
-                name: ["pow", "power", "exp", "exponent", "exponentiate"],
-                value: (x1, x2) => E(x1).pow(E(x2)),
-            },
-            {
-                name: ["log", "logarithm"],
-                value: (x1, x2) => E(x1).log(E(x2)),
-            },
-            {
-                name: ["tetr", "tetrate"],
-                value: (x1, x2) => E(x1).tetrate(E(x2)),
-            },
-            {
-                name: ["slog"],
-                value: (x1, x2) => E(x1).slog(E(x2)),
-            },
-            {
-                name: ["pent", "pentate"],
-                value: (x1, x2) => E(x1).pentate(E(x2)),
-            }
-        ];
-        for (let i = 0; i < listOfBoosts.length; i++) { //iterate through the array and add the "item" property
-            listOfBoosts[i] = Object.assign(listOfBoosts[i], {
-                items: [],
-            });
+        let boosts = this.boost;
+        boosts.sort((a, b) => a.order - b.order);
+        for (let i = 0; i < boosts.length; i++) {
+            output = boosts[i].value(output);
         }
-        this.boost.forEach((item) => { //sort it
-            for(i = 0; i < listOfBoosts.length; i++) { //compare each entry
-                for(let j = 0; j < listOfBoosts[i].name.length; j++) {
-                    if (item.type.toLowerCase() == listOfBoosts[i].name[j].toLowerCase()) {
-                        listOfBoosts[i].items.push(item);
-                    }
-                }
-            }
-        });
-        listOfBoosts.forEach((item) => { //actually calc the boost now
-            if (item.items.length > 0) {
-                item.items.forEach((item2) => {
-                    output = item.value(output, item2.value);
-                });
-            }
-        });
         return output;
     };
 }
+// Game.classes.boost = class {
+
+// }
