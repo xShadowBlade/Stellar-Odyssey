@@ -78,10 +78,11 @@ Game.classes.boostStatic = class {
      */
     bSet(id, name, desc, value, order) {
         let bCheck = this.bGet(id);
+        console.log(this.bGet(id))
         if (!bCheck) {
             this.boost.push({ id, name, desc, value, order });
         } else {
-            bCheck = { id, name, desc, value, order }
+            this.boost[bCheck.index] = { id, name, desc, value, order }
         }
     };
 

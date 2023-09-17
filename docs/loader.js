@@ -42,15 +42,14 @@ const scripts = [ // Also in the order that they will be run
     "js/game/classes/boost.js",
     "js/game/classes/grid.js",
     "js/game/classes/currency.js",
-
-    
-
+    "js/game/classes/attribute.js",
     // "js/functions/gainParticles.js",
 
     "js/PIXI/pixiSetup.js",
     "js/keybinds.js",
     "js/main.js",
     "js/PIXI/sprite.js",
+    // "js/upgrades.js",
 
     "js/features/playtime.js",
     "js/features/mass.js",

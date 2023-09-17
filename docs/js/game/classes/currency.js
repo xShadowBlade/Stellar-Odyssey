@@ -21,6 +21,12 @@ Game.classes.currency = class {
          * @type {Game.classes.boost}
          */
         // this.boost = new Game.classes.boost(1);
+
+        /**
+         * An array that represents upgrades and their levels.
+         * @type {Array}
+         */
+        this.upgrades = [];
     }
 
     /**
@@ -31,6 +37,12 @@ Game.classes.currency = class {
     gain () { 
         this.value = this.value.add(this.boost.calculate());
         return this.value;
+    }
+
+    addUpgrade (upgrades) {
+        upgrades = upgrades.level ? { level: upgrades.level } : { level: E(1) } ;
+        this.upgrades.push(upgrades);
+        return upgrades;
     }
 }
 
@@ -101,25 +113,22 @@ Game.classes.currencyStatic = class {
     */
     addUpgrade (upgrades, runEffectInstantly = true) {
         for (let i = 0; i < upgrades.length; i++) {
-            upgrades[i].level = upgrades[i].level ? upgrades[i].level : upgrades[i].level = E(1);
+            this.pointer().addUpgrade(upgrades[i]);
+            upgrades[i].getLevel = () => this.pointer().upgrades[i].level;
+            upgrades[i].setLevel = (n) => this.pointer().upgrades[i].level = this.pointer().upgrades[i].level.add(n);
             if (runEffectInstantly) upgrades[i].effect(upgrades.level);
         }
         this.upgrades = this.upgrades.concat(upgrades);
     }
 
     /**
-     * Buys an upgrade based on its ID or array position, 
-     * if enough currency is available.
-     *
-     * @param {string|number} id - The ID or position of the upgrade to buy or upgrade. 
-     * If a string is provided, it is treated as the upgrade's ID. If a number is provided, it is treated as the upgrade's array position (starting from 0).
-     * @param {Decimal} target - The target level or quantity to reach for the upgrade. 
-     * This represents how many upgrades to buy or upgrade.
+     * Calculates the cost and how many upgrades you can buy
      * 
-     * @returns {boolean} Returns true if the purchase or upgrade is successful, or false if there is not enough currency or the upgrade does not exist.
-     *
+     * @param {*} id 
+     * @param {*} target 
+     * @returns {array} - [amount, cost]
      */
-    buyUpgrade (id, target) {
+    calculateUpgrade(id, target) {
         // Binary Search
         /**
          * Finds the highest value of 'b' for which the sum of 'f(n)' from 0 to 'b' is less than or equal to 'a'.
@@ -151,7 +160,7 @@ Game.classes.currencyStatic = class {
                 }
             }
         
-            return [left.sub(1), calculateSum(f, left.sub(1))];
+            return [left, calculateSum(f, left.sub(1))];
         }
         
         /**
@@ -188,25 +197,76 @@ Game.classes.currencyStatic = class {
         }
 
         // Assuming you have found the upgrade object, calculate the maximum affordable quantity
-        const maxAffordableQuantity = findHighestB((level) => upgrade.costScaling(upgrade.level.add(level)), this.pointer().value);
+        return findHighestB((level) => upgrade.costScaling(upgrade.getLevel().add(level)), this.pointer().value);
+    }
 
-        if (!maxAffordableQuantity.lte(0)) {
+    /**
+     * Buys an upgrade based on its ID or array position, 
+     * if enough currency is available.
+     *
+     * @param {string|number} id - The ID or position of the upgrade to buy or upgrade. 
+     * If a string is provided, it is treated as the upgrade's ID. If a number is provided, it is treated as the upgrade's array position (starting from 0).
+     * @param {Decimal} target - The target level or quantity to reach for the upgrade. 
+     * This represents how many upgrades to buy or upgrade.
+     * 
+     * @returns {boolean} Returns true if the purchase or upgrade is successful, or false if there is not enough currency or the upgrade does not exist.
+     *
+     */
+    buyUpgrade (id, target) {
+        // Implementation logic to find the upgrade based on ID or position
+        let upgrade;
+        if (typeof id == "number") {
+            upgrade = this.upgrades[id];
+        } else if (typeof id == "string") {
+            for (let i = 0; i < this.upgrades.length; i++) {
+                if (this.upgrades[i].id === id) {
+                    upgrade = this.upgrades[i];
+                    break;
+                }
+            }
+        } else {
+            return false;
+        }
+
+        // Check if an upgrade object was found
+        if (!upgrade) {
+            return false;
+        }
+
+        // Assuming you have found the upgrade object, calculate the maximum affordable quantity
+        const maxAffordableQuantity = this.calculateUpgrade(id, target);
+
+        // Check if maxAffordableQuantity is a valid array
+        if (!Array.isArray(maxAffordableQuantity) || maxAffordableQuantity.length !== 2) {
+            return false;
+        }
+
+        // Check if there's enough currency to afford any upgrades
+        if (!maxAffordableQuantity[0].lte(0)) {
             // Determine the actual quantity to purchase based on 'target' and 'maxLevel'
-            target = upgrade.level.add(target).lte(upgrade.maxLevel) ? target : upgrade.maxLevel.sub(upgrade.level);
-        
+            target = upgrade.getLevel().add(target).lte(upgrade.maxLevel) ? target : upgrade.maxLevel.sub(upgrade.getLevel());
+
             // Check if the calculated quantity exceeds the affordable quantity
             const condition = maxAffordableQuantity[0].lte(target);
-        
+
             // Update the affordable quantity and cost if needed
-            maxAffordableQuantity[0] = condition ? maxAffordableQuantity[0] : E(target);
+            maxAffordableQuantity[0] = condition ? maxAffordableQuantity[0] : target;
             maxAffordableQuantity[1] = condition ? maxAffordableQuantity[1] : calculateSum(upgrade.costScaling, target);
-        
+
             // Deduct the cost from available currency and increase the upgrade level
             this.pointer().value = this.pointer().value.sub(maxAffordableQuantity[1]);
-            upgrade.level = upgrade.level.add(maxAffordableQuantity[1]);
-            upgrade.effect(upgrade.level, upgrade);
+            upgrade.setLevel(upgrade.getLevel().add(maxAffordableQuantity[0]));
+
+            // Call the effect function if it exists
+            if (typeof upgrade.effect === "function") {
+                upgrade.effect(upgrade.getLevel(), upgrade);
+            }
+
+            // Return true to indicate a successful purchase or upgrade
+            return true;
         } else {
-            return false; // Unable to afford any upgrades
+            // Return false if unable to afford any upgrades
+            return false;
         }
     }
 }

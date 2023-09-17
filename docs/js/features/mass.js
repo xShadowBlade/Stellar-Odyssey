@@ -11,6 +11,9 @@ Game["data"].quarks = {
 }
 Game["static"].quarks = {
     currency: new Game.classes.currencyStatic(() => Game["data"].quarks.currency),
+    regenRate: new Game.classes.staticAttribute(2),
+    absorbRate: new Game.classes.staticAttribute(2),
+    maxParticles: new Game.classes.staticAttribute(10),
 }
 Game["static"].quarks.currency.addUpgrade([
     {
@@ -19,12 +22,14 @@ Game["static"].quarks.currency.addUpgrade([
         costScaling: n => Decimal.pow(1.2,scale(E(n),1e6,2,0)).mul(10).ceil(),
         maxLevel: E(1000),
         effect: function () {
-            const { level } = this;
+            console.log(this);
+            const level = this.getLevel();
+            
             Game["static"].quarks.currency.boost.bSet(
                 "valueUpg1Quarks",
                 "Quarks Value - Quarks",
                 "Quarks Value - Quarks",
-                n => E(n).mul(level),
+                n => E(n).mul(Decimal.floor(Decimal.mul(0.5, level).mul(Decimal.ln(level)).add(level))),
                 2
             );
         }
@@ -34,8 +39,19 @@ Game["static"].quarks.currency.addUpgrade([
         cost: E(25),
         costScaling: n => Decimal.pow(1.3,scale(E(n),1e6,2,0)).mul(10).ceil(),
         maxLevel: E(100),
-        effect: function (level) {
+        effect: function () {
+            console.log(this);
+            const level = this.getLevel();
             
+            Game["static"].quarks.maxParticles.update(function () {
+                Game["static"].quarks.maxParticles.boost.bSet(
+                    "valueUpg2Quarks",
+                    "Quarks Capacity - Quarks",
+                    "Quarks Capacity - Quarks",
+                    n => E(n).add(10).add(level),
+                    1
+                );
+            });
         }
     },
     {
@@ -43,8 +59,19 @@ Game["static"].quarks.currency.addUpgrade([
         cost: E(100),
         costScaling: n => Decimal.pow(1.5,scale(E(n),1e6,2,0)).mul(10).ceil(),
         maxLevel: E(30),
-        effect: function (level) {
-            
+        effect: function () {
+            console.log(this);
+            const level = this.getLevel();
+
+            Game["static"].quarks.regenRate.update(function () {
+                Game["static"].quarks.regenRate.boost.bSet(
+                    "valueUpg3Quarks",
+                    "Quarks Regeneration - Quarks",
+                    "Quarks Regeneration - Quarks",
+                    n => E(n).add(2).add(level.mul(0.5)),
+                    1
+                );
+            });
         }
     },
     {
@@ -52,7 +79,7 @@ Game["static"].quarks.currency.addUpgrade([
         cost: E(1000),
         costScaling: n => Decimal.pow(3,scale(E(n),1e6,2,0)).mul(100).ceil(),
         maxLevel: E(5),
-        effect: function (level) {
+        effect: function () {
             
         }
     },

@@ -13,7 +13,7 @@ window.addEventListener('resize', () => {
     const newHeight = window.innerHeight;
 
     // Resize the renderer
-    app.renderer.resize(newWidth, newHeight);
+    Game.PIXI.app.renderer.resize(newWidth, newHeight);
 
     // Resize the background
     background.width = newWidth;
