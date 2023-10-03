@@ -1,30 +1,71 @@
-const reducer = (_, { data }) => data;
+/**
+ * @fileOverview Defines a React component for a Pixi.js game using @inlet/react-pixi.
+ * @module MyPixiApp
+ */
+"use strict";
 
-const Bunny = () => {
-	const [motion, update] = useReducer(reducer);
-	const iter = useRef(0);
+import React, { useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import { Stage, useApp } from "@pixi/react";
+import * as PIXI from "pixi.js";
 
-	useTick((delta) => {
-		const i = (iter.current += 0.05 * delta);
+const App = () => {
+    const app = useApp();
 
-		update({
-			type: "update",
-			data: {
-				x: Math.sin(i) * 100,
-				y: Math.sin(i / 1.5) * 100,
-				rotation: Math.sin(i) * Math.PI,
-				anchor: Math.sin(i / 2),
-			},
-		});
-	});
+    useEffect(() => {
+    // Your initialization logic goes here
 
-	return <Sprite image="/pixi-react/img/bunny.png" {...motion} />;
+        // Set the background color
+        app.renderer.backgroundColor = 0x000000;
+
+        // Create a background
+        const background = new PIXI.Graphics();
+        background.beginFill(0x000000);
+        background.drawRect(0, 0, app.view.width, app.view.height);
+        background.endFill();
+        app.stage.addChild(background);
+
+        // Set the event mode for the stage
+        app.stage.interactive = true;
+        app.stage.interactiveChildren = false;
+
+        // Resize event listener
+        const handleResize = () => {
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+
+            // Resize the renderer
+            app.renderer.resize(newWidth, newHeight);
+
+            // Resize the background
+            background.clear();
+            background.beginFill(0x000000);
+            background.drawRect(0, 0, newWidth, newHeight);
+            background.endFill();
+        };
+
+        // Attach the resize event listener
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup on unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [app]);
+
+    return (
+        <Stage
+            width={window.innerWidth}
+            height={window.innerHeight}
+            options={{
+                background: 0x000000,
+                resizeTo: window,
+            }}
+        >
+            {/* Your Pixi.js components go here */}
+        </Stage>
+    );
 };
 
-render(
-	<Stage width={300} height={300} options={{ backgroundAlpha: 0 }}>
-		<Container x={150} y={150}>
-			<Bunny />
-		</Container>
-	</Stage>,
-);
+const root = createRoot(document);
+root.render(<App />);
