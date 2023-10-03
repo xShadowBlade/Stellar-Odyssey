@@ -1,17 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+const reducer = (_, { data }) => data;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const Bunny = () => {
+	const [motion, update] = useReducer(reducer);
+	const iter = useRef(0);
+
+	useTick((delta) => {
+		const i = (iter.current += 0.05 * delta);
+
+		update({
+			type: "update",
+			data: {
+				x: Math.sin(i) * 100,
+				y: Math.sin(i / 1.5) * 100,
+				rotation: Math.sin(i) * Math.PI,
+				anchor: Math.sin(i / 2),
+			},
+		});
+	});
+
+	return <Sprite image="/pixi-react/img/bunny.png" {...motion} />;
+};
+
+render(
+	<Stage width={300} height={300} options={{ backgroundAlpha: 0 }}>
+		<Container x={150} y={150}>
+			<Bunny />
+		</Container>
+	</Stage>,
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
