@@ -13,7 +13,7 @@
     "comma-dangle": ["warn", "always-multiline"],
     "comma-spacing": "warn",
     "comma-style": "warn",
-    "curly": ["warn", "multi"],
+    "curly": ["warn", "multi-line"],
     "dot-location": ["warn", "property"],
     "handle-callback-err": "off",
     "indent": ["warn", 4],

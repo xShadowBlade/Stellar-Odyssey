@@ -60,10 +60,11 @@ const keys = {
         }
         // if not found (new keybind entirely)
         this["binds"].push({ name, key, fn });
-        if (typeof fn == "function")
+        if (typeof fn == "function") {
             this.PIXI.app.ticker.add((dt) => {
                 if (this["isPressing"](name)) fn(dt);
             });
+        }
 
     },
     /**
@@ -78,7 +79,7 @@ const keys = {
      */
     addKeys: function (keysb) {
         for (const keyBinding of keysb)
-            this.addKey(keyBinding.name, keyBinding.key, keyBinding.fn);
+        {this.addKey(keyBinding.name, keyBinding.key, keyBinding.fn);}
 
     },
 };
