@@ -1,19 +1,24 @@
-Game.dataManagement = (function () {
+import Game from "../src/game.js";
+import LZString from "lz-string";
+import eMath from "emath.js";
+const { E } = eMath;
+
+Game.set("dataManagement", (function () {
     const normalData = Game.data;
-    const compileData = (data = Game["data"]) => LZString144.compressToBase64(JSON.stringify(data));
-    const decompileData = (data = localStorage.getItem("data")) => JSON.parse(LZString144.decompressFromBase64(data));
+    const compileData = (data = Game["data"]) => LZString.compressToBase64(JSON.stringify(data));
+    const decompileData = (data = window.localStorage.getItem("data")) => JSON.parse(LZString.decompressFromBase64(data));
     const resetData = function (reload = false) {
-        Game.data = normalData
-        Game.dataManagement.saveData()
-        if (reload) location.href = location.href;
-    }
+        Game.data = normalData;
+        Game.dataManagement.saveData();
+        if (reload) window.location.reload();
+    };
     const saveData = function () {
-        if (!Game["data"]) {return} //check if data exists
+        if (!Game["data"]) {return;} // check if data exists
         Game["data"].playtime.timeLastPlayed = Date.now();
-        localStorage.setItem("data", compileData());
+        window.localStorage.setItem("data", compileData());
         console.log("Game Saved");
-    }
-    const exportData = function () { 
+    };
+    const exportData = function () {
         // Step 1: Create the content
         const content = compileData();
 
@@ -44,15 +49,15 @@ Game.dataManagement = (function () {
             document.body.removeChild(downloadLink);
 
         }
-    }
+    };
     const loadData = function () {
-        if (!Game["data"]) {return} //check if data exists
+        if (!Game["data"]) {return;} // check if data exists
         // if (Game["data"].playtime.timeLastPlayed != 0) {Game["data"].playtime.passive += Date.now() - Game["data"].playtime.timeLastPlayed;}
-        
-        // let loadedData = decompileData();
-        
 
-        // if (localStorage.getItem("data")) console.log(decompileData(localStorage.getItem("data")));
+        // let loadedData = decompileData();
+
+
+        // if (window.localStorage.getItem("data")) console.log(decompileData(window.localStorage.getItem("data")));
 
         // Sample function E()
         // function E(value) {
@@ -61,9 +66,9 @@ Game.dataManagement = (function () {
         // }
 
         // Recursive function to process object properties
-        function processObject(obj) {
+        function processObject (obj) {
             for (const prop in obj) {
-                if (typeof obj[prop] === 'string') {
+                if (typeof obj[prop] === "string") {
                     try {
                         const processedValue = E(obj[prop]);
                         obj[prop] = processedValue;
@@ -71,7 +76,7 @@ Game.dataManagement = (function () {
                         // Handle any errors from function E()
                         console.error(`Error processing value: ${obj[prop]}`);
                     }
-                } else if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+                } else if (typeof obj[prop] === "object" && obj[prop] !== null) {
                     processObject(obj[prop]); // Recurse into nested objects
                 }
             }
@@ -83,23 +88,25 @@ Game.dataManagement = (function () {
         // Process the object
         let loadedData = decompileData();
         console.log(loadedData);
-        console.log(loadedData = processObject(loadedData));  
-        
+        console.log(loadedData = processObject(loadedData));
+
         // Add new / updated properties
-        function deepMerge(source, target) {
+        function deepMerge (source, target) {
             for (const key in source) {
-                if (source.hasOwnProperty(key)) {
-                    if (!target.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    if (!Object.prototype.hasOwnProperty.call(target, key)) {
                         target[key] = source[key];
-                    } else if (typeof source[key] === 'object' && typeof target[key] === 'object') {
+                    } else if (typeof source[key] === "object" && typeof target[key] === "object") {
                         deepMerge(source[key], target[key]);
                     }
                 }
             }
         }
-          
+
         console.log(deepMerge(normalData, loadedData));
-          
-    }
-    return { resetData, compileData, decompileData, saveData, exportData, loadData }
-})();
+
+    };
+    return { resetData, compileData, decompileData, saveData, exportData, loadData };
+})());
+
+export default Game.get("dataManagement");

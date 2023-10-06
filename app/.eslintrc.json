@@ -6,7 +6,8 @@
     "es6": true
   },
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": "latest"
   },
   "rules": {
     "arrow-spacing": ["warn", { "before": true, "after": true }],
@@ -21,7 +22,8 @@
     "max-nested-callbacks": ["warn", { "max": 4 }],
     "max-statements-per-line": ["warn", { "max": 2 }],
     "no-console": "off",
-    "no-empty-function": "warn",
+    "no-case-declarations": "off",
+    "no-empty-function": "off",
     "no-floating-decimal": "warn",
     "no-lonely-if": "warn",
     "no-multi-spaces": "warn",

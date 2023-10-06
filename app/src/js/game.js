@@ -53,4 +53,11 @@ const Game = {
     features: {},
 
     keys,
+
+    set: (property, value) => {this[property] = value;},
+    get: property => this[property],
 };
+
+window["Game"] = Game;
+
+export default Game;
