@@ -1,12 +1,83 @@
 /* eslint-disable no-undef */
+
+/**
+ * @fileOverview Defines a React component for a Pixi.js game using
+ * @module MyPixiApp
+ */
+"use strict";
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { Stage, useApp } from "@pixi/react";
+import * as PIXI from "pixi.js";
+
+const App = () => {
+    /*
+    const app = useApp();
+
+    useEffect(() => {
+    // Your initialization logic goes here
+
+        // Set the background color
+        app.renderer.backgroundColor = 0x000000;
+
+        // Create a background
+        const background = new PIXI.Graphics();
+        background.beginFill(0x000000);
+        background.drawRect(0, 0, app.view.width, app.view.height);
+        background.endFill();
+        app.stage.addChild(background);
+
+        // Set the event mode for the stage
+        app.stage.interactive = true;
+        app.stage.interactiveChildren = false;
+
+        // Resize event listener
+        const handleResize = () => {
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+
+            // Resize the renderer
+            app.renderer.resize(newWidth, newHeight);
+
+            // Resize the background
+            background.clear();
+            background.beginFill(0x000000);
+            background.drawRect(0, 0, newWidth, newHeight);
+            background.endFill();
+        };
+
+        // Attach the resize event listener
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup on unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [app]);
+    */
+    return (
+        <Stage
+            width={window.innerWidth}
+            height={window.innerHeight}
+            options={{
+                background: 0x000000,
+                resizeTo: window,
+            }}
+        />
+    );
+};
+
+const root = createRoot(document.body);
+root.render(<App />);
+
+
 /**
  * @file loader.js
  * @description
  * This JavaScript file handles the loading of external scripts and stylesheets required for a web application or game.
  * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
 */
-
-import React, { useEffect, useState } from "react";
+/*
 
 function Loader () {
     const [scriptsRun, setScriptsRun] = useState(0);
@@ -39,19 +110,18 @@ function Loader () {
 
             // "js/functions/gainParticles.js",
 
-            "js/PIXI/pixiSetup.js",
             "js/keybinds.js",
             "js/main.js",
             "js/PIXI/sprite.js",
             // "js/upgrades.js",
 
-            "js/features/playtime.js",
-            "js/features/mass.js",
-            "js/features/chronos.js",
+            // "js/features/playtime.js",
+            // "js/features/mass.js",
+            // "js/features/chronos.js",
 
-            "js/PIXI/render/player.js",
+            // "js/PIXI/render/player.js",
             // "js/particles.js", // Fix later
-            "js/PIXI/render/massParticles.js",
+            // "js/PIXI/render/massParticles.js",
             // "js/PIXI/render/background.js", // Fix later
 
             // This last
@@ -95,7 +165,6 @@ function Loader () {
 
     return (
         <div>
-            {/* Your React components and JSX here */}
             <p>Loading: {scriptsRun}/{scripts.length}</p>
             <p>Loading: {stylesheetsRun}/{stylesheets.length}</p>
         </div>
@@ -103,3 +172,5 @@ function Loader () {
 }
 
 export default Loader;
+
+*/
