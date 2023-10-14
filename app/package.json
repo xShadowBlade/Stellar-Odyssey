@@ -1,53 +1,54 @@
 {
-	"name": "stellar-odyssey",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@pixi/react": "^7.1.1",
-		"cra-template": "1.2.0",
-		"emath.js": "^1.2.2",
-		"lz-string": "^1.5.0",
-		"pixi-filters": "^5.2.1",
-		"pixi.js": "^7.3.1",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-scripts": "5.0.1"
-	},
-	"main": "./src/loader.js",
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/xShadowBlade/Stellar-Odyssey.git"
-	},
-	"author": "xShadowBlade",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/xShadowBlade/Stellar-Odyssey/issues"
-	},
-	"homepage": "https://github.com/xShadowBlade/Stellar-Odyssey#readme",
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"eslint": "^8.50.0",
-		"eslint-config-prettier": "^9.0.0",
-		"eslint-plugin-react": "^7.33.2",
-		"jsdoc-to-markdown": "^8.0.0",
-		"prettier": "^3.0.3",
-		"prettier-eslint": "^15.0.1"
-	}
+  "name": "stellar-odyssey",
+  "version": "0.1.1",
+  "private": true,
+  "dependencies": {
+    "@pixi/react": "^7.1.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "emath.js": "^1.2.3",
+    "lz-string": "^1.5.0",
+    "pixi-filters": "^5.2.1",
+    "pixi.js": "^7.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xShadowBlade/Stellar-Odyssey.git"
+  },
+  "author": "xShadowBlade",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xShadowBlade/Stellar-Odyssey/issues"
+  },
+  "homepage": "https://github.com/xShadowBlade/Stellar-Odyssey#readme",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.0.3",
+    "prettier-eslint": "^16.1.1"
+  }
 }

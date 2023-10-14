@@ -7,8 +7,8 @@ import React, { useEffect, useState } from "react";
 import { Stage, Sprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import eMath from "emath.js";
-const { E } = eMath;
 import Game from "../../game/js";
+const { E } = eMath;
 
 const { app } = Game.PIXI;
 // Camera properties
