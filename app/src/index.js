@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM, { createRoot } from "react-dom/client";
 import { Stage, useApp } from "@pixi/react";
 import * as PIXI from "pixi.js";
+import Loader from "./loader";
 
 import "./css/index.css";
 import "./css/loading.css";

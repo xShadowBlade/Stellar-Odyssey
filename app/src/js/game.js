@@ -23,12 +23,6 @@
  * @property {Object} features - Game features and flags.
  */
 
-"use strict";
-
-import eMath from "emath.js";
-
-import * as keys from "./keybinds.js";
-const { E } = eMath;
 const Game = {
     version: {
         saveAPI: 1,
@@ -42,8 +36,6 @@ const Game = {
         startF: () => Object.values(Game.functions.start).forEach((item) => item()),
         loop: {},
         loopF: (dt) => Object.values(Game.functions.loop).forEach((item) => item(dt)),
-
-        timewarp: t => Game["data"].playtime.timewarp = E(t),
     },
     static: {},
     settings: {
@@ -51,13 +43,6 @@ const Game = {
         c2: false, // whether or not to display the "c^2" on formating eV
     },
     features: {},
-
-    keys,
-
-    set: (property, value) => {this[property] = value;},
-    get: property => this[property],
 };
-
-window["Game"] = Game;
 
 export default Game;

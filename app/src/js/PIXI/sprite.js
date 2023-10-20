@@ -13,6 +13,14 @@ import * as PIXI from "pixi.js";
 import Intersects from "./pixi-intersects";
 
 class Sprite extends React.Component {
+    /**
+     * Constructs a new game sprite.
+     *
+     * @param {PIXI.Sprite} spr - The PIXI sprite to create the game sprite from.
+     * @param {string} [collisionShape] - The type of collision shape to use for the sprite.
+     * Default: "Rectangle"
+     * Allowed values: "Circle", "Polygon", "Rectangle", "Shape", "Line".
+     */
     constructor (props) {
         super(props);
         this.state = {
@@ -33,11 +41,21 @@ class Sprite extends React.Component {
             this.spriteRef.current.y = y - camera.y;
         });
     }
-
+    /**
+     * Checks if this sprite collides with another sprite.
+     *
+     * @param {Game.classes.sprite} other - The other sprite to check for collision with.
+     * @returns {boolean} True if a collision occurs, otherwise false.
+     */
     collides (other) {
         return this.intersects[`collides${other.collisionShape}`](other.intersects);
     }
 
+    /**
+     * Removes the sprite.
+     *
+     * @param {array|object} parent - The parent array or object from which to remove the sprite.
+     */
     remove (parent) {
         this.setState({ x: Infinity, y: Infinity }); // Buggy collision detection
         this.spriteRef.current.parent.removeChild(this.spriteRef.current);

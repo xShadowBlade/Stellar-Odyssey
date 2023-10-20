@@ -3,10 +3,10 @@ import LZString from "lz-string";
 import eMath from "emath.js";
 const { E } = eMath;
 
-Game.set("dataManagement", (function () {
+Game.dataManagement = (function () {
     const normalData = Game.data;
     const compileData = (data = Game["data"]) => LZString.compressToBase64(JSON.stringify(data));
-    const decompileData = (data = window.localStorage.getItem("data")) => JSON.parse(LZString.decompressFromBase64(data));
+    const decompileData = (data = localStorage.getItem("data")) => JSON.parse(LZString.decompressFromBase64(data));
     const resetData = function (reload = false) {
         Game.data = normalData;
         Game.dataManagement.saveData();
@@ -15,7 +15,7 @@ Game.set("dataManagement", (function () {
     const saveData = function () {
         if (!Game["data"]) {return;} // check if data exists
         Game["data"].playtime.timeLastPlayed = Date.now();
-        window.localStorage.setItem("data", compileData());
+        localStorage.setItem("data", compileData());
         console.log("Game Saved");
     };
     const exportData = function () {
@@ -57,7 +57,7 @@ Game.set("dataManagement", (function () {
         // let loadedData = decompileData();
 
 
-        // if (window.localStorage.getItem("data")) console.log(decompileData(window.localStorage.getItem("data")));
+        // if (localStorage.getItem("data")) console.log(decompileData(localStorage.getItem("data")));
 
         // Sample function E()
         // function E(value) {
@@ -93,8 +93,10 @@ Game.set("dataManagement", (function () {
         // Add new / updated properties
         function deepMerge (source, target) {
             for (const key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    if (!Object.prototype.hasOwnProperty.call(target, key)) {
+                // eslint-disable-next-line no-prototype-builtins
+                if (source.hasOwnProperty(key)) {
+                    // eslint-disable-next-line no-prototype-builtins
+                    if (!target.hasOwnProperty(key)) {
                         target[key] = source[key];
                     } else if (typeof source[key] === "object" && typeof target[key] === "object") {
                         deepMerge(source[key], target[key]);
@@ -107,6 +109,4 @@ Game.set("dataManagement", (function () {
 
     };
     return { resetData, compileData, decompileData, saveData, exportData, loadData };
-})());
-
-export default Game.get("dataManagement");
+})();

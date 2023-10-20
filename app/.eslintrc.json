@@ -16,6 +16,7 @@
     "comma-style": "warn",
     "curly": ["warn", "multi-line"],
     "dot-location": ["warn", "property"],
+    "eqeqeq": ["warn", "smart"],
     "handle-callback-err": "off",
     "indent": ["warn", 4],
     "keyword-spacing": "warn",

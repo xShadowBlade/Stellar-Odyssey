@@ -1,8 +1,9 @@
 import eMath from "emath.js";
+import Game from "../game.js";
 
 const { E } = eMath;
 
-const playtime = { // in milliseconds
+Game["data"].playtime = { // in milliseconds
     tActive: E(),
     tPassive: E(),
     timewarp: E(),
@@ -12,4 +13,4 @@ const playtime = { // in milliseconds
     timeLastPlayed: E(),
 };
 
-export default playtime;
+Game["functions"].timewarp = t => Game["data"].playtime.timewarp = E(t);
