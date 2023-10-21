@@ -16,10 +16,11 @@ Game.data.quarks = {
 };
 Game.static.quarks = {
     currency: new eMath.classes.currencyStatic(() => Game.data.quarks.currency),
-    regenRate: new eMath.classes.staticAttribute(2),
-    absorbRate: new eMath.classes.staticAttribute(2),
-    maxParticles: new eMath.classes.staticAttribute(10),
+    regenRate: new eMath.classes.attribute(2),
+    absorbRate: new eMath.classes.attribute(2),
+    maxParticles: new eMath.classes.attribute(10),
 };
+console.log(Game.static.quarks.currency);
 Game.static.quarks.currency.addUpgrade([
     {
         name: "Value",

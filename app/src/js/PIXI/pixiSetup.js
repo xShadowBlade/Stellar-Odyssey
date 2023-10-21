@@ -9,6 +9,7 @@ Game["PIXI"] = {
 };
 Game.PIXI.app.stage.eventMode = "static";
 document.body.appendChild(Game.PIXI.app.view);
+console.log("a");
 // globalThis.__PIXI_APP__ = Game.PIXI.app;
 window.addEventListener("resize", () => {
     // Update the background's size to match the new window size

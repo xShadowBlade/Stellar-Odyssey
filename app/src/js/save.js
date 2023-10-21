@@ -1,4 +1,4 @@
-import Game from "../src/game.js";
+import Game from "./game";
 import LZString from "lz-string";
 import eMath from "emath.js";
 const { E } = eMath;

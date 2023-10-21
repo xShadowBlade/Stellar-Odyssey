@@ -1,7 +1,7 @@
 import Game from "../../game";
 import * as PIXI from "pixi.js";
 import { eventSystem } from "../../main";
-import eMath from "eMath.js";
+import eMath from "emath.js";
 
 const { E } = eMath;
 

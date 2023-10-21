@@ -8,9 +8,19 @@
 import "./css/loading.css";
 
 const scripts = [
-    async () => import("./js/game"),
-    async () => import("./js/PIXI/pixiSetup"),
+    async () => import("./js/game.js"),
+    async () => import("./js/PIXI/pixiSetup.js"),
+    async () => import("./js/keybinds.js"),
 
+    async () => import("./js/features/playtime.js"),
+    async () => import("./js/features/mass.js"),
+    async () => import("./js/features/chronos.js"),
+
+    async () => import("./js/main.js"),
+
+    async () => import("./js/PIXI/sprite.js"),
+    async () => import("./js/PIXI/render/player.js"),
+    async () => import("./js/PIXI/render/massParticles.js"),
     // "functions/gainParticles",
 
     // "keybinds",
@@ -28,7 +38,7 @@ const scripts = [
     // "PIXI/render/background", // Fix later
 
     // This last
-    // "save",
+    async () => import("./js/save"),
 ];
 
 const stylesheets = [

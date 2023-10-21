@@ -76,11 +76,11 @@ Game.PIXI.app.ticker.add(function (dt) {
     dt = E(dt).plus(Game["data"].playtime.timewarp); // Time since last update (scale factor)
     Game["data"].playtime.timewarp = E(); // reset timewarp
 
-    Game["data"].playtime.tActive.plus(dt);
-    Game["data"].playtime.tPassive.plus(dt);
-    Game["data"].playtime.active = Game["data"].playtime.active.plus(Game["data"].playtime.boost.calculate().times(dt));
-    Game["data"].playtime.passive = Game["data"].playtime.passive.plus(Game["data"].playtime.boost.calculate().times(dt));
-    Game["data"].playtime.points = Game["data"].playtime.points.plus(Game["data"].playtime.boost.calculate().times(dt));
+    Game["static"].playtime.tActive.gain(dt);
+    Game["static"].playtime.tPassive.gain(dt);
+    Game["static"].playtime.active.gain(dt);
+    Game["static"].playtime.passive.gain(dt);
+    Game["static"].playtime.points.gain(dt);
 });
 
 export { eventSystem };
