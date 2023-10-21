@@ -1,88 +1,94 @@
-// import React from "react";
-// import ReactDOM from "react-dom/client";
-// import "./index.css";
-// import App from "./App";
-
-// // import reportWebVitals from "./reportWebVitals";
-
-// const root = ReactDOM.createRoot(document.getElementById("root"));
-// root.render(
-//     <App />,
-// );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
-
 /**
- * @fileOverview Defines a React component for a Pixi.js game using
- * @module MyPixiApp
- */
-import React, { useEffect, useState } from "react";
-import ReactDOM, { createRoot } from "react-dom/client";
-import { Stage, useApp } from "@pixi/react";
-import * as PIXI from "pixi.js";
-import Loader from "./loader";
+ * @file loader
+ * @description
+ * This JavaScript file handles the loading of external scripts and stylesheets required for a web application or game.
+ * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
+*/
 
-import "./css/index.css";
 import "./css/loading.css";
 
-const App = () => {
-    // const app = useApp();
+const scripts = [
+    async () => import("./js/game"),
+    async () => import("./js/PIXI/pixiSetup"),
 
-    // useEffect(() => {
-    // // Your initialization logic goes here
+    // "functions/gainParticles",
 
-    //     // Set the background color
-    //     app.renderer.backgroundColor = 0x000000;
+    // "keybinds",
+    // "main",
+    // "PIXI/sprite",
+    // "upgrades",
 
-    //     // Create a background
-    //     const background = new PIXI.Graphics();
-    //     background.beginFill(0x000000);
-    //     background.drawRect(0, 0, app.view.width, app.view.height);
-    //     background.endFill();
-    //     app.stage.addChild(background);
+    // "features/playtime",
+    // "features/mass",
+    // "features/chronos",
 
-    //     // Set the event mode for the stage
-    //     app.stage.interactive = true;
-    //     app.stage.interactiveChildren = false;
+    // "PIXI/render/player",
+    // "particles", // Fix later
+    // "PIXI/render/massParticles",
+    // "PIXI/render/background", // Fix later
 
-    //     // Resize event listener
-    //     const handleResize = () => {
-    //         const newWidth = window.innerWidth;
-    //         const newHeight = window.innerHeight;
+    // This last
+    // "save",
+];
 
-    //         // Resize the renderer
-    //         app.renderer.resize(newWidth, newHeight);
+const stylesheets = [
+    // async () => import("./css/loading.css"),
+    async () => import("./css/index.css"),
+];
 
-    //         // Resize the background
-    //         background.clear();
-    //         background.beginFill(0x000000);
-    //         background.drawRect(0, 0, newWidth, newHeight);
-    //         background.endFill();
-    //     };
+let scriptsRun = 0;
+let stylesheetsRun = 0;
 
-    //     // Attach the resize event listener
-    //     window.addEventListener("resize", handleResize);
+const loadAssets = async () => {
+    const loadingProgress = document.getElementsByClassName("loading-progress")[0];
+    const loadingText = document.getElementsByClassName("loading-text")[0];
+    const loadingStart = Date.now();
+    console.group("Loading...");
+    console.time("Loading Ended");
+    console.log(`${loadingStart} | Loading Started`);
+    // Load scripts
+    for (let x = 0; x < scripts.length; x++) {
+        // setScriptsRun(x + 1);
+        const scriptName = scripts[x].toString().match(/("|'|`).*?("|'|`)/)[0].replace(/("|'|`)/g, "").replace(/_/g, "/");
+        loadingProgress.innerHTML = `${scriptsRun}/${scripts.length}`;
+        loadingText.innerHTML = `Loading: ${scriptName}`;
+        console.time(scriptName);
+        console.group(`${scriptName}`);
+        await scripts[x]()
+            // eslint-disable-next-line no-loop-func
+            .then(() => {
+                console.log(`${Date.now()} | Script ${scriptName} has run`);
+                scriptsRun++;
+            })
+            .catch((error) => {
+                console.error(`${Date.now()} | Failed to run script ${scriptName}:`, error);
+            });
+        console.timeEnd(scriptName);
+        console.groupEnd();
+    }
 
-    //     // Cleanup on unmount
-    //     return () => {
-    //         window.removeEventListener("resize", handleResize);
-    //     };
-    // }, [app]);
-    return (
-        <Stage
-            width={window.innerWidth}
-            height={window.innerHeight}
-            options={{
-                background: 0x000000,
-                resizeTo: window,
-            }}
-        />
-    );
+    // Load Stylesheets
+    for (let y = 0; y < stylesheets.length; y++) {
+        // setStylesheetsRun(y + 1);
+        const ssName = stylesheets[y].toString().match(/("|'|`).*?("|'|`)/)[0].replace(/("|'|`)/g, "").replace(/_/g, "/");
+        loadingProgress.innerHTML = `${stylesheetsRun}/${stylesheets.length}`;
+        loadingText.innerHTML = `Loading: ${ssName}`;
+        console.time(ssName);
+        console.group(`${ssName}`);
+        await stylesheets[y]()
+            // eslint-disable-next-line no-loop-func
+            .then(() => {
+                console.log(`${Date.now()} | Stylesheet ${ssName} has run`);
+                stylesheetsRun++;
+            })
+            .catch((error) => {
+                console.error(`${Date.now()} | Failed to run Stylesheet ${ssName}:`, error);
+            });
+        console.timeEnd(ssName);
+        console.groupEnd();
+    }
+    console.timeEnd("Loading Ended");
+    console.groupEnd();
+    document.body.removeChild(document.querySelector(".loading-screen"));
 };
-const rootElem = document.createElement("div");
-document.body.appendChild(rootElem);
-const root = createRoot(rootElem);
-root.render(<App />);
+loadAssets();

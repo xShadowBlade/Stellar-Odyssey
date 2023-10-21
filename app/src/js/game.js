@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @namespace Game
  * @typedef {Object} Game
- * @property {Object} version - Information about the game version.
  * @property {number} version.saveAPI - Save API version.
  * @property {string} version.phase - Development phase (e.g., "alpha").
  * @property {string} version.version - Game version.
@@ -15,7 +14,6 @@
  * @property {Function} functions.startF - Function to execute all start functions.
  * @property {Object} functions.loop - Functions to run in the game loop.
  * @property {Function} functions.loopF - Function to execute all loop functions.
- * @property {Object} functions.timewarp - Function to set the game timewarp.
  * @property {Object} static - Static game data and functions.
  * @property {Object} settings - Game settings.
  * @property {number} settings.framerate - Game framerate.
@@ -27,7 +25,6 @@ const Game = {
     version: {
         saveAPI: 1,
         phase: "alpha",
-        version: "0.1.0",
     },
     classes: {},
     data: {},
@@ -44,5 +41,6 @@ const Game = {
     },
     features: {},
 };
+console.log(Game);
 
 export default Game;

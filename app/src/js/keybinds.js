@@ -1,5 +1,5 @@
 /**
- * @file js/keybinds.js
+ * @file js/keybinds
  * @description
  * This JavaScript file defines and manages key bindings, tracks keyboard key states,
  * and provides functionality for customizing user input handling within a game or application.
@@ -7,7 +7,7 @@
  * @module keybinds
  */
 
-import Game from "./game.js";
+import Game from "./game";
 
 /**
  * Game keys manager for handling key bindings and tracking pressed keys.
@@ -21,12 +21,12 @@ Game["keys"] = {
     binds: [
         // case sensitive
         /* example
-            {
-                name: "moveUp",
-                key: "w"
-            },
-            (...)
-            */
+        {
+            name: "moveUp",
+            key: "w"
+        },
+        (...)
+        */
     ],
 
     /**
