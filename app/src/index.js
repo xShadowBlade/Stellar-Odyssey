@@ -5,8 +5,6 @@
  * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
 */
 
-import "./css/loading.css";
-
 const scripts = [
     async () => import("./js/game.js"),
     async () => import("./js/PIXI/pixiSetup.js"),
@@ -23,18 +21,9 @@ const scripts = [
     async () => import("./js/PIXI/render/massParticles.js"),
     // "functions/gainParticles",
 
-    // "keybinds",
-    // "main",
-    // "PIXI/sprite",
     // "upgrades",
 
-    // "features/playtime",
-    // "features/mass",
-    // "features/chronos",
-
-    // "PIXI/render/player",
     // "particles", // Fix later
-    // "PIXI/render/massParticles",
     // "PIXI/render/background", // Fix later
 
     // This last

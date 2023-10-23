@@ -21,78 +21,78 @@ Game.static.quarks = {
     maxParticles: new eMath.classes.attribute(10),
 };
 console.log(Game.static.quarks.currency);
-Game.static.quarks.currency.addUpgrade([
-    {
-        name: "Value",
-        cost: E(5),
-        costScaling: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
-        maxLevel: E(1000),
-        effect: function () {
-            console.log(this);
-            const level = this.getLevel();
+// Game.static.quarks.currency.addUpgrade([
+//     {
+//         name: "Value",
+//         cost: E(5),
+//         costScaling: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+//         maxLevel: E(1000),
+//         effect: function () {
+//             console.log(this);
+//             const level = this.getLevel();
 
-            Game.static.quarks.currency.boost.bSet(
-                "valueUpg1Quarks",
-                "Quarks Value - Quarks",
-                "Quarks Value - Quarks",
-                n => E(n).mul(E.floor(E.mul(0.5, level).mul(E.ln(level)).add(level))),
-                2,
-            );
-        },
-    },
-    {
-        name: "Capacity",
-        cost: E(25),
-        costScaling: n => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
-        maxLevel: E(100),
-        effect: function () {
-            console.log(this);
-            const level = this.getLevel();
+//             Game.static.quarks.currency.boost.bSet(
+//                 "valueUpg1Quarks",
+//                 "Quarks Value - Quarks",
+//                 "Quarks Value - Quarks",
+//                 n => E(n).mul(E.floor(E.mul(0.5, level).mul(E.ln(level)).add(level))),
+//                 2,
+//             );
+//         },
+//     },
+//     {
+//         name: "Capacity",
+//         cost: E(25),
+//         costScaling: n => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+//         maxLevel: E(100),
+//         effect: function () {
+//             console.log(this);
+//             const level = this.getLevel();
 
-            Game.static.quarks.maxParticles.update(function () {
-                Game.static.quarks.maxParticles.boost.bSet(
-                    "valueUpg2Quarks",
-                    "Quarks Capacity - Quarks",
-                    "Quarks Capacity - Quarks",
-                    n => E(n).add(10).add(level),
-                    1,
-                );
-            });
-        },
-    },
-    {
-        name: "Regeneration",
-        cost: E(100),
-        costScaling: n => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
-        maxLevel: E(30),
-        effect: function () {
-            console.log(this);
-            const level = this.getLevel();
+//             Game.static.quarks.maxParticles.update(function () {
+//                 Game.static.quarks.maxParticles.boost.bSet(
+//                     "valueUpg2Quarks",
+//                     "Quarks Capacity - Quarks",
+//                     "Quarks Capacity - Quarks",
+//                     n => E(n).add(10).add(level),
+//                     1,
+//                 );
+//             });
+//         },
+//     },
+//     {
+//         name: "Regeneration",
+//         cost: E(100),
+//         costScaling: n => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+//         maxLevel: E(30),
+//         effect: function () {
+//             console.log(this);
+//             const level = this.getLevel();
 
-            Game.static.quarks.regenRate.update(function () {
-                Game.static.quarks.regenRate.boost.bSet(
-                    "valueUpg3Quarks",
-                    "Quarks Regeneration - Quarks",
-                    "Quarks Regeneration - Quarks",
-                    n => E(n).add(2).add(level.mul(0.5)),
-                    1,
-                );
-            });
-        },
-    },
-    {
-        name: "Speed",
-        cost: E(1000),
-        costScaling: n => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
-        maxLevel: E(5),
-        effect: function () {
+//             Game.static.quarks.regenRate.update(function () {
+//                 Game.static.quarks.regenRate.boost.bSet(
+//                     "valueUpg3Quarks",
+//                     "Quarks Regeneration - Quarks",
+//                     "Quarks Regeneration - Quarks",
+//                     n => E(n).add(2).add(level.mul(0.5)),
+//                     1,
+//                 );
+//             });
+//         },
+//     },
+//     {
+//         name: "Speed",
+//         cost: E(1000),
+//         costScaling: n => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
+//         maxLevel: E(5),
+//         effect: function () {
 
-        },
-    },
-]);
+//         },
+//     },
+// ]);
 
 // When pressing the massCollect key, check if collides
-Game.get("keys").addKey("Collect Quarks", " ", function (dt) {
+Game["keys"].addKey("Collect Quarks", " ", function (dt) {
     if (Game.player.state === "idle") {
         for (let i = 0; i < Game.static.massParticles.length; i++) {
             const particle = Game.static.massParticles[i];

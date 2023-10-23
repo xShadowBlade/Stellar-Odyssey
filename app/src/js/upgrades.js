@@ -1,5 +1,11 @@
+import Game from "./game";
+import { eventSystem } from "./main";
+import eMath from "emath.js";
+
+const { E } = eMath;
+
 Game.keys.addKey("Upgrade", " ", function (dt) {
-    if (Game.player.state == "idle") {
+    if (Game.player.state === "idle") {
         for (let i = 0; i < Game.static.massParticles.length; i++) {
             const particle = Game.static.massParticles[i];
 
