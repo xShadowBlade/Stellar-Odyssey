@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@pixi/react": "^7.1.1",
-    "emath.js": "^1.2.3",
+    "emath.js": "^2.0.0",
     "lz-string": "^1.5.0",
     "pixi-filters": "^5.2.1",
     "pixi.js": "^7.3.2",
