@@ -1,24 +1,32 @@
-import Game from "./game";
 import LZString from "lz-string";
 import eMath from "emath.js";
 const { E } = eMath;
 
-Game.dataManagement = (function () {
-    const normalData = Game.data;
-    const compileData = (data = Game["data"]) => LZString.compressToBase64(JSON.stringify(data));
-    const decompileData = (data = localStorage.getItem("data")) => JSON.parse(LZString.decompressFromBase64(data));
-    const resetData = function (reload = false) {
-        Game.data = normalData;
-        Game.dataManagement.saveData();
+export default function dataManagement (gamePointer: Function) {
+    const normalData = gamePointer().data;
+
+    const compileData = (data = gamePointer()["data"]) =>
+        LZString.compressToBase64(JSON.stringify(data));
+
+    const decompileData = (data: string | null = localStorage.getItem("data")) =>
+        data ? JSON.parse(LZString.decompressFromBase64(data)) : null;
+
+    const resetData = (reload = false) => {
+        gamePointer().data = normalData;
+        saveData();
         if (reload) window.location.reload();
     };
-    const saveData = function () {
-        if (!Game["data"]) {return;} // check if data exists
-        Game["data"].playtime.timeLastPlayed = Date.now();
+
+    const saveData = () => {
+        if (!gamePointer()["data"]) {
+            return;
+        } // check if data exists
+        gamePointer()["data"].playtime.timeLastPlayed = Date.now();
         localStorage.setItem("data", compileData());
         console.log("Game Saved");
     };
-    const exportData = function () {
+
+    const exportData = () => {
         // Step 1: Create the content
         const content = compileData();
 
@@ -27,7 +35,6 @@ Game.dataManagement = (function () {
         // Ask if user wants to download
 
         if (prompt("Download save data?:", content) != null) {
-
             // Step 2: Create a Blob
             const blob = new Blob([content], { type: "text/plain" });
 
@@ -47,15 +54,16 @@ Game.dataManagement = (function () {
 
             // Clean up: Remove the link from the DOM after the download
             document.body.removeChild(downloadLink);
-
         }
     };
-    const loadData = function () {
-        if (!Game["data"]) {return;} // check if data exists
-        // if (Game["data"].playtime.timeLastPlayed != 0) {Game["data"].playtime.passive += Date.now() - Game["data"].playtime.timeLastPlayed;}
+
+    const loadData = () => {
+        if (!gamePointer()["data"]) {
+            return;
+        } // check if data exists
+        // if (gamePointer()["data"].playtime.timeLastPlayed != 0) {gamePointer()["data"].playtime.passive += Date.now() - gamePointer()["data"].playtime.timeLastPlayed;}
 
         // let loadedData = decompileData();
-
 
         // if (localStorage.getItem("data")) console.log(decompileData(localStorage.getItem("data")));
 
@@ -66,7 +74,7 @@ Game.dataManagement = (function () {
         // }
 
         // Recursive function to process object properties
-        function processObject (obj) {
+        function processObject(obj: any) {
             for (const prop in obj) {
                 if (typeof obj[prop] === "string") {
                     try {
@@ -88,25 +96,27 @@ Game.dataManagement = (function () {
         // Process the object
         let loadedData = decompileData();
         console.log(loadedData);
-        console.log(loadedData = processObject(loadedData));
+        console.log((loadedData = processObject(loadedData)));
 
         // Add new / updated properties
-        function deepMerge (source, target) {
+        function deepMerge(source: any, target: any) {
             for (const key in source) {
                 // eslint-disable-next-line no-prototype-builtins
                 if (source.hasOwnProperty(key)) {
                     // eslint-disable-next-line no-prototype-builtins
                     if (!target.hasOwnProperty(key)) {
                         target[key] = source[key];
-                    } else if (typeof source[key] === "object" && typeof target[key] === "object") {
+                    } else if (
+                        typeof source[key] === "object" &&
+                        typeof target[key] === "object"
+                    ) {
                         deepMerge(source[key], target[key]);
                     }
                 }
             }
         }
-
         console.log(deepMerge(normalData, loadedData));
-
     };
+
     return { resetData, compileData, decompileData, saveData, exportData, loadData };
-})();
+};

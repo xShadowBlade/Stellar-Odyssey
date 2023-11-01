@@ -8,31 +8,37 @@ Saving/loading
  * @namespace
  */
 
-
-// import React, { useEffect } from "react";
 import eMath from "emath.js";
-
 import Game from "./game.js";
 
 const { E } = eMath;
+
+interface Event {
+    name: string;
+    type: "interval" | "timeout";
+    delay: E;
+    callbackFn: () => void;
+    timeCreated: E;
+    intervalLast?: E;
+}
 
 const eventSystem = {
     /**
      * An array to store events.
      * @type {Array<object>}
      */
-    events: [],
+    events: [] as Event[],
 
     /**
      * Adds a new event to the event system.
      *
      * @param {string} name - The name of the event.
      * @param {string} type - The type of the event, either "interval" or "timeout".
-     * @param {number|Decimal} delay - The delay in milliseconds before the event triggers.
+     * @param {number|E} delay - The delay in milliseconds before the event triggers.
      * @param {function} callbackFn - The callback function to execute when the event triggers.
      */
-    addEvent: function (name, type, delay, callbackFn) {
-        const event = {
+    addEvent: function (name: string, type: "interval" | "timeout", delay: number | E, callbackFn: () => void) {
+        const event: Event = {
             name,
             type,
             delay: E(delay),
@@ -51,7 +57,7 @@ Game.PIXI.app.ticker.add(function () {
     for (let i = 0; i < eventSystem.events.length; i++) {
         const event = eventSystem.events[i];
 
-        if (event.type === "interval" && ((currentTime.sub(event.intervalLast)).gte(event.delay))) {
+        if (event.type === "interval" && ((currentTime.sub(event.intervalLast!)).gte(event.delay))) {
             event.callbackFn();
             event.intervalLast = currentTime;
         } else if (event.type === "timeout" && ((currentTime.sub(event.timeCreated)).gte(event.delay))) {
@@ -71,8 +77,7 @@ Game.PIXI.app.ticker.add(function () {
 //     console.log("Timeout event executed.");
 // });
 
-
-Game.PIXI.app.ticker.add(function (dt) {
+Game.PIXI.app.ticker.add(function (dt: number) {
     dt = E(dt).plus(Game["data"].playtime.timewarp); // Time since last update (scale factor)
     Game["data"].playtime.timewarp = E(); // reset timewarp
 

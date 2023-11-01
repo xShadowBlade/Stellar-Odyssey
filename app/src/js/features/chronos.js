@@ -3,8 +3,12 @@ import Game from "../game.js";
 const { E } = eMath;
 
 Game.data.chronos = {
-    currency: new Game.classes.currency(),
+    currency: new eMath.classes.currency(),
     lastReward: E(0),
+};
+
+Game.static.chronos = {
+    currency: new eMath.classes.currencyStatic(() => Game.data.chronos.currency),
 };
 // Daily Reward
 Game.functions.claimDailyReward = (function () {

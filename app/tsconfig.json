@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"emitDeclarationOnly": true,
+		"declaration": true,
+		"allowJs": true,
+		"target": "es6",
+		"module": "NodeNext",
+		"strict": true, // change later
+		"lib": ["ESNext", "dom"],
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "NodeNext",
+		"baseUrl": "./src",  // Adjust this based on your project structure
+		"outDir": "./dist",  // Adjust this based on your project structure
+		"sourceMap": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": [
+	  	"node_modules"
+	]
+}

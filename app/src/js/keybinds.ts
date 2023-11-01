@@ -1,22 +1,34 @@
 /**
  * @file js/keybinds
  * @description
- * This JavaScript file defines and manages key bindings, tracks keyboard key states,
+ * This TypeScript file defines and manages key bindings, tracks keyboard key states,
  * and provides functionality for customizing user input handling within a game or application.
  *
  * @module keybinds
  */
 
-import Game from "./game";
+interface KeyBinding {
+    name: string;
+    key: string;
+    fn?: (dt?: number) => void;
+}
+
+type keysType = {
+    keysPressed: string[];
+    binds: KeyBinding[];
+    isPressing: (name: string) => boolean;
+    addKey: (name: string, key: string, fn?: () => void) => void;
+    addKeys: (keys: KeyBinding[]) => void;
+}
 
 /**
  * Game keys manager for handling key bindings and tracking pressed keys.
  *
  * @namespace
  * @property {string[]} keysPressed - An array to track currently pressed keys.
- * @property {Object[]} binds - An array of key bindings, each specifying a name and associated key.
+ * @property {KeyBinding[]} binds - An array of key bindings, each specifying a name and associated key.
  */
-Game["keys"] = {
+const keys: keysType = {
     keysPressed: [],
     binds: [
         // case sensitive
@@ -35,14 +47,15 @@ Game["keys"] = {
      * @param {string} name - The name of the key binding to check.
      * @returns {boolean} True if the key binding is being pressed, otherwise false.
      */
-    isPressing: function (name) {
-        for (let i = 0; i < Game["keys"]["binds"].length; i++) {
-            const current = Game["keys"]["binds"][i];
+    isPressing (name: string): boolean {
+        for (let i = 0; i < keys.binds.length; i++) {
+            const current = keys.binds[i];
             // console.log(current);
             if (current.name === name) {
-                return Game["keys"]["keysPressed"].includes(current.key);
+                return keys.keysPressed.includes(current.key);
             }
         }
+        return false;
     },
 
     /**
@@ -53,9 +66,9 @@ Game["keys"] = {
      * @param {function} [fn] - The function executed when the binding is pressed
      * @example addKey("Move Up", "w", () => Game.player.velocity.y -= Game.player.acceleration);
      */
-    addKey: function (name, key, fn) {
-        for (let i = 0; i < Game["keys"]["binds"].length; i++) {
-            const current = Game["keys"]["binds"][i];
+    addKey (name: string, key: string, fn?: () => void): void {
+        for (let i = 0; i < keys.binds.length; i++) {
+            const current = keys.binds[i];
             // console.log(current);
             if (current.name === name) {
                 current.key = key;
@@ -63,36 +76,40 @@ Game["keys"] = {
             }
         }
         // if not found (new keybind entirely)
-        Game["keys"]["binds"].push({ name, key, fn });
+        keys.binds.push({ name, key, fn });
         if (typeof fn == "function") {
-            Game.PIXI.app.ticker.add((dt) => {
-                if (Game["keys"]["isPressing"](name)) fn(dt);
+            // @ts-ignore
+            PIXI.app.ticker.add((dt: number) => {
+                // @ts-ignore
+                if (keys.isPressing(name)) fn(dt);
             });
         }
     },
     /**
      * Adds or updates multiple key bindings.
      *
-     * @param {Array} keys - An array of key binding objects.
+     * @param {KeyBinding[]} keysToAdd - An array of key binding objects.
      * @example
      * addKeys([
      *     { name: "Move Up", key: "w", fn: () => Game.player.velocity.y -= Game.player.acceleration },
      *     // Add more key bindings here...
      * ]);
      */
-    addKeys: function (keys) {
-        for (const keyBinding of keys) {
+    addKeys (keysToAdd: KeyBinding[]): void {
+        for (const keyBinding of keysToAdd) {
             this.addKey(keyBinding.name, keyBinding.key, keyBinding.fn);
         }
     },
 };
 
-const logKey = function (key, type) {
-    key = key.key;
-    if (type && !Game["keys"]["keysPressed"].includes(key)) Game["keys"]["keysPressed"].push(key); else if (!type && Game["keys"]["keysPressed"].includes(key)) Game["keys"]["keysPressed"].splice(Game["keys"]["keysPressed"].indexOf(key), 1);
+const logKey = function (event: KeyboardEvent, type: boolean): void {
+    const key = event.key;
+    if (type && !keys.keysPressed.includes(key)) keys.keysPressed.push(key); else if (!type && keys.keysPressed.includes(key)) keys.keysPressed.splice(keys.keysPressed.indexOf(key), 1);
 };
-    // Key event listeners
+// Key event listeners
 document.addEventListener("keydown", (e) => logKey(e, true));
 document.addEventListener("keyup", (e) => logKey(e, false));
 
-Game.keys.addKey("Debug - Reload", "`", () => window.location.reload());
+keys.addKey("Debug - Reload", "`", () => window.location.reload());
+
+export default keys;

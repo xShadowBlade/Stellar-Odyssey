@@ -2,15 +2,6 @@
   "name": "stellar-odyssey",
   "version": "0.1.1",
   "private": true,
-  "dependencies": {
-    "@pixi/react": "^7.1.1",
-    "emath.js": "^2.0.0",
-    "lz-string": "^1.5.0",
-    "pixi-filters": "^5.2.1",
-    "pixi.js": "^7.3.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production"
@@ -37,10 +28,21 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "@pixi/react": "^7.1.1",
+    "emath.js": "^2.0.0",
+    "lz-string": "^1.5.0",
+    "pixi-filters": "^5.2.1",
+    "pixi.js": "^7.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
+    "@types/css-modules": "^1.0.4",
+    "@types/react": "^18.2.33",
     "babel-cli": "^6.26.0",
     "babel-loader": "^9.1.3",
     "css-loader": "^6.8.1",
@@ -51,6 +53,8 @@
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^3.0.3",
     "prettier-eslint": "^16.1.1",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
