@@ -4,22 +4,17 @@
 */
 
 
-import React, { useEffect, useState } from "react";
-import { Stage, Sprite } from "@pixi/react";
+// import React, { useEffect, useState } from "react";
+// import { Stage, Sprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { GlowFilter } from "pixi-filters";
-import eMath from "emath.js";
+import { E } from "emath.js";
 import Game from "../../game";
-const { E } = eMath;
+
+import { sprite } from "js/classes";
 
 const { app } = Game.PIXI;
 // Camera properties
-Game.camera = {
-    x: 0,
-    y: 0,
-    smoothDamp: 0.15,
-};
-const { camera } = Game;
 Game.player = {
     sprite: (function () {
         // Create the circle sprite
@@ -40,7 +35,7 @@ Game.player = {
 
         // Add the circle to the stage
 
-        return new Game.classes.sprite(circle, "Circle");
+        return new sprite(circle, "Circle");
         // return app.stage.addChild(circle);
     })(),
     acceleration: 0.2,
@@ -61,7 +56,6 @@ Game.player = {
      */
     state: ["idle"],
 };
-Game.settings.clickToMove = false;
 const condition = () => !Game.settings.clickToMove && Game.player.state[0] === "idle";
 Game["keys"].addKeys([
     { name: "Move Up", key: "w", fn: () => Game.player.velocity.y -= condition() ? Game.player.acceleration : 0},
@@ -70,12 +64,12 @@ Game["keys"].addKeys([
     { name: "Move Right", key: "d", fn: () => Game.player.velocity.x += condition() ? Game.player.acceleration : 0 },
 ]);
 
-Game.functions.updateCamera = function (dt) {
-    Game.camera.x = E.smoothDamp(E(Game.camera.x), E(Game.player.position.x), E(Game.camera.smoothDamp), E(dt));
-    Game.camera.y = E.smoothDamp(E(Game.camera.y), E(Game.player.position.y), E(Game.camera.smoothDamp), E(dt));
+Game.functions.updateCamera = function (dt: number) {
+    Game.camera.x = E.smoothDamp(E(Game.camera.x), E(Game.player.position.x), E(Game.camera.smoothDamp), E(dt)).toNumber();
+    Game.camera.y = E.smoothDamp(E(Game.camera.y), E(Game.player.position.y), E(Game.camera.smoothDamp), E(dt)).toNumber();
 };
 // Update loop
-app.ticker.add((dt) => {
+app.ticker.add((dt: number) => {
     Game.player.position.x += Game.player.velocity.x;
     Game.player.position.y += Game.player.velocity.y;
 

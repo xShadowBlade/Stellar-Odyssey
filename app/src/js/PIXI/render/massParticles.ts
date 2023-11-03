@@ -1,23 +1,23 @@
 import Game from "../../game";
+import { sprite } from "js/classes";
+
 import * as PIXI from "pixi.js";
 import { eventSystem } from "../../main";
-import eMath from "emath.js";
+import { E } from "emath.js";
 
-const { E } = eMath;
-
-Game.static.massParticles = [];
+// Game.static.massParticles = [];
 
 const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 // Function to generate and add a static circle
-function addStaticCircle (x, y) {
+function addStaticCircle (x: number, y: number) {
     const staticCircle = new Graphics();
     staticCircle.beginFill(0xFFFFFF); // Set circle color
     staticCircle.drawCircle(0, 0, 45); // Set circle size
     staticCircle.endFill();
     staticCircle.x = x;
     staticCircle.y = y;
-    return new Game.classes.sprite(staticCircle, "Circle");
+    return new sprite(staticCircle, "Circle");
 }
 
 // Function to generate and add static circles within a box
@@ -34,10 +34,6 @@ function spawnStaticCircles () {
 
     return addStaticCircle(x, y);
 }
-
-// Set up a timer to spawn static circles every 5 seconds
-const spawnInterval = 5000; // 5000 milliseconds = 5 seconds
-const lastSpawnTime = 0;
 
 // const box = new Graphics();
 // box.lineStyle(2, 0xFFFFFF)

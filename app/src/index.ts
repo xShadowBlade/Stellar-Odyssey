@@ -7,18 +7,18 @@
 
 const scripts = [
     async () => import("./js/game.ts"),
-    async () => import("./js/PIXI/pixiSetup.ts"),
-    async () => import("./js/keybinds.ts"),
+    // async () => import("./js/PIXI/pixiSetup.ts"),
+    // async () => import("./js/keybinds.ts"),
 
-    async () => import("./js/features/playtime.js"),
-    async () => import("./js/features/mass.js"),
-    async () => import("./js/features/chronos.js"),
+    // async () => import("./js/features/playtime.ts"),
+    async () => import("./js/features/mass.ts"),
+    // async () => import("./js/features/chronos.ts"),
 
-    async () => import("./js/main.ts"),
+    // async () => import("./js/main.ts"),
 
-    async () => import("./js/PIXI/sprite.js"),
-    async () => import("./js/PIXI/render/player.js"),
-    async () => import("./js/PIXI/render/massParticles.js"),
+    // async () => import("./js/PIXI/sprite.ts"),
+    async () => import("./js/PIXI/render/player.ts"),
+    async () => import("./js/PIXI/render/massParticles.ts"),
     // "functions/gainParticles",
 
     // "upgrades",
@@ -27,7 +27,7 @@ const scripts = [
     // "PIXI/render/background", // Fix later
 
     // This last
-    async () => import("./js/save.ts"),
+    // async () => import("./js/save.ts"),
 ];
 
 const stylesheets = [

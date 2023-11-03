@@ -13,14 +13,6 @@ interface KeyBinding {
     fn?: (dt?: number) => void;
 }
 
-type keysType = {
-    keysPressed: string[];
-    binds: KeyBinding[];
-    isPressing: (name: string) => boolean;
-    addKey: (name: string, key: string, fn?: () => void) => void;
-    addKeys: (keys: KeyBinding[]) => void;
-}
-
 /**
  * Game keys manager for handling key bindings and tracking pressed keys.
  *
@@ -28,8 +20,8 @@ type keysType = {
  * @property {string[]} keysPressed - An array to track currently pressed keys.
  * @property {KeyBinding[]} binds - An array of key bindings, each specifying a name and associated key.
  */
-const keys: keysType = {
-    keysPressed: [],
+const keys = {
+    keysPressed: [] as string[],
     binds: [
         // case sensitive
         /* example
@@ -39,7 +31,7 @@ const keys: keysType = {
         },
         (...)
         */
-    ],
+    ] as KeyBinding[],
 
     /**
      * Checks if a specific key binding is currently being pressed.
@@ -66,7 +58,7 @@ const keys: keysType = {
      * @param {function} [fn] - The function executed when the binding is pressed
      * @example addKey("Move Up", "w", () => Game.player.velocity.y -= Game.player.acceleration);
      */
-    addKey (name: string, key: string, fn?: () => void): void {
+    addKey (name: string, key: string, fn?: (dt?: number) => void): void {
         for (let i = 0; i < keys.binds.length; i++) {
             const current = keys.binds[i];
             // console.log(current);

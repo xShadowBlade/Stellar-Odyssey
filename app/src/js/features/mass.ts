@@ -1,25 +1,7 @@
-import eMath from "emath.js";
-import Game from "../game.js";
-import { eventSystem } from "../main.js";
+import { E } from "emath.js";
+import Game from "../game";
+import { eventSystem } from "../main";
 
-const { E } = eMath;
-
-Game.data.quarks = {
-    currency: new eMath.classes.currency(),
-    /**
-     * Rate of regeneration
-     * in x per second
-    */
-    regenRate: E(2),
-    absorbRate: E(2),
-    maxParticles: E(10),
-};
-Game.static.quarks = {
-    currency: new eMath.classes.currencyStatic(() => Game.data.quarks.currency),
-    regenRate: new eMath.classes.attribute(2),
-    absorbRate: new eMath.classes.attribute(2),
-    maxParticles: new eMath.classes.attribute(10),
-};
 console.log(Game.static.quarks.currency);
 // Game.static.quarks.currency.addUpgrade([
 //     {
@@ -92,8 +74,8 @@ console.log(Game.static.quarks.currency);
 // ]);
 
 // When pressing the massCollect key, check if collides
-Game["keys"].addKey("Collect Quarks", " ", function (dt) {
-    if (Game.player.state === "idle") {
+Game["keys"].addKey("Collect Quarks", " ", function () {
+    if (Game.player.state[0] === "idle") {
         for (let i = 0; i < Game.static.massParticles.length; i++) {
             const particle = Game.static.massParticles[i];
 

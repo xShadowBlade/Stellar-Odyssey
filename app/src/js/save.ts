@@ -1,23 +1,22 @@
 import LZString from "lz-string";
-import eMath from "emath.js";
-const { E } = eMath;
+import { E } from "emath.js";
 
 export default function dataManagement (gamePointer: Function) {
     const normalData = gamePointer().data;
 
-    const compileData = (data = gamePointer()["data"]) =>
+    const compileData = (data = gamePointer()["data"]): string =>
         LZString.compressToBase64(JSON.stringify(data));
 
-    const decompileData = (data: string | null = localStorage.getItem("data")) =>
+    const decompileData = (data: string | null = localStorage.getItem("data")): object | null =>
         data ? JSON.parse(LZString.decompressFromBase64(data)) : null;
 
-    const resetData = (reload = false) => {
+    const resetData = (reload = false): void => {
         gamePointer().data = normalData;
         saveData();
         if (reload) window.location.reload();
     };
 
-    const saveData = () => {
+    const saveData = (): void => {
         if (!gamePointer()["data"]) {
             return;
         } // check if data exists
@@ -26,7 +25,7 @@ export default function dataManagement (gamePointer: Function) {
         console.log("Game Saved");
     };
 
-    const exportData = () => {
+    const exportData = (): void => {
         // Step 1: Create the content
         const content = compileData();
 
@@ -57,7 +56,7 @@ export default function dataManagement (gamePointer: Function) {
         }
     };
 
-    const loadData = () => {
+    const loadData = (): void => {
         if (!gamePointer()["data"]) {
             return;
         } // check if data exists
@@ -74,7 +73,7 @@ export default function dataManagement (gamePointer: Function) {
         // }
 
         // Recursive function to process object properties
-        function processObject(obj: any) {
+        function processObject (obj: any) {
             for (const prop in obj) {
                 if (typeof obj[prop] === "string") {
                     try {
@@ -99,7 +98,7 @@ export default function dataManagement (gamePointer: Function) {
         console.log((loadedData = processObject(loadedData)));
 
         // Add new / updated properties
-        function deepMerge(source: any, target: any) {
+        function deepMerge (source: any, target: any) {
             for (const key in source) {
                 // eslint-disable-next-line no-prototype-builtins
                 if (source.hasOwnProperty(key)) {

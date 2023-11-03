@@ -8,10 +8,8 @@ Saving/loading
  * @namespace
  */
 
-import eMath from "emath.js";
+import { E } from "emath.js";
 import Game from "./game.js";
-
-const { E } = eMath;
 
 interface Event {
     name: string;
@@ -19,15 +17,21 @@ interface Event {
     delay: E;
     callbackFn: () => void;
     timeCreated: E;
-    intervalLast?: E;
 }
+
+interface intervalEvent extends Event {
+    type: "interval";
+    intervalLast: E;
+}
+
+interface timeoutEvent extends Event {}
 
 const eventSystem = {
     /**
      * An array to store events.
      * @type {Array<object>}
      */
-    events: [] as Event[],
+    events: [] as (intervalEvent | timeoutEvent)[],
 
     /**
      * Adds a new event to the event system.
@@ -38,17 +42,32 @@ const eventSystem = {
      * @param {function} callbackFn - The callback function to execute when the event triggers.
      */
     addEvent: function (name: string, type: "interval" | "timeout", delay: number | E, callbackFn: () => void) {
-        const event: Event = {
-            name,
-            type,
-            delay: E(delay),
-            callbackFn,
-            timeCreated: E(Date.now()),
-        };
+        this.events.push((() => {switch (type) {
+        case "interval": {
+            const event: intervalEvent = {
+                name,
+                type,
+                delay: E(delay),
+                callbackFn,
+                timeCreated: E(Date.now()),
+                intervalLast: E(Date.now()),
+            };
+            return event;
+        // eslint-disable-next-line no-unreachable
+        }; break;
+        case "timeout":
+        default: {
+            const event: timeoutEvent = {
+                name,
+                type,
+                delay: E(delay),
+                callbackFn,
+                timeCreated: E(Date.now()),
+            };
 
-        if (type === "interval") event.intervalLast = E(Date.now());
-
-        this.events.push(event);
+            return event;
+        }
+        }})());
     },
 };
 
@@ -57,13 +76,19 @@ Game.PIXI.app.ticker.add(function () {
     for (let i = 0; i < eventSystem.events.length; i++) {
         const event = eventSystem.events[i];
 
-        if (event.type === "interval" && ((currentTime.sub(event.intervalLast!)).gte(event.delay))) {
-            event.callbackFn();
-            event.intervalLast = currentTime;
-        } else if (event.type === "timeout" && ((currentTime.sub(event.timeCreated)).gte(event.delay))) {
-            event.callbackFn();
-            eventSystem.events.splice(i, 1);
-            i--;
+        if (event.type === "interval") {
+            // If interval
+            if (((currentTime.sub(((event as intervalEvent)).intervalLast)).gte(event.delay))) {
+                event.callbackFn();
+                (event as intervalEvent).intervalLast = currentTime;
+            }
+        } else if (event.type === "timeout") {
+            // If timeout
+            if (((currentTime.sub(event.timeCreated)).gte(event.delay))) {
+                event.callbackFn();
+                eventSystem.events.splice(i, 1);
+                i--;
+            }
         }
     }
 });
@@ -78,7 +103,6 @@ Game.PIXI.app.ticker.add(function () {
 // });
 
 Game.PIXI.app.ticker.add(function (dt: number) {
-    dt = E(dt).plus(Game["data"].playtime.timewarp); // Time since last update (scale factor)
     Game["data"].playtime.timewarp = E(); // reset timewarp
 
     Game["static"].playtime.tActive.gain(dt);
