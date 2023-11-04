@@ -1,10 +1,7 @@
 {
 	"compilerOptions": {
-		"allowImportingTsExtensions": true,
-		"emitDeclarationOnly": true,
-		"declaration": true,
 		"allowJs": true,
-		"target": "es6",
+		"target": "ES5",
 		"module": "NodeNext",
 		"strict": true, // change later
 		"lib": ["ESNext", "dom"],

@@ -9,7 +9,7 @@ Saving/loading
  */
 
 import { E } from "emath.js";
-import Game from "./game.js";
+import Game from "./game";
 
 interface Event {
     name: string;

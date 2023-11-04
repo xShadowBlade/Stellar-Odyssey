@@ -9,6 +9,8 @@ import pixiGame from "./PIXI/pixiSetup";
 import dataManagement from "./save";
 
 import { E, currency, currencyStatic, attribute } from "emath.js";
+
+console.log("test: ", E, currency);
 // import spriteFunction from "./PIXI/sprite";
 
 type GameType = {
@@ -21,7 +23,7 @@ type GameType = {
     PIXI: typeof pixiGame,
 
     // ./save
-    dataManagement: ReturnType<typeof dataManagement>,
+    dataManagement?: ReturnType<typeof dataManagement>,
 
     camera: {
         x: number;
@@ -99,7 +101,6 @@ const Game: GameType = {
     // Imported
     keys,
     PIXI: pixiGame,
-    dataManagement: dataManagement(() => Game),
 
     camera: {
         x: 0,
@@ -205,6 +206,8 @@ const Game: GameType = {
     },
     features: {},
 };
+
+Game.dataManagement = dataManagement(() => Game);
 
 console.log(Game);
 

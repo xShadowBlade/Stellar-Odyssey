@@ -11,7 +11,7 @@
 // import { Sprite as PixiSprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import Intersects from "./pixi-intersects";
-import Game from "js/game";
+import Game from "../game";
 class _sprite {
     public sprite: PIXI.Sprite | PIXI.Graphics;
     public x: number;

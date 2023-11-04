@@ -11,7 +11,7 @@ import { GlowFilter } from "pixi-filters";
 import { E } from "emath.js";
 import Game from "../../game";
 
-import { sprite } from "js/classes";
+import { sprite } from "../../classes";
 
 const { app } = Game.PIXI;
 // Camera properties

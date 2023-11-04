@@ -1,5 +1,5 @@
 import Game from "../../game";
-import { sprite } from "js/classes";
+import { sprite } from "../../classes";
 
 import * as PIXI from "pixi.js";
 import { eventSystem } from "../../main";

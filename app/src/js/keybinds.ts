@@ -6,7 +6,7 @@
  *
  * @module keybinds
  */
-
+import pixiGame from "./PIXI/pixiSetup";
 interface KeyBinding {
     name: string;
     key: string;
@@ -70,8 +70,7 @@ const keys = {
         // if not found (new keybind entirely)
         keys.binds.push({ name, key, fn });
         if (typeof fn == "function") {
-            // @ts-ignore
-            PIXI.app.ticker.add((dt: number) => {
+            pixiGame.app.ticker.add((dt: number) => {
                 // @ts-ignore
                 if (keys.isPressing(name)) fn(dt);
             });
