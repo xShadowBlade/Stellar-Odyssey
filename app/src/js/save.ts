@@ -1,26 +1,27 @@
 import LZString from "lz-string";
 import { E } from "emath.js";
+import Game from "./game";
 
-export default function dataManagement (gamePointer: Function) {
-    const normalData = gamePointer().data;
+Game.dataManagement = (function () {
+    const normalData = Game.data;
 
-    const compileData = (data = gamePointer()["data"]): string =>
+    const compileData = (data: object = Game["data"]): string =>
         LZString.compressToBase64(JSON.stringify(data));
 
     const decompileData = (data: string | null = localStorage.getItem("data")): object | null =>
         data ? JSON.parse(LZString.decompressFromBase64(data)) : null;
 
     const resetData = (reload = false): void => {
-        gamePointer().data = normalData;
+        Game.data = normalData;
         saveData();
         if (reload) window.location.reload();
     };
 
     const saveData = (): void => {
-        if (!gamePointer()["data"]) {
+        if (!Game["data"]) {
             return;
         } // check if data exists
-        gamePointer()["data"].playtime.timeLastPlayed = Date.now();
+        Game["data"].playtime.timeLastPlayed = E(Date.now());
         localStorage.setItem("data", compileData());
         console.log("Game Saved");
     };
@@ -57,10 +58,10 @@ export default function dataManagement (gamePointer: Function) {
     };
 
     const loadData = (): void => {
-        if (!gamePointer()["data"]) {
+        if (!Game["data"]) {
             return;
         } // check if data exists
-        // if (gamePointer()["data"].playtime.timeLastPlayed != 0) {gamePointer()["data"].playtime.passive += Date.now() - gamePointer()["data"].playtime.timeLastPlayed;}
+        // if (Game["data"].playtime.timeLastPlayed != 0) {Game["data"].playtime.passive += Date.now() - Game["data"].playtime.timeLastPlayed;}
 
         // let loadedData = decompileData();
 
@@ -118,4 +119,4 @@ export default function dataManagement (gamePointer: Function) {
     };
 
     return { resetData, compileData, decompileData, saveData, exportData, loadData };
-};
+})();

@@ -6,7 +6,7 @@
 
 import keys from "./keybinds";
 import pixiGame from "./PIXI/pixiSetup";
-import dataManagement from "./save";
+// import dataManagement from "./save";
 
 import { E, currency, currencyStatic, attribute } from "emath.js";
 
@@ -14,6 +14,7 @@ console.log("test: ", E, currency);
 // import spriteFunction from "./PIXI/sprite";
 
 type GameType = {
+    dataManagement?: { resetData: (reload?: boolean) => void; compileData: (data?: object) => string; decompileData: (data?: string | null) => object | null; saveData: () => void; exportData: () => void; loadData: () => void; };
     player: { sprite: any; acceleration: number; velocity: { x: number; y: number; }; restoringForce: number; friction: number; position: { x: number; y: number; _x: number; _y: number; }; state: any[]; };
     // Imported
     // ./keybinds
@@ -23,7 +24,7 @@ type GameType = {
     PIXI: typeof pixiGame,
 
     // ./save
-    dataManagement?: ReturnType<typeof dataManagement>,
+    // dataManagement?:,
 
     camera: {
         x: number;
@@ -206,8 +207,6 @@ const Game: GameType = {
     },
     features: {},
 };
-
-Game.dataManagement = dataManagement(() => Game);
 
 console.log(Game);
 

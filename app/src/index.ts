@@ -31,7 +31,8 @@ const scripts = [
     // "PIXI/render/background", // Fix later
 
     // This last
-    // async () => import("./js/save"),
+    // @ts-ignore
+    async () => import("./js/save"),
 ];
 
 const stylesheets = [
