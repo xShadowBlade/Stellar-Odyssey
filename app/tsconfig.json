@@ -13,7 +13,7 @@
 		"outDir": "./dist",  // Adjust this based on your project structure
 		"sourceMap": true
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "src/js/PIXI/pixi-intersects.js"],
 	"exclude": [
 	  	"node_modules"
 	]

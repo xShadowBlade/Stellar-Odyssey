@@ -35,7 +35,7 @@ type GameType = {
     version: {
         saveAPI: number;
         phase: string;
-        dev: boolean;
+        mode: "development" | "production";
     };
     // classes: {
     //     sprite: ReturnType<typeof spriteFunction>;
@@ -132,7 +132,8 @@ const Game: GameType = {
     version: {
         saveAPI: 1,
         phase: "alpha",
-        dev: true,
+        // @ts-ignore
+        mode: MODE,
     },
     // classes: {
     //     sprite: spriteFunction(() => Game),
@@ -210,6 +211,6 @@ const Game: GameType = {
 
 console.log(Game);
 
-if (Game.version.dev) (window as any)["Game"] = Game;
+if (Game.version.mode === "development") (window as any)["Game"] = Game;
 
 export default Game;
