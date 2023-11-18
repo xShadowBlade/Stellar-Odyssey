@@ -14,6 +14,7 @@ console.log("test: ", E, currency);
 // import spriteFunction from "./PIXI/sprite";
 
 type GameType = {
+
     dataManagement?: { resetData: (reload?: boolean) => void; compileData: (data?: object) => string; decompileData: (data?: string | null) => object | null; saveData: () => void; exportData: () => void; loadData: () => void; };
     player: { sprite: any; acceleration: number; velocity: { x: number; y: number; }; restoringForce: number; friction: number; position: { x: number; y: number; _x: number; _y: number; }; state: any[]; };
     // Imported
@@ -32,10 +33,14 @@ type GameType = {
         smoothDamp: number;
     }
 
-    version: {
+    meta: {
         saveAPI: number;
         phase: string;
         mode: "development" | "production";
+        name: {
+            title: string;
+            id: string;
+        }
     };
     // classes: {
     //     sprite: ReturnType<typeof spriteFunction>;
@@ -129,11 +134,15 @@ const Game: GameType = {
         state: ["idle"],
     },
 
-    version: {
+    meta: {
         saveAPI: 1,
         phase: "alpha",
         // @ts-ignore
         mode: MODE,
+        name: {
+            title: "Stellar Odyssey",
+            id: "stellar-odyssey",
+        },
     },
     // classes: {
     //     sprite: spriteFunction(() => Game),
@@ -211,6 +220,6 @@ const Game: GameType = {
 
 console.log(Game);
 
-if (Game.version.mode === "development") (window as any)["Game"] = Game;
+if (Game.meta.mode === "development") (window as any)["Game"] = Game;
 
 export default Game;

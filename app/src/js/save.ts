@@ -8,7 +8,7 @@ Game.dataManagement = (function () {
     const compileData = (data: object = Game["data"]): string =>
         LZString.compressToBase64(JSON.stringify(data));
 
-    const decompileData = (data: string | null = localStorage.getItem("data")): object | null =>
+    const decompileData = (data: string | null = localStorage.getItem(`${Game.meta.name.id}-data`)): object | null =>
         data ? JSON.parse(LZString.decompressFromBase64(data)) : null;
 
     const resetData = (reload = false): void => {
@@ -22,7 +22,7 @@ Game.dataManagement = (function () {
             return;
         } // check if data exists
         Game["data"].playtime.timeLastPlayed = E(Date.now());
-        localStorage.setItem("data", compileData());
+        localStorage.setItem(`${Game.meta.name.id}-data`, compileData());
         console.log("Game Saved");
     };
 
@@ -65,7 +65,7 @@ Game.dataManagement = (function () {
 
         // let loadedData = decompileData();
 
-        // if (localStorage.getItem("data")) console.log(decompileData(localStorage.getItem("data")));
+        // if (localStorage.getItem(`${Game.meta.name.id}-data`)) console.log(decompileData(localStorage.getItem(`${Game.meta.name.id}-data`)));
 
         // Sample function E()
         // function E(value) {
