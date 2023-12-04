@@ -13,26 +13,22 @@ const scripts = [
 
     // async () => import("./js/features/playtime"),
     // @ts-ignore
-    async () => import("./js/features/mass"),
+    // async () => import("./js/features/mass"), // Fix later
     // async () => import("./js/features/chronos"),
 
     // async () => import("./js/main"),
 
     // async () => import("./js/PIXI/sprite"),
     // @ts-ignore
-    async () => import("./js/PIXI/render/player"),
+    async () => import("./js/PIXI/player"),
     // @ts-ignore
-    async () => import("./js/PIXI/render/massParticles"),
+    async () => import("./js/PIXI/massParticles"),
     // "functions/gainParticles",
 
     // "upgrades",
 
     // "particles", // Fix later
     // "PIXI/render/background", // Fix later
-
-    // This last
-    // @ts-ignore
-    async () => import("./js/save"),
 ];
 
 const stylesheets = [

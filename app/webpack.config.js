@@ -9,7 +9,10 @@ const HtmlReplaceWebpackPlugin = require("html-replace-webpack-plugin");
 module.exports = (env, argv) => {
     console.log("Args:", argv);
     const mode = argv.mode;
-    return {
+    /**
+     * @type {import("webpack").Configuration}
+     */
+    const options = {
         entry: "./src/index.ts", // Entry point of your application
         output: {
             path: path.resolve(__dirname, "dist"),
@@ -63,9 +66,6 @@ module.exports = (env, argv) => {
                 // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
                 MODE: JSON.stringify(mode),
             }),
-            mode === "production" ? new webpack.optimize.LimitChunkCountPlugin({
-                maxChunks: 1,
-            }) : null,
             // new EsbuildPlugin({
             //     options: {
             //         define: {
@@ -82,4 +82,12 @@ module.exports = (env, argv) => {
             ]),
         ],
     };
+    // if (mode === "production") {
+    //     options.plugins.push(
+    //         new webpack.optimize.LimitChunkCountPlugin({
+    //             maxChunks: 1,
+    //         }),
+    //     );
+    // }
+    return options;
 };

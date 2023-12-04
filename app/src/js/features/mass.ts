@@ -1,8 +1,7 @@
 import { E } from "emath.js";
 import Game from "../game";
-import { eventSystem } from "../main";
 
-console.log(Game.static.quarks.currency);
+// console.log(Game.static.quarks.currency);
 // Game.static.quarks.currency.addUpgrade([
 //     {
 //         name: "Value",
