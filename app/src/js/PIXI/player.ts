@@ -25,7 +25,7 @@ const player = {
         // Add a glow to the circle
         circle.filters = [
             new GlowFilter({
-                quality: 0.1, // Low quality since higher quality is very slow
+                quality: 0.2, // Low quality since higher quality is very slow
                 // innerStrength: 4,
                 // outerStrength: 4,
             }),
@@ -101,3 +101,5 @@ app.ticker.add((dt: number) => {
         break;
     }
 });
+
+export { player }

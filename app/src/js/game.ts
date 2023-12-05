@@ -17,29 +17,6 @@ const Game = new pixiGame({
         framerate: 30,
     },
 });
-// const placeholder = {
-//     camera: {
-//         x: 0,
-//         y: 0,
-//         smoothDamp: 0.15,
-//     },
-//     functions: {
-//         timewarp: (t: number | string | E) => Game["data"].playtime.timewarp = E(t),
-//         claimDailyReward: function (skipTime: boolean = false): boolean {
-//             if (skipTime || Game.data.chronos.lastReward.sub(Date.now()).mul(-1).gte(E(43_200_000))) { // 43,200,000 is 12 hours, checks if time elasped is greater
-//                 Game.data.chronos.lastReward = E(Date.now());
-//                 Game.static.chronos.currency.gain();
-//                 return true;
-//             } else return false;
-//         },
-//         updateCamera: function (dt: number) {
-//             Game.camera.x = E.smoothDamp(Game.camera.x, Game.player.position.x, Game.camera.smoothDamp, dt).toNumber();
-//             Game.camera.y = E.smoothDamp(Game.camera.y, Game.player.position.y, Game.camera.smoothDamp, dt).toNumber();
-//         },
-//     },
-// }
-// console.log("test: ", E, currency);
-// import spriteFunction from "./PIXI/sprite";
 
 // const gameOld: any = {
 //     data: {
@@ -62,10 +39,6 @@ const Game = new pixiGame({
 //             absorbRate: E(2),
 //             maxParticles: E(10),
 //         },
-//         chronos: {
-//             currency: new currency(),
-//             lastReward: E(0),
-//         },
 //     },
 //     static: {
 //         massParticles: [],
@@ -82,14 +55,11 @@ const Game = new pixiGame({
 //             absorbRate: new attribute(2),
 //             maxParticles: new attribute(10),
 //         },
-//         chronos: {
-//             currency: new currencyStatic(() => Game.data.chronos.currency),
-//         },
 //     },
 // };
 
 // console.log(Game);
 
-if (Game.config.meta.mode === "development") (window as any)["Game"] = Game;
+if (Game.config.mode === "development") (window as any)["Game"] = Game;
 
 export default Game;

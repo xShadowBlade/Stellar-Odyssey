@@ -4,12 +4,12 @@ import * as PIXI from "pixi.js";
 import { E } from "emath.js";
 import { sprite } from "emath.js/pixiGame";
 
-// Game.static.massParticles = [];
+const massParticles: sprite[] = [];
 
 const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 // Function to generate and add a static circle
-function addStaticCircle (x: number, y: number) {
+function addStaticCircle (x: number, y: number): sprite {
     const staticCircle = new Graphics();
     staticCircle.beginFill(0xFFFFFF); // Set circle color
     staticCircle.drawCircle(0, 0, 45); // Set circle size
@@ -20,7 +20,7 @@ function addStaticCircle (x: number, y: number) {
 }
 
 // Function to generate and add static circles within a box
-function spawnStaticCircles () {
+function spawnStaticCircles (): sprite {
     const boxWidth = 600;
     const boxHeight = 400;
     const minX = app.screen.width / 2 - boxWidth / 2;
@@ -31,7 +31,9 @@ function spawnStaticCircles () {
     const x = Math.random() * (maxX - minX) + minX;
     const y = Math.random() * (maxY - minY) + minY;
 
-    return addStaticCircle(x, y);
+    const circle = addStaticCircle(x, y);
+    massParticles.push(circle);
+    return circle;
 }
 
 // const box = new Graphics();
@@ -39,6 +41,8 @@ function spawnStaticCircles () {
 // box.drawRect(0, 0, 300, 200);
 // Game.addToStage(box)
 
-// eventSystem.addEvent("Mass Spawn", "interval", E(1000).div(Game.data.quarks.regenRate), () => {
-//     if (Game.data.quarks.maxParticles.gt(Game.static.massParticles.length)) Game.static.massParticles.push(spawnStaticCircles());
+// Game.eventManager.addEvent("Mass Spawn", "interval", E(1000).div(Game.data.quarks.regenRate), () => {
+//     if (Game.data.quarks.maxParticles.gt(Game.static.massParticles.length))
 // });
+
+export { massParticles, spawnStaticCircles };

@@ -13,8 +13,8 @@
 		"outDir": "./dist",  // Adjust this based on your project structure
 		"sourceMap": true
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "../../emath.js/dist/**/*"],
 	"exclude": [
-	  	"node_modules"
+	  	"node_modules/"
 	]
 }
