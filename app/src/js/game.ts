@@ -1,5 +1,5 @@
 /**
- * @fileoverview Defines the main game module.
+ * @file Defines the main game module.
  * @module game
  * @version 0.1.0
  */

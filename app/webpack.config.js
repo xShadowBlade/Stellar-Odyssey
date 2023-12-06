@@ -40,11 +40,6 @@ module.exports = (env, argv) => {
                         tsconfig: "./tsconfig.json",
                     },
                 },
-                // {
-                //     test: /\.(ts|tsx)$/,
-                //     use: "ts-loader",
-                //     exclude: /node_modules/,
-                // },
                 {
                     test: /\.css$/i,
                     use: ["css-loader"],

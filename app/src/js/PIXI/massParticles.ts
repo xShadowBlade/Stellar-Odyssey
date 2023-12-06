@@ -9,6 +9,11 @@ const massParticles: sprite[] = [];
 const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 // Function to generate and add a static circle
+/**
+ *
+ * @param x
+ * @param y
+ */
 function addStaticCircle (x: number, y: number): sprite {
     const staticCircle = new Graphics();
     staticCircle.beginFill(0xFFFFFF); // Set circle color
@@ -20,6 +25,9 @@ function addStaticCircle (x: number, y: number): sprite {
 }
 
 // Function to generate and add static circles within a box
+/**
+ *
+ */
 function spawnStaticCircles (): sprite {
     const boxWidth = 600;
     const boxHeight = 400;

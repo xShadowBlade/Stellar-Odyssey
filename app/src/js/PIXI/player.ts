@@ -68,7 +68,7 @@ Game.keyManager.addKeys([
 function updateCamera (dt: ESource) {
     Game.PIXI.camera.x = E.smoothDamp(Game.PIXI.camera.x, player.position.x, player.smoothDamp, dt).toNumber();
     Game.PIXI.camera.y = E.smoothDamp(Game.PIXI.camera.y, player.position.y, player.smoothDamp, dt).toNumber();
-};
+}
 // Update loop
 app.ticker.add((dt: number) => {
     player.position.x += player.velocity.x;
@@ -82,13 +82,13 @@ app.ticker.add((dt: number) => {
     player.velocity.y *= player.friction;
 
     switch (player.state[0]) {
-    case "lockedToMass":
+    case "lockedToMass": {
         const particle = player.state[1];
         player.position.x = player.sprite.x = E.smoothDamp(player.sprite.x, particle.x, player.smoothDamp, dt).toNumber();
         player.position.y = player.sprite.y = E.smoothDamp(player.sprite.y, particle.y, player.smoothDamp, dt).toNumber();
         Game.PIXI.camera.x = player.sprite.x - app.screen.width / 2;
         Game.PIXI.camera.y = player.sprite.y - app.screen.height / 2;
-        break;
+    } break;
     case "lockedToMassExit":
         player.position.x -= app.screen.width / 2;
         player.position.y -= app.screen.height / 2;
@@ -102,4 +102,4 @@ app.ticker.add((dt: number) => {
     }
 });
 
-export { player }
+export { player };

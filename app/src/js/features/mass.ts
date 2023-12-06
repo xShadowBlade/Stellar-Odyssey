@@ -11,7 +11,7 @@ const maxParticles = Game.addAttribute("maxParticles", true, 10);
 quarks.static.addUpgrade([
     {
         name: "Value",
-        cost: E(5),
+        // cost: E(5),
         costScaling: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
         effect: function (level: E) {
@@ -26,7 +26,7 @@ quarks.static.addUpgrade([
     },
     {
         name: "Capacity",
-        cost: E(25),
+        // cost: E(25),
         costScaling: n => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(100),
         effect: function (level: E) {
@@ -42,13 +42,13 @@ quarks.static.addUpgrade([
     },
     {
         name: "Regeneration",
-        cost: E(100),
+        // cost: E(100),
         costScaling: n => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(30),
         effect: function (level: E) {
 
             regenRate.update(function () {
-                regenRate.boost.bSet(
+                regenRate.static.boost.bSet(
                     "valueUpg3Quarks",
                     "Quarks Regeneration - Quarks",
                     "Quarks Regeneration - Quarks",
@@ -60,11 +60,11 @@ quarks.static.addUpgrade([
     },
     {
         name: "Speed",
-        cost: E(1000),
+        // cost: E(1000),
         costScaling: n => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
         maxLevel: E(5),
         effect: function (level: E) {
-
+            // Placeholder
         },
     },
 ]);

@@ -3,7 +3,7 @@
  * @description
  * This JavaScript file handles the loading of external scripts and stylesheets required for a web application or game.
  * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
-*/
+ */
 
 const scripts = [
     // @ts-ignore
