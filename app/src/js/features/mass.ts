@@ -1,7 +1,7 @@
 import { E } from "emath.js";
 import Game from "../game";
 import { player } from "../PIXI/player";
-import { massParticles } from "js/PIXI/massParticles";
+import { massParticles, spawnStaticCircles } from "../PIXI/massParticles";
 
 const quarks = Game.addCurrency("quarks");
 const regenRate = Game.addAttribute("regenRate", true, 2);
@@ -30,8 +30,8 @@ quarks.static.addUpgrade([
         costScaling: n => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(100),
         effect: function (level: E) {
-            maxParticles.update();
-            maxParticles.boost.bSet(
+            // maxParticles.update();
+            maxParticles.static.boost.setBoost(
                 "valueUpg2Quarks",
                 "Quarks Capacity - Quarks",
                 "Quarks Capacity - Quarks",
@@ -46,16 +46,13 @@ quarks.static.addUpgrade([
         costScaling: n => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(30),
         effect: function (level: E) {
-
-            regenRate.update(function () {
-                regenRate.static.boost.bSet(
-                    "valueUpg3Quarks",
-                    "Quarks Regeneration - Quarks",
-                    "Quarks Regeneration - Quarks",
-                    n => E(n).add(2).add(level.mul(0.5)),
-                    1,
-                );
-            });
+            regenRate.static.boost.setBoost(
+                "valueUpg3Quarks",
+                "Quarks Regeneration - Quarks",
+                "Quarks Regeneration - Quarks",
+                n => E(n).add(2).add(level.mul(0.5)),
+                1,
+            );
         },
     },
     {
@@ -69,6 +66,13 @@ quarks.static.addUpgrade([
     },
 ]);
 
+/**
+ * Spawn a mass particle
+ */
+Game.eventManager.addEvent("Mass Spawn", "interval", E(1000).div(regenRate.value), () => {
+    if (maxParticles.value.gt(massParticles.length)) spawnStaticCircles();
+});
+
 // When pressing the massCollect key, check if collides
 Game.keyManager.addKey("Collect Quarks", " ", function () {
     if (player.state[0] === "idle") {
@@ -79,7 +83,7 @@ Game.keyManager.addKey("Collect Quarks", " ", function () {
             if (player.sprite.collides(particle)) {
             // Collision detected
                 player.state = ["lockedToMass", particle];
-                Game.eventManager.addEvent("massCollect", "timeout", E(1000).div(absorbRate.value), function () {
+                Game.eventManager.addEvent("massCollect", "timeout", E(1000).div(absorbRate.value.toString()), function () {
                     player.state = ["lockedToMassExit"];
                     console.log("gainMass");
                     const index = massParticles.indexOf(particle);

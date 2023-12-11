@@ -7,13 +7,7 @@ import Game from "../game";
 
 const chronos = Game.addCurrency("chronos");
 const lastReward = Game.addAttribute("lastReward", false);
-/**
- * Warps the time in the game.
- * @param t - The time to warp.
- */
-function timewarp (t: number | string | E) {
-    // Game["data"].playtime.timewarp = E(t);
-}
+
 /**
  * Claims the daily reward.
  * @param skipTime - Whether to skip the time check and claim the reward immediately. Default is false.
@@ -27,4 +21,4 @@ function claimDailyReward (skipTime = false): boolean {
     } else return false;
 }
 
-export { chronos, timewarp, claimDailyReward };
+export { chronos, claimDailyReward };

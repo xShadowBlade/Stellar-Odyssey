@@ -8,9 +8,8 @@ const massParticles: sprite[] = [];
 
 const { Graphics } = PIXI;
 const { app } = Game.PIXI;
-// Function to generate and add a static circle
 /**
- *
+ * Function to generate and add a static circle
  * @param x
  * @param y
  */
@@ -24,9 +23,8 @@ function addStaticCircle (x: number, y: number): sprite {
     return Game.addSprite(staticCircle, "Circle");
 }
 
-// Function to generate and add static circles within a box
 /**
- *
+ * Function to generate and add static circles within a box
  */
 function spawnStaticCircles (): sprite {
     const boxWidth = 600;
@@ -43,14 +41,5 @@ function spawnStaticCircles (): sprite {
     massParticles.push(circle);
     return circle;
 }
-
-// const box = new Graphics();
-// box.lineStyle(2, 0xFFFFFF)
-// box.drawRect(0, 0, 300, 200);
-// Game.addToStage(box)
-
-// Game.eventManager.addEvent("Mass Spawn", "interval", E(1000).div(Game.data.quarks.regenRate), () => {
-//     if (Game.data.quarks.maxParticles.gt(Game.static.massParticles.length))
-// });
 
 export { massParticles, spawnStaticCircles };

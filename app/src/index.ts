@@ -13,22 +13,15 @@ const scripts = [
 
     // async () => import("./js/features/playtime"),
     // @ts-ignore
-    // async () => import("./js/features/mass"), // Fix later
-    // async () => import("./js/features/chronos"),
+    async () => import("./js/features/mass"), // Fix later
+    // @ts-ignore
+    async () => import("./js/features/chronos"),
 
     // async () => import("./js/main"),
 
     // async () => import("./js/PIXI/sprite"),
     // @ts-ignore
     async () => import("./js/PIXI/player"),
-    // @ts-ignore
-    async () => import("./js/PIXI/massParticles"),
-    // "functions/gainParticles",
-
-    // "upgrades",
-
-    // "particles", // Fix later
-    // "PIXI/render/background", // Fix later
 ];
 
 const stylesheets = [
@@ -45,7 +38,7 @@ const loadAssets = async () => {
     const loadingStart = Date.now();
     console.group("Loading...");
     console.time("Loading Ended");
-    console.log(`${loadingStart} | Loading Started`);
+    console.log(`${loadingStart} | Loading Started at ${new Date().toISOString()}`);
     // Load scripts
     for (let x = 0; x < scripts.length; x++) {
         // setScriptsRun(x + 1);
