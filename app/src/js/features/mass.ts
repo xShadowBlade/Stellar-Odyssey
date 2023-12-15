@@ -90,7 +90,7 @@ Game.keyManager.addKey("Collect Quarks", " ", function () {
                     massParticles[index].remove(massParticles);
                     massParticles.splice(index, 1);
                     quarks.static.gain();
-                    console.log(quarks.value.format());
+                    console.log(quarks.static.value.format());
                 });
                 break;
             }
