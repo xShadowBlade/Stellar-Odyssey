@@ -1,3 +1,8 @@
+/**
+ * @file Webpack configuration file.
+ */
+/* eslint-disable jsdoc/check-tag-names */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const { EsbuildPlugin } = require("esbuild-loader");
 const webpack = require("webpack");
@@ -57,18 +62,16 @@ module.exports = (env, argv) => {
             new HtmlWebpackPlugin({
                 template: "./public/index.html", // Use this HTML file as a template
             }),
-            new webpack.DefinePlugin({
-                // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
-                MODE: JSON.stringify(mode),
-            }),
-            // new EsbuildPlugin({
-            //     options: {
-            //         define: {
-            //             // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
-            //             MODE: JSON.stringify(mode),
-            //         },
-            //     },
+            // new webpack.DefinePlugin({
+            //     // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
+            //     MODE: JSON.stringify(mode),
             // }),
+            new EsbuildPlugin({
+                define: {
+                    // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
+                    MODE: JSON.stringify(mode),
+                },
+            }),
             new HtmlReplaceWebpackPlugin([
                 {
                     pattern: "%PUBLIC_URL%",

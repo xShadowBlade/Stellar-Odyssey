@@ -16,12 +16,19 @@ const scripts = [
     async () => import("./js/features/mass"), // Fix later
     // @ts-ignore
     async () => import("./js/features/chronos"),
+    // @ts-ignore
+    async () => import("./js/features/genesis"),
 
     // async () => import("./js/main"),
 
     // async () => import("./js/PIXI/sprite"),
     // @ts-ignore
     async () => import("./js/PIXI/player"),
+
+    // @ts-ignore
+    async () => import("./js/ui/uiLayer"),
+    // @ts-ignore
+    async () => import("./js/ui/story"),
 ];
 
 const stylesheets = [

@@ -1,4 +1,4 @@
-import { E } from "emath.js";
+import { E, upgradeInit } from "emath.js";
 import Game from "../game";
 import { player } from "../PIXI/player";
 import { massParticles, spawnStaticCircles } from "../PIXI/massParticles";
@@ -64,7 +64,7 @@ quarks.static.addUpgrade([
             // Placeholder
         },
     },
-]);
+] as upgradeInit[]);
 
 /**
  * Spawn a mass particle
@@ -97,3 +97,5 @@ Game.keyManager.addKey("Collect Quarks", " ", function () {
         }
     }
 });
+
+export { quarks, regenRate, absorbRate, maxParticles };
