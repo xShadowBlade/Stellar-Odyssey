@@ -1,18 +1,19 @@
 /**
  * @file Story text and popups
  */
-import React, { ReactNode } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
+// import ReactDOM from "react-dom";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-import Game from "../game";
+// import Game from "../game";
 import { uiLayer } from "./uiLayer";
 
 /**
  * React component for the popup modal
  * @param props
+ * @returns
  */
 const StoryPopup = (props: any) => {
     const { title, children } = props;
@@ -59,9 +60,12 @@ const story = [
 function showStory (id: string) {
     for (let i = 0; i < story.length; i++) {
         if (story[i].id === id) {
-            uiLayer.render(<StoryPopup title={story[i].title}>
-                {story[i].text}
-            </StoryPopup>);
+            console.log(`Showing story \`${id}\``);
+            uiLayer.render(
+                <StoryPopup title={story[i].title}>
+                    {story[i].text}
+                </StoryPopup>,
+            );
             return;
         } else continue;
     }

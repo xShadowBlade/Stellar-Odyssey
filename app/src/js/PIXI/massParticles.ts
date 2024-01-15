@@ -10,8 +10,9 @@ const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 /**
  * Function to generate and add a static circle
- * @param x
- * @param y
+ * @param x - x position
+ * @param y - y position
+ * @returns - the circle sprite
  */
 function addStaticCircle (x: number, y: number): sprite {
     const staticCircle = new Graphics();
@@ -25,6 +26,7 @@ function addStaticCircle (x: number, y: number): sprite {
 
 /**
  * Function to generate and add static circles within a box
+ * @returns - the circle sprite
  */
 function spawnStaticCircles (): sprite {
     const boxWidth = 600;

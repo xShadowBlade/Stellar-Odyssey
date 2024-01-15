@@ -10,6 +10,7 @@ const webpack = require("webpack");
 require("webpack-dev-server");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlReplaceWebpackPlugin = require("html-replace-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
     console.log("Args:", argv);
@@ -75,17 +76,30 @@ module.exports = (env, argv) => {
             new HtmlReplaceWebpackPlugin([
                 {
                     pattern: "%PUBLIC_URL%",
-                    replacement: mode === "production" ? "../public/" : "./",
+                    // ! This is the public path of your app
+                    replacement: mode === "production" ? "./public/" : "./",
                 },
             ]),
         ],
     };
-    // if (mode === "production") {
-    //     options.plugins.push(
-    //         new webpack.optimize.LimitChunkCountPlugin({
-    //             maxChunks: 1,
-    //         }),
-    //     );
-    // }
+    if (mode === "production") {
+        options.plugins.push(
+            // new webpack.optimize.LimitChunkCountPlugin({
+            //     maxChunks: 1,
+            // }),
+            // Copies public folder to dist folder
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: "public",
+                        to: "public",
+                        globOptions: {
+                            ignore: ["**/index.html"],
+                        },
+                    },
+                ],
+            }),
+        );
+    }
     return options;
 };

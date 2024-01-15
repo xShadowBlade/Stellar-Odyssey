@@ -81,7 +81,8 @@ Game.keyManager.addKey("Collect Quarks", " ", function () {
 
             // Check for collision between playerSprite and the current particle
             if (player.sprite.collides(particle)) {
-            // Collision detected
+                // console.log(massParticles.length);
+                // Collision detected
                 player.state = ["lockedToMass", particle];
                 Game.eventManager.addEvent("massCollect", "timeout", E(1000).div(absorbRate.value.toString()), function () {
                     player.state = ["lockedToMassExit"];

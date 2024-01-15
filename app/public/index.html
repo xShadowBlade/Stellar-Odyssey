@@ -12,6 +12,7 @@
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+      !TODO: fix manifest.json on production
     -->
     <link rel="manifest" href="%PUBLIC_URL%manifest.json" />
     <!--
@@ -28,9 +29,13 @@
   </head>
   <body style="margin: 0;">
     <noscript>You need to enable JavaScript to run this game.</noscript>
-    <div class="loading-screen" style="opacity: 1;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.8);display: flex;flex-direction: column;justify-content: center;align-items: center;color: white;z-index: 99999;">
-        <div class="loading-progress" style="font-size: 24px;margin-bottom: 10px;">0/0</div>
-        <div class="loading-text" style="font-size: 18px;">Loading...</div>
-     </div>
+    <!-- <div class="loading-screen" style="opacity: 1;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.8);display: flex;flex-direction: column;justify-content: center;align-items: center;color: white;z-index: 99999;">
+      <div class="loading-progress" style="font-size: 24px;margin-bottom: 10px;">0/0</div>
+      <div class="loading-text" style="font-size: 18px;">Loading...</div>
+     </div> -->
+    <div id="root" style="position: relative;">
+      <div id="game" style="position: absolute; z-index: 1;"></div>
+      <div id="ui" style="position: absolute; z-index: 2;"></div>
+    </div>
   </body>
 </html>

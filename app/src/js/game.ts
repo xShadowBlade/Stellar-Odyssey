@@ -5,6 +5,15 @@
  */
 
 import { pixiGame } from "emath.js/pixiGame";
+import * as PIXI from "pixi.js";
+
+const pixiApp = new PIXI.Application({
+    resizeTo: window,
+    backgroundColor: 0x000000,
+});
+// @ts-expect-error - PIXI.Application.view is buggy
+document.getElementById("game")?.appendChild(pixiApp.view);
+
 const Game = new pixiGame({
     // MODE is replaced by webpack, as type: "development" | "production"
     // @ts-ignore
@@ -15,6 +24,9 @@ const Game = new pixiGame({
     },
     settings: {
         framerate: 30,
+    },
+    pixi: {
+        app: pixiApp,
     },
 });
 

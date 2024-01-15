@@ -5,23 +5,32 @@
  * It asynchronously loads scripts and stylesheets and provides a progress indicator during the loading process.
  */
 
+// TODO: Completely overhaul loading
+
+// !Temporary fix
+import "./js/game";
+// import "./js/PIXI/pixiSetup";
+// import "./js/keybinds";
+
+// import "./js/features/playtime";
+import "./js/features/mass";
+import "./js/features/chronos";
+import "./js/features/genesis";
+import "./js/PIXI/player";
+
+import "./js/ui/uiLayer";
+import "./js/ui/story";
+
+/*
 const scripts = [
     // @ts-ignore
     async () => import("./js/game"),
-    // async () => import("./js/PIXI/pixiSetup"),
-    // async () => import("./js/keybinds"),
-
-    // async () => import("./js/features/playtime"),
     // @ts-ignore
     async () => import("./js/features/mass"), // Fix later
     // @ts-ignore
     async () => import("./js/features/chronos"),
     // @ts-ignore
     async () => import("./js/features/genesis"),
-
-    // async () => import("./js/main"),
-
-    // async () => import("./js/PIXI/sprite"),
     // @ts-ignore
     async () => import("./js/PIXI/player"),
 
@@ -99,3 +108,4 @@ const loadAssets = async () => {
     }
 };
 loadAssets();
+*/

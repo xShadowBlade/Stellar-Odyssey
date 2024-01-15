@@ -5,9 +5,12 @@
 // import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 
-const uiElement = document.createElement("div");
-uiElement.style.zIndex = "100";
+// const uiElement = document.createElement("div");
+// uiElement.style.zIndex = "100";
+// uiElement.style.position = "absolute";
 
-const uiLayer = createRoot(uiElement);
+// document.getElementById("root")?.appendChild(uiElement);
+
+const uiLayer = createRoot(document.getElementById("ui") as HTMLElement);
 
 export { uiLayer };

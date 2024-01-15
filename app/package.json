@@ -43,6 +43,7 @@
     "@types/css-modules": "^1.0.4",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.18",
+    "copy-webpack-plugin": "^12.0.1",
     "css-loader": "^6.8.1",
     "esbuild": "^0.19.5",
     "esbuild-loader": "^4.0.2",
