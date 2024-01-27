@@ -6,7 +6,7 @@
  * @type {import("eslint").Linter.Config.rules}
  */
 // eslint-disable-next-line
-const rules = require("../../../template-defaults/eslintrules.json");
+const rules = require("../../template-defaults/eslintrules.json");
 
 /**
  * @type {import("eslint").Linter.Config}
