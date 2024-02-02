@@ -1,3 +1,6 @@
+/**
+ * @file Mass particles, the particles that are attracted to the player
+ */
 import Game from "../game";
 
 import * as PIXI from "pixi.js";
@@ -21,6 +24,7 @@ function addStaticCircle (x: number, y: number): sprite {
     staticCircle.endFill();
     staticCircle.x = x;
     staticCircle.y = y;
+    // @ts-expect-error - PIXI.Graphics is a valid sprite
     return Game.addSprite(staticCircle, "Circle");
 }
 

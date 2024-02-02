@@ -21,12 +21,17 @@ module.exports = (env, argv) => {
     const options = {
         entry: "./src/index.ts", // Entry point of your application
         output: {
-            path: path.resolve(__dirname, "dist"),
+            path: path.resolve(__dirname, "build"),
             filename: "bundle.js", // Output bundle file name
         },
-        // devtool: mode === "development" ? "source-map" : "none",
         resolve: {
             extensions: [".css", ".tsx", ".ts", ".js", "..."],
+            alias: {
+                // "@": path.resolve(__dirname, "src"),
+                "emath.js": "emath.js/ts",
+                "emath.js/game": "emath.js/ts/game",
+                "emath.js/pixiGame": "emath.js/ts/pixiGame",
+            },
         },
         // watch: true,
         // watchOptions: {
@@ -63,10 +68,10 @@ module.exports = (env, argv) => {
             new HtmlWebpackPlugin({
                 template: "./public/index.html", // Use this HTML file as a template
             }),
-            // new webpack.DefinePlugin({
-            //     // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
-            //     MODE: JSON.stringify(mode),
-            // }),
+            new webpack.DefinePlugin({
+                // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
+                MODE: JSON.stringify(mode),
+            }),
             new EsbuildPlugin({
                 define: {
                     // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
@@ -100,6 +105,14 @@ module.exports = (env, argv) => {
                 ],
             }),
         );
+    } else if (mode === "development") {
+        options.devtool = "eval-cheap-module-source-map";
+        // options.devServer = {
+        //     contentBase: path.join(__dirname, "build"),
+        //     compress: true,
+        //     port: 3000,
+        //     historyApiFallback: true,
+        // };
     }
     return options;
 };

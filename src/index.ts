@@ -8,18 +8,18 @@
 // TODO: Completely overhaul loading
 
 // !Temporary fix
-import "./js/game";
+import "./game";
 // import "./js/PIXI/pixiSetup";
 // import "./js/keybinds";
 
 // import "./js/features/playtime";
-import "./js/features/mass";
-import "./js/features/chronos";
-import "./js/features/genesis";
-import "./js/PIXI/player";
+import "./features/mass";
+import "./features/chronos";
+import "./features/genesis";
+import "./PIXI/player";
 
-import "./js/ui/uiLayer";
-import "./js/ui/story";
+import "./ui/uiLayer";
+import "./ui/story";
 
 /*
 const scripts = [

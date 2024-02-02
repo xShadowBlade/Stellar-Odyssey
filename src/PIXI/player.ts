@@ -1,8 +1,6 @@
 /**
- * @file js/PIXI/render/player.js
- * @description Player movement and camera movement
+ * @file Player movement and camera movement
  */
-
 
 // import React, { useEffect, useState } from "react";
 // import { Stage, Sprite } from "@pixi/react";
@@ -32,7 +30,7 @@ const player = {
         ];
 
         // Add the circle to the stage
-
+        // @ts-expect-error - PIXI.Graphics is a valid sprite
         return Game.addSprite(circle, "Circle");
     })(),
     acceleration: 0.2,

@@ -1,6 +1,5 @@
 /**
- * @file chronos.ts
- * @description Chronos (time) currency and related functions
+ * @file Chronos (time) currency and related functions
  */
 import { E } from "emath.js";
 import Game from "../game";

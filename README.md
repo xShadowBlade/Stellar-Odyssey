@@ -1,4 +1,4 @@
-![Header](github-header-image.png)
+![Header](./public/github-header-image.png)
 
 # Synopsis
 

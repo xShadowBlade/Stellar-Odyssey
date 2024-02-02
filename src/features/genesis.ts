@@ -9,8 +9,9 @@ const genesis = Game.addCurrency("genesis");
 
 genesis.static.addUpgrade([
     {
+        id: "valueUpg1Genesis",
         name: "Quarks Value",
-        costScaling: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
         effect: function (level: E) {
             quarks.static.boost.setBoost(
