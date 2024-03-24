@@ -12,7 +12,7 @@ import Game from "../game";
 const { app } = Game.PIXI;
 // Camera properties
 const player = {
-    sprite: (function () {
+    sprite: (() => {
         // Create the circle sprite
         const circle = new PIXI.Graphics();
         circle.lineStyle(2, 0xFFFFFF); // Set line color and thickness
@@ -22,6 +22,7 @@ const player = {
 
         // Add a glow to the circle
         circle.filters = [
+            // @ts-expect-error - PIXI.GlowFilter is a valid filter
             new GlowFilter({
                 quality: 0.2, // Low quality since higher quality is very slow
                 // innerStrength: 4,
@@ -30,7 +31,6 @@ const player = {
         ];
 
         // Add the circle to the stage
-        // @ts-expect-error - PIXI.Graphics is a valid sprite
         return Game.addSprite(circle, "Circle");
     })(),
     acceleration: 0.2,
@@ -50,13 +50,13 @@ const player = {
      * - ["lockedToMass", ${particle}]
      * - ["lockedToMassExit"]
      */
-    state: ["idle"] as [string, ...any],
+    state: ["idle"] as [string, ...any[]],
 };
-Game.keyManager.addKeys([
-    { name: "Move Up", key: "w", fn: () => player.velocity.y -= player.acceleration },
-    { name: "Move Left", key: "a", fn: () => player.velocity.x -= player.acceleration },
-    { name: "Move Down", key: "s", fn: () => player.velocity.y += player.acceleration },
-    { name: "Move Right", key: "d", fn: () => player.velocity.x += player.acceleration },
+Game.keyManager.addKey([
+    { name: "Move Up", key: "w", onDownContinuous: () => player.velocity.y -= player.acceleration },
+    { name: "Move Left", key: "a", onDownContinuous: () => player.velocity.x -= player.acceleration },
+    { name: "Move Down", key: "s", onDownContinuous: () => player.velocity.y += player.acceleration },
+    { name: "Move Right", key: "d", onDownContinuous: () => player.velocity.x += player.acceleration },
 ]);
 
 /**

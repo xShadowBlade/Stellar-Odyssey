@@ -11,6 +11,8 @@ require("webpack-dev-server");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlReplaceWebpackPlugin = require("html-replace-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = (env, argv) => {
     console.log("Args:", argv);
@@ -30,7 +32,6 @@ module.exports = (env, argv) => {
                 // "@": path.resolve(__dirname, "src"),
                 "emath.js": "emath.js/ts",
                 "emath.js/game": "emath.js/ts/game",
-                "emath.js/pixiGame": "emath.js/ts/pixiGame",
             },
         },
         // watch: true,
@@ -47,13 +48,20 @@ module.exports = (env, argv) => {
                     loader: "esbuild-loader",
                     options: {
                     // JavaScript version to compile to
-                        target: "es2015",
+                        target: "es2017",
                         tsconfig: "./tsconfig.json",
                     },
                 },
                 {
-                    test: /\.css$/i,
-                    use: ["css-loader"],
+                    // If you enable `experiments.css` or `experiments.futureDefaults`, please uncomment line below
+                    // type: "javascript/auto",
+                    test: /\.(sa|sc|c)ss$/i,
+                    use: [
+                        mode === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
+                        "css-loader",
+                        // "postcss-loader",
+                        // "sass-loader",
+                    ],
                 },
             ],
         },
@@ -61,7 +69,11 @@ module.exports = (env, argv) => {
             minimizer: [
                 new EsbuildPlugin({
                     target: "es2015", // Syntax to transpile to (see options below for possible values)
+                    // loader: "tsx", // Specify the loader for TypeScript files
+                    // minify: true, // Enable minification
+                    // format: "esm", // Generate ES modules (ESM)
                 }),
+                new CssMinimizerPlugin(),
             ],
         },
         plugins: [
@@ -72,12 +84,12 @@ module.exports = (env, argv) => {
                 // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
                 MODE: JSON.stringify(mode),
             }),
-            new EsbuildPlugin({
-                define: {
-                    // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
-                    MODE: JSON.stringify(mode),
-                },
-            }),
+            // new EsbuildPlugin({
+            //     define: {
+            //         // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
+            //         MODE: `"${mode}"`,
+            //     },
+            // }),
             new HtmlReplaceWebpackPlugin([
                 {
                     pattern: "%PUBLIC_URL%",
@@ -104,6 +116,7 @@ module.exports = (env, argv) => {
                     },
                 ],
             }),
+            new MiniCssExtractPlugin(),
         );
     } else if (mode === "development") {
         options.devtool = "eval-cheap-module-source-map";

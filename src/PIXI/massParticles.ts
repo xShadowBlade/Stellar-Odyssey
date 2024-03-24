@@ -3,13 +3,12 @@
  */
 import Game from "../game";
 
-import * as PIXI from "pixi.js";
-import { E } from "emath.js";
-import { sprite } from "emath.js/pixiGame";
+import { Graphics } from "pixi.js";
+// import { E } from "emath.js";
+import { GameSprite } from "emath.js/pixiGame";
 
-const massParticles: sprite[] = [];
+const massParticles: GameSprite[] = [];
 
-const { Graphics } = PIXI;
 const { app } = Game.PIXI;
 /**
  * Function to generate and add a static circle
@@ -17,14 +16,13 @@ const { app } = Game.PIXI;
  * @param y - y position
  * @returns - the circle sprite
  */
-function addStaticCircle (x: number, y: number): sprite {
+function addStaticCircle (x: number, y: number): GameSprite {
     const staticCircle = new Graphics();
     staticCircle.beginFill(0xFFFFFF); // Set circle color
     staticCircle.drawCircle(0, 0, 45); // Set circle size
     staticCircle.endFill();
     staticCircle.x = x;
     staticCircle.y = y;
-    // @ts-expect-error - PIXI.Graphics is a valid sprite
     return Game.addSprite(staticCircle, "Circle");
 }
 
@@ -32,7 +30,7 @@ function addStaticCircle (x: number, y: number): sprite {
  * Function to generate and add static circles within a box
  * @returns - the circle sprite
  */
-function spawnStaticCircles (): sprite {
+function spawnStaticCircles (): GameSprite {
     const boxWidth = 600;
     const boxHeight = 400;
     const minX = app.screen.width / 2 - boxWidth / 2;

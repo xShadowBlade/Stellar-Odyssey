@@ -7,37 +7,49 @@
 
 // TODO: Completely overhaul loading
 
+import "reflect-metadata";
+import "emath.js";
+import "emath.js/game";
+
 // !Temporary fix
-import "./game";
-// import "./js/PIXI/pixiSetup";
-// import "./js/keybinds";
 
-// import "./js/features/playtime";
-import "./features/mass";
-import "./features/chronos";
-import "./features/genesis";
-import "./PIXI/player";
+import "./css/index.css";
+import "./css/loading.css";
 
-import "./ui/uiLayer";
-import "./ui/story";
+// import "./game";
+// // import "./PIXI/pixiSetup";
+// // import "./keybinds";
 
-/*
+// // import "./features/playtime";
+// import "./features/mass";
+// import "./features/chronos";
+// import "./features/genesis";
+// import "./PIXI/player";
+
+// import "./ui/uiLayer";
+// import "./ui/story";
+
+
 const scripts = [
-    // @ts-ignore
-    async () => import("./js/game"),
-    // @ts-ignore
-    async () => import("./js/features/mass"), // Fix later
-    // @ts-ignore
-    async () => import("./js/features/chronos"),
-    // @ts-ignore
-    async () => import("./js/features/genesis"),
-    // @ts-ignore
-    async () => import("./js/PIXI/player"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./game"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./features/mass"), // Fix later
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./features/chronos"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./features/genesis"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./PIXI/player"),
 
-    // @ts-ignore
-    async () => import("./js/ui/uiLayer"),
-    // @ts-ignore
-    async () => import("./js/ui/story"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./ui/uiLayer"),
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./ui/story"),
+
+    // Import loading last
+    // @ts-expect-error - Path resolution wrong
+    async () => import("./loading"),
 ];
 
 const stylesheets = [
@@ -48,7 +60,10 @@ const stylesheets = [
 let scriptsRun = 0;
 let stylesheetsRun = 0;
 
-const loadAssets = async () => {
+/**
+ * Load all assets
+ */
+async function loadAssets () {
     const loadingProgress = document.getElementsByClassName("loading-progress")[0];
     const loadingText = document.getElementsByClassName("loading-text")[0];
     const loadingStart = Date.now();
@@ -65,7 +80,6 @@ const loadAssets = async () => {
             console.time(scriptName);
             console.group(`${scriptName}`);
             await scripts[x]()
-                // eslint-disable-next-line no-loop-func
                 .then(() => {
                     console.log(`${Date.now()} | Script ${scriptName} has run`);
                     scriptsRun++;
@@ -79,33 +93,32 @@ const loadAssets = async () => {
     }
 
     // Load Stylesheets
-    for (let y = 0; y < stylesheets.length; y++) {
-        // setStylesheetsRun(y + 1);
-        const ssName = stylesheets[y].toString().match(/("|'|`).*?("|'|`)/)?.[0].replace(/("|'|`)/g, "").replace(/_/g, "/");
-        if (ssName) {
-            loadingProgress.innerHTML = `${stylesheetsRun}/${stylesheets.length}`;
-            loadingText.innerHTML = `Loading: ${ssName}`;
-            console.time(ssName);
-            console.group(`${ssName}`);
-            await stylesheets[y]()
-                // eslint-disable-next-line no-loop-func
-                .then(() => {
-                    console.log(`${Date.now()} | Stylesheet ${ssName} has run`);
-                    stylesheetsRun++;
-                })
-                .catch((error) => {
-                    console.error(`${Date.now()} | Failed to run Stylesheet ${ssName}:`, error);
-                });
-            console.timeEnd(ssName);
-            console.groupEnd();
-        }
-    }
+    // for (let y = 0; y < stylesheets.length; y++) {
+    //     // setStylesheetsRun(y + 1);
+    //     const ssName = stylesheets[y].toString().match(/("|'|`).*?("|'|`)/)?.[0].replace(/("|'|`)/g, "").replace(/_/g, "/");
+    //     if (ssName) {
+    //         loadingProgress.innerHTML = `${stylesheetsRun}/${stylesheets.length}`;
+    //         loadingText.innerHTML = `Loading: ${ssName}`;
+    //         console.time(ssName);
+    //         console.group(`${ssName}`);
+    //         await stylesheets[y]()
+    //             // eslint-disable-next-line no-loop-func
+    //             .then(() => {
+    //                 console.log(`${Date.now()} | Stylesheet ${ssName} has run`);
+    //                 stylesheetsRun++;
+    //             })
+    //             .catch((error) => {
+    //                 console.error(`${Date.now()} | Failed to run Stylesheet ${ssName}:`, error);
+    //             });
+    //         console.timeEnd(ssName);
+    //         console.groupEnd();
+    //     }
+    // }
     console.timeEnd("Loading Ended");
     console.groupEnd();
     const loadingScreen = document.querySelector(".loading-screen");
     if (loadingScreen) {
         document.body.removeChild(loadingScreen);
     }
-};
+}
 loadAssets();
-*/

@@ -1,20 +1,26 @@
 /**
  * @file Genesis feature, the first reset layer
  */
-import { E, boostsObjectInit, upgradeInit } from "emath.js";
+import { E, boostsObjectInit, UpgradeInit } from "emath.js";
 import Game from "../game";
-import { quarks } from "./mass";
+import { SCurrency } from "./singularity";
+import { quarks, quarksStatic } from "./mass";
 
-const genesis = Game.addCurrency("genesis");
+// const genesis = Game.addCurrency("genesis");
+/**
+ * Genesis currency (layer 1)
+ */
+const genesis = new SCurrency("genesis");
+const genesisStatic = genesis.currency.static;
 
-genesis.static.addUpgrade([
+genesisStatic.addUpgrade([
     {
         id: "valueUpg1Genesis",
         name: "Quarks Value",
         cost: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
         effect: function (level: E) {
-            quarks.static.boost.setBoost(
+            quarksStatic.boost.setBoost(
                 "valueUpg1Genesis",
                 "Quarks Value - Genesis",
                 "Quarks Value - Genesis",
@@ -23,23 +29,23 @@ genesis.static.addUpgrade([
             );
         },
     },
-] as upgradeInit[]);
+] as UpgradeInit[]);
 
-const genesisReset = Game.addReset(quarks);
+const genesisReset = Game.addReset(quarks.currency);
 
 /**
  * Genesis pulse, the first reset
  * TODO: Make a formula, add conditions
  */
 function genesisPulse () {
-    genesis.static.boost.setBoost({
+    genesisStatic.boost.setBoost({
         id: "genesisBase",
         name: "Base",
         description: "Base boost",
-        value: n => E(n).add(1), // TODO: Make a formula for this
+        value: n => E(n).add(quarks.currency.value.pow(0.75).div(100)), // TODO: Make a formula for this
         order: 1,
     } as boostsObjectInit);
-    genesis.static.gain();
+    genesisStatic.gain();
     genesisReset.reset(); // Resets quarks
 }
 

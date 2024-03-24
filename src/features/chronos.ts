@@ -1,7 +1,7 @@
 /**
  * @file Chronos (time) currency and related functions
  */
-import { E } from "emath.js";
+import { E, ESource } from "emath.js";
 import Game from "../game";
 
 const { app } = Game.PIXI;
@@ -44,7 +44,7 @@ app.ticker.add(function (dt: number) {
  * Warps the time in the game.
  * @param t - The time to warp.
  */
-function timewarp (t: number | string | E) {
+function timewarp (t: ESource) {
     // Game["data"].playtime.timewarp = E(t);
 }
 
