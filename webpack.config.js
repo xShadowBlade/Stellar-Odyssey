@@ -69,9 +69,6 @@ module.exports = (env, argv) => {
             minimizer: [
                 new EsbuildPlugin({
                     target: "es2015", // Syntax to transpile to (see options below for possible values)
-                    // loader: "tsx", // Specify the loader for TypeScript files
-                    // minify: true, // Enable minification
-                    // format: "esm", // Generate ES modules (ESM)
                 }),
                 new CssMinimizerPlugin(),
             ],
@@ -84,12 +81,6 @@ module.exports = (env, argv) => {
                 // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
                 MODE: JSON.stringify(mode),
             }),
-            // new EsbuildPlugin({
-            //     define: {
-            //         // "%PUBLIC_URL%": JSON.stringify(mode === "production" ? "../public/" : "./"),
-            //         MODE: `"${mode}"`,
-            //     },
-            // }),
             new HtmlReplaceWebpackPlugin([
                 {
                     pattern: "%PUBLIC_URL%",

@@ -34,11 +34,11 @@ const scripts = [
     // @ts-expect-error - Path resolution wrong
     async () => import("./game"),
     // @ts-expect-error - Path resolution wrong
-    async () => import("./features/mass"), // Fix later
+    async () => import("./features/quarks"), // Fix later
     // @ts-expect-error - Path resolution wrong
     async () => import("./features/chronos"),
     // @ts-expect-error - Path resolution wrong
-    async () => import("./features/genesis"),
+    async () => import("./features/atom"),
     // @ts-expect-error - Path resolution wrong
     async () => import("./PIXI/player"),
 

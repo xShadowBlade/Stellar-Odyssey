@@ -1,19 +1,19 @@
 /**
  * @file Genesis feature, the first reset layer
  */
-import { E, boostsObjectInit, UpgradeInit } from "emath.js";
+import { E, BoostsObjectInit, UpgradeInit } from "emath.js";
 import Game from "../game";
 import { SCurrency } from "./singularity";
-import { quarks, quarksStatic } from "./mass";
+import { quarks, quarksStatic, mass } from "./quarks";
 
 // const genesis = Game.addCurrency("genesis");
 /**
- * Genesis currency (layer 1)
+ * Atoms currency (layer 1)
  */
-const genesis = new SCurrency("genesis");
-const genesisStatic = genesis.currency.static;
+const atoms = new SCurrency("atoms");
+const atomsStatic = atoms.currency.static;
 
-genesisStatic.addUpgrade([
+atomsStatic.addUpgrade([
     {
         id: "valueUpg1Genesis",
         name: "Quarks Value",
@@ -34,19 +34,21 @@ genesisStatic.addUpgrade([
 const genesisReset = Game.addReset(quarks.currency);
 
 /**
- * Genesis pulse, the first reset
+ * Genesis pulse, the first reset.
+ * Requires: Mass level 25 (~18e3 quarks)
  * TODO: Make a formula, add conditions
  */
 function genesisPulse () {
-    genesisStatic.boost.setBoost({
+    if (mass.level.current.lt(25)) return;
+    atomsStatic.boost.setBoost({
         id: "genesisBase",
         name: "Base",
         description: "Base boost",
         value: n => E(n).add(quarks.currency.value.pow(0.75).div(100)), // TODO: Make a formula for this
         order: 1,
-    } as boostsObjectInit);
-    genesisStatic.gain();
+    } as BoostsObjectInit);
+    atomsStatic.gain();
     genesisReset.reset(); // Resets quarks
 }
 
-export { genesis, genesisPulse };
+export { atoms, genesisPulse };
