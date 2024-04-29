@@ -17,9 +17,9 @@ atomsStatic.addUpgrade([
     {
         id: "valueUpg1Genesis",
         name: "Quarks Value",
-        cost: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
-        effect: function (level: E) {
+        effect: function (level: E): void {
             quarksStatic.boost.setBoost(
                 "valueUpg1Genesis",
                 "Quarks Value - Genesis",
@@ -38,7 +38,7 @@ const genesisReset = Game.addReset(quarks.currency);
  * Requires: Mass level 25 (~18e3 quarks)
  * TODO: Make a formula, add conditions
  */
-function genesisPulse () {
+function genesisPulse (): void {
     if (mass.level.current.lt(25)) return;
     atomsStatic.boost.setBoost({
         id: "genesisBase",

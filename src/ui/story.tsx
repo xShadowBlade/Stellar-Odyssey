@@ -14,7 +14,7 @@ import { uiLayer } from "./uiLayer";
 /**
  * @returns React component for the popup modal
  */
-const StoryPopup = ({ title, children }: { title: string, children: React.ReactNode, }) => {
+const StoryPopup = ({ title, children }: { title: string; children: React.ReactNode }): React.JSX.Element | undefined => {
     // const { title, children } = props;
     const [show, setShow] = useState(true);
 
@@ -22,7 +22,7 @@ const StoryPopup = ({ title, children }: { title: string, children: React.ReactN
         <Modal
             // {...props}
             show={show}
-            onHide={() => setShow(false)}
+            onHide={() => { setShow(false); }}
             size="lg"
             // aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -38,7 +38,7 @@ const StoryPopup = ({ title, children }: { title: string, children: React.ReactN
             </Modal.Body>
             <Modal.Footer>
                 <Button
-                    onClick={() => setShow(false)}
+                    onClick={() => { setShow(false); }}
                 >Close</Button>
             </Modal.Footer>
         </Modal>
@@ -90,7 +90,7 @@ const story: IStory[] = [
  * Show a story popup
  * @param id The id of the story to show
  */
-function showStory (id: string) {
+function showStory (id: string): void {
     const selectedStory = story.find((s) => s.id === id);
     if (selectedStory) {
         console.log(`Showing story \`${id}\``);
@@ -105,6 +105,6 @@ function showStory (id: string) {
 }
 
 // Debug
-(window as any).showStory = showStory;
+(window as typeof window & { showStory: typeof showStory }).showStory = showStory;
 
 export { showStory };

@@ -15,7 +15,7 @@ const singularity = Game.addCurrency("singularity");
 /** The boost(s) from singularity */
 const singularityBoost = {
     /** @returns The value of the multiplier boost */
-    get multi () {
+    get multi (): E {
         const val = singularity.value;
         // console.log("Singularity value", val.toString());
         // return singularity.value.pow(2);
@@ -27,7 +27,7 @@ const singularityBoost = {
 };
 
 const gravitionalCollapse = Game.addReset(singularity); // TODO: add extenders (singularity is not actually reset)
-gravitionalCollapse.onReset = () => {
+gravitionalCollapse.onReset = (): void => {
     console.log("Singularity reset");
     singularity.static.gain();
 };

@@ -1,19 +1,23 @@
-/**
- * @file ESLint configuration file.
- */
-
-// eslint-disable-next-line
-const fs = require("fs");
-
-/**
- * @type {import("eslint").Linter.Config.rules}
- */
-let rules = {};
-// Check if rules file exists
-if (fs.existsSync("../../template-defaults/eslintrules.json")) {
-    rules = require("../../template-defaults/eslintrules.json");
-} else {
-    rules = {
+{
+    "extends": [
+        "eslint:recommended",
+        "prettier",
+        "plugin:jsdoc/recommended-typescript",
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked"
+    ],
+    "env": {
+        "node": true,
+        "browser": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest",
+        "project": "./tsconfig.json"
+    },
+    "parser": "@typescript-eslint/parser",
+    "rules": {
         "arrow-spacing": ["warn", { "before": true, "after": true }],
         "comma-dangle": ["warn", "always-multiline"],
         "comma-spacing": "warn",
@@ -50,34 +54,12 @@ if (fs.existsSync("../../template-defaults/eslintrules.json")) {
         "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/ban-ts-comment": "warn",
+        "@typescript-eslint/member-delimiter-style": "warn",
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/restrict-template-expressions": ["warn", { "allowNumber": true, "allowBoolean": true }],
 
         "jsdoc/require-param-type": "off",
         "jsdoc/require-returns-type": "off",
-        "jsdoc/require-file-overview": 1,
-    };
+        "jsdoc/require-file-overview": 1
+    }
 }
-
-/**
- * @type {import("eslint").Linter.Config}
- */
-const options = {
-    "extends": [
-        "eslint:recommended",
-        "prettier",
-        "plugin:react/recommended",
-        "plugin:jsdoc/recommended-typescript",
-        "plugin:@typescript-eslint/recommended",
-    ],
-    "env": {
-        "node": true,
-        "browser": true,
-        "es6": true,
-    },
-    "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": "latest",
-    },
-    "parser": "@typescript-eslint/parser",
-    "rules": rules,
-};
-module.exports = options;

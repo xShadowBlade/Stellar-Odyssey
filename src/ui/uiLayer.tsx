@@ -11,6 +11,6 @@ import { createRoot } from "react-dom/client";
 
 // document.getElementById("root")?.appendChild(uiElement);
 
-const uiLayer = createRoot(document.getElementById("ui") as HTMLElement);
+const uiLayer = createRoot(document.getElementById("ui") ?? document.createElement("div"));
 
 export { uiLayer };

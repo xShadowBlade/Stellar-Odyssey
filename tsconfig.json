@@ -4,7 +4,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
 		"allowJs": true,
-		"target": "ES5",
+		"target": "ES2017",
 		"module": "NodeNext",
 		"strict": true, // change later
 		"lib": ["ESNext", "dom"],

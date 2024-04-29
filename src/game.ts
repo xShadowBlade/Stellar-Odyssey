@@ -16,7 +16,7 @@ document.getElementById("game")?.appendChild(pixiApp.view);
  * Game instance.
  */
 const Game = new PixiGame({
-    mode: (() => {
+    mode: ((): "development" | "production" => {
         try {
             // @ts-expect-error - MODE is replaced by webpack, as type: "development" | "production"
             return MODE as "development" | "production";
@@ -40,11 +40,11 @@ const Game = new PixiGame({
 // console.log(Game);
 
 if (Game.config.mode === "development") {
-    (window as typeof window & { Game: typeof Game })["Game"] = Game;
+    (window as typeof window & { Game: typeof Game }).Game = Game;
     // (window as any).eMath = await import("emath.js");
-    (async () => {
+    void (async (): Promise<void> => {
         const eMath = await import("emath.js");
-        (window as typeof window & { eMath: typeof eMath })["eMath"] = eMath;
+        (window as typeof window & { eMath: typeof eMath }).eMath = eMath;
     })();
 }
 

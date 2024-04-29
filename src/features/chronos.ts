@@ -44,7 +44,7 @@ app.ticker.add(function (dt: number) {
  * Warps the time in the game.
  * @param t - The time to warp.
  */
-function timewarp (t: ESource) {
+function timewarp (t: ESource): void {
     // Game["data"].playtime.timewarp = E(t);
 }
 

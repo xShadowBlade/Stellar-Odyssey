@@ -8,11 +8,12 @@ import * as PIXI from "pixi.js";
 import { GlowFilter } from "pixi-filters";
 import { E, ESource } from "emath.js";
 import Game from "../game";
+import { GameSprite } from "emath.js/pixiGame";
 
 const { app } = Game.PIXI;
 // Camera properties
 const player = {
-    sprite: (() => {
+    sprite: ((): GameSprite => {
         // Create the circle sprite
         const circle = new PIXI.Graphics();
         circle.lineStyle(2, 0xFFFFFF); // Set line color and thickness
@@ -53,17 +54,41 @@ const player = {
     state: ["idle"] as [string, ...any[]],
 };
 Game.keyManager.addKey([
-    { name: "Move Up", key: "w", onDownContinuous: () => player.velocity.y -= player.acceleration },
-    { name: "Move Left", key: "a", onDownContinuous: () => player.velocity.x -= player.acceleration },
-    { name: "Move Down", key: "s", onDownContinuous: () => player.velocity.y += player.acceleration },
-    { name: "Move Right", key: "d", onDownContinuous: () => player.velocity.x += player.acceleration },
+    {
+        name: "Move Up",
+        key: "w",
+        onDownContinuous: (): void => {
+            player.velocity.y -= player.acceleration;
+        },
+    },
+    {
+        name: "Move Left",
+        key: "a",
+        onDownContinuous: (): void => {
+            player.velocity.x -= player.acceleration;
+        },
+    },
+    {
+        name: "Move Down",
+        key: "s",
+        onDownContinuous: (): void => {
+            player.velocity.y += player.acceleration;
+        },
+    },
+    {
+        name: "Move Right",
+        key: "d",
+        onDownContinuous: (): void => {
+            player.velocity.x += player.acceleration;
+        },
+    },
 ]);
 
 /**
  * Updates the camera position based on the player's position using smooth damping.
  * @param dt - The time delta between frames.
  */
-function updateCamera (dt: ESource) {
+function updateCamera (dt: ESource): void {
     Game.PIXI.camera.x = E.smoothDamp(Game.PIXI.camera.x, player.position.x, player.smoothDamp, dt).toNumber();
     Game.PIXI.camera.y = E.smoothDamp(Game.PIXI.camera.y, player.position.y, player.smoothDamp, dt).toNumber();
 }
@@ -81,7 +106,7 @@ app.ticker.add((dt: number) => {
 
     switch (player.state[0]) {
     case "lockedToMass": {
-        const particle = player.state[1];
+        const particle = player.state[1] as GameSprite;
         player.position.x = player.sprite.x = E.smoothDamp(player.sprite.x, particle.x, player.smoothDamp, dt).toNumber();
         player.position.y = player.sprite.y = E.smoothDamp(player.sprite.y, particle.y, player.smoothDamp, dt).toNumber();
         Game.PIXI.camera.x = player.sprite.x - app.screen.width / 2;

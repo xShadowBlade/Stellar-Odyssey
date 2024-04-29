@@ -24,14 +24,14 @@ quarksStatic.addUpgrade([
         id: "upg1Quarks",
         name: "Value",
         // cost: E(5),
-        cost: n => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
-        effect: function (level: E) {
+        effect: function (level: E): void {
             quarksStatic.boost.setBoost({
                 id: "upg1Quarks",
                 name: "Quarks Value - Quarks",
                 description: "Quarks Value - Quarks",
-                value: n => E(n).mul(E.floor(E.mul(0.5, level).mul(E.ln(level)).add(level))),
+                value: (n): E => E(n).mul(E.floor(E.mul(0.5, level).mul(E.ln(level)).add(level))),
                 order: 2,
             });
         },
@@ -40,14 +40,14 @@ quarksStatic.addUpgrade([
         id: "upg2Quarks",
         name: "Capacity",
         // cost: E(25),
-        cost: n => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: (n): E => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(100),
-        effect: function (level: E) {
-            maxParticles.static.boost?.setBoost({
+        effect: function (level: E): void {
+            maxParticles.static.boost.setBoost({
                 id: "upg2Quarks",
                 name: "Quarks Capacity - Quarks",
                 description: "Quarks Capacity - Quarks",
-                value: n => E(n).add(level.sub(1).mul(2)),
+                value: (n): E => E(n).add(level.sub(1).mul(2)),
                 order: 1,
             });
         },
@@ -56,14 +56,14 @@ quarksStatic.addUpgrade([
         id: "upg3Quarks",
         name: "Regeneration",
         // cost: E(100),
-        cost: n => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: (n): E => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(30),
-        effect: function (level: E) {
+        effect: function (level: E): void {
             regenRate.static.boost.setBoost({
                 id: "upg3Quarks",
                 name: "Quarks Regeneration - Quarks",
                 description: "Quarks Regeneration - Quarks",
-                value: n => E(n).add(2).add(level.mul(0.5)),
+                value: (n): E => E(n).add(2).add(level.mul(0.5)),
                 order: 1,
             });
         },
@@ -72,9 +72,9 @@ quarksStatic.addUpgrade([
         id: "upg4Quarks",
         name: "Speed",
         // cost: E(1000),
-        cost: n => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
+        cost: (n): E => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
         maxLevel: E(5),
-        effect: function (level: E) {
+        effect: function (level: E): void {
             // Placeholder
         },
     },
@@ -87,10 +87,10 @@ const mass = {
     /**
      * @returns - the current level, progress to next level, and the requirement for the next level
      */
-    get level () {
+    get level (): { current: E; nextRequirement: E } {
         const V = quarksStatic.value;
         // If n >= 1000 it is 1.35^(n^2 / 1000) * 10 otherwise it is 1.35^n * 10
-        const levelRequirementFormula = (n: E) => E.pow(1.35, E.scale(n, 1e3, 2, 0)).mul(10).ceil();
+        const levelRequirementFormula = (n: E): E => E.pow(1.35, E.scale(n, 1e3, 2, 0)).mul(10).ceil();
         // Create a formula that finds the max level such that V < levelRequirementFormula(level)
         const level = V.lt(levelRequirementFormula(E(1))) ? E(0) :
             V.lt(levelRequirementFormula(E(1000))) ?
@@ -105,7 +105,7 @@ const mass = {
         };
     },
 };
-(window as any).mass = mass;
+(window as typeof window & { mass: typeof mass }).mass = mass;
 
 /**
  * Spawn a mass particle
