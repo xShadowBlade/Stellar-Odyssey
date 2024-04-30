@@ -20,10 +20,12 @@ import "./game";
 import "./features/quarks";
 import "./features/chronos";
 import "./features/atom";
-import "./PIXI/player";
+// import "./PIXI/player";
 import "./ui/uiLayer";
 import "./ui/story";
 import "./loading";
+
+import "./demo";
 
 // import "./game";
 

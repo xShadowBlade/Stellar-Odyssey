@@ -3,9 +3,9 @@
  */
 import { E, UpgradeInit } from "emath.js";
 import Game from "../game";
-import { SCurrency } from "./singularity";
-import { player } from "../PIXI/player";
-import { massParticles, spawnStaticCircles } from "../PIXI/massParticles";
+import { SCurrency, defaultBoostObject } from "../lib/singularity";
+// import { player } from "../PIXI/player";
+// import { massParticles, spawnStaticCircles } from "../PIXI/massParticles";
 
 // const quarks = Game.addCurrency("quarks");
 /**
@@ -23,6 +23,10 @@ quarksStatic.addUpgrade([
     {
         id: "upg1Quarks",
         name: "Value",
+        get description (): string {
+            const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("upg1Quarks")[0] ?? defaultBoostObject).value(E(1)));
+            return `Quarks Value - Multiplies the value of quarks by ${effect}`;
+        },
         // cost: E(5),
         cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
@@ -36,48 +40,48 @@ quarksStatic.addUpgrade([
             });
         },
     },
-    {
-        id: "upg2Quarks",
-        name: "Capacity",
-        // cost: E(25),
-        cost: (n): E => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
-        maxLevel: E(100),
-        effect: function (level: E): void {
-            maxParticles.static.boost.setBoost({
-                id: "upg2Quarks",
-                name: "Quarks Capacity - Quarks",
-                description: "Quarks Capacity - Quarks",
-                value: (n): E => E(n).add(level.sub(1).mul(2)),
-                order: 1,
-            });
-        },
-    },
-    {
-        id: "upg3Quarks",
-        name: "Regeneration",
-        // cost: E(100),
-        cost: (n): E => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
-        maxLevel: E(30),
-        effect: function (level: E): void {
-            regenRate.static.boost.setBoost({
-                id: "upg3Quarks",
-                name: "Quarks Regeneration - Quarks",
-                description: "Quarks Regeneration - Quarks",
-                value: (n): E => E(n).add(2).add(level.mul(0.5)),
-                order: 1,
-            });
-        },
-    },
-    {
-        id: "upg4Quarks",
-        name: "Speed",
-        // cost: E(1000),
-        cost: (n): E => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
-        maxLevel: E(5),
-        effect: function (level: E): void {
-            // Placeholder
-        },
-    },
+    // {
+    //     id: "upg2Quarks",
+    //     name: "Capacity",
+    //     description: "useless dont buy this",
+    //     cost: (n): E => E.pow(1.3, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+    //     maxLevel: E(100),
+    //     effect: function (level: E): void {
+    //         maxParticles.static.boost.setBoost({
+    //             id: "upg2Quarks",
+    //             name: "Quarks Capacity - Quarks",
+    //             description: "Quarks Capacity - Quarks",
+    //             value: (n): E => E(n).add(level.sub(1).mul(2)),
+    //             order: 1,
+    //         });
+    //     },
+    // },
+    // {
+    //     id: "upg3Quarks",
+    //     name: "Regeneration",
+    //     description: "useless dont buy this",
+    //     cost: (n): E => E.pow(1.5, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+    //     maxLevel: E(30),
+    //     effect: function (level: E): void {
+    //         regenRate.static.boost.setBoost({
+    //             id: "upg3Quarks",
+    //             name: "Quarks Regeneration - Quarks",
+    //             description: "Quarks Regeneration - Quarks",
+    //             value: (n): E => E(n).add(2).add(level.mul(0.5)),
+    //             order: 1,
+    //         });
+    //     },
+    // },
+    // {
+    //     id: "upg4Quarks",
+    //     name: "Speed",
+    //     description: "useless dont buy this",
+    //     cost: (n): E => E.pow(3, E.scale(E(n), 1e6, 2, 0)).mul(100).ceil(),
+    //     maxLevel: E(5),
+    //     effect: function (level: E): void {
+    //         // Placeholder
+    //     },
+    // },
 ] as UpgradeInit[]);
 
 // test
@@ -110,42 +114,43 @@ const mass = {
 /**
  * Spawn a mass particle
  */
-Game.eventManager.setEvent("Mass Spawn", "interval", E(1000).div(regenRate.value), () => {
-    if (maxParticles.value.gt(massParticles.length)) {
-        // console.log(maxParticles.value, massParticles.length);
-        spawnStaticCircles();
-    }
-});
+// Game.eventManager.setEvent("Mass Spawn", "interval", E(1000).div(regenRate.value), () => {
+//     if (maxParticles.value.gt(massParticles.length)) {
+//         // console.log(maxParticles.value, massParticles.length);
+//         spawnStaticCircles();
+//     }
+// });
 
 // When pressing the massCollect key, check if collides
 
-Game.keyManager.addKey({
-    name: "Collect Quarks",
-    key: " ",
-    onDownContinuous: () => {
-        if (player.state[0] === "idle") {
-            for (let i = 0; i < massParticles.length; i++) {
-                const particle = massParticles[i];
+// Game.keyManager.addKey({
+//     id: "collectQuarks",
+//     name: "Collect Quarks",
+//     key: " ",
+//     onDownContinuous: () => {
+//         if (player.state[0] === "idle") {
+//             for (let i = 0; i < massParticles.length; i++) {
+//                 const particle = massParticles[i];
 
-                // Check for collision between playerSprite and the current particle
-                if (player.sprite.collides(particle)) {
-                    // console.log(massParticles.length);
-                    // Collision detected
-                    player.state = ["lockedToMass", particle];
-                    Game.eventManager.setEvent("massCollect", "timeout", E(1000).div(absorbRate.value), function () {
-                        player.state = ["lockedToMassExit"];
-                        console.log("gainMass");
-                        // const index = massParticles.indexOf(particle);
-                        massParticles[i].remove();
-                        massParticles.splice(i, 1);
-                        quarksStatic.gain();
-                        console.log(quarksStatic.value.format());
-                    });
-                    break;
-                }
-            }
-        }
-    },
-});
+//                 // Check for collision between playerSprite and the current particle
+//                 if (player.sprite.collides(particle)) {
+//                     // console.log(massParticles.length);
+//                     // Collision detected
+//                     player.state = ["lockedToMass", particle];
+//                     Game.eventManager.setEvent("massCollect", "timeout", E(1000).div(absorbRate.value), function () {
+//                         player.state = ["lockedToMassExit"];
+//                         console.log("gainMass");
+//                         // const index = massParticles.indexOf(particle);
+//                         massParticles[i].remove();
+//                         massParticles.splice(i, 1);
+//                         quarksStatic.gain();
+//                         console.log(quarksStatic.value.format());
+//                     });
+//                     break;
+//                 }
+//             }
+//         }
+//     },
+// });
 
 export { quarks, regenRate, absorbRate, maxParticles, quarksStatic, mass };

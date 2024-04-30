@@ -2,20 +2,20 @@
  * @file Defines the main game module.
  */
 
-import { PixiGame } from "emath.js/pixiGame";
-import { Application } from "pixi.js";
+import { Game as GameClass } from "emath.js/game";
+// import { Application } from "pixi.js";
 
-const pixiApp = new Application({
-    resizeTo: window,
-    backgroundColor: 0x000000,
-});
-// @ts-expect-error - PIXI.Application.view is buggy
-document.getElementById("game")?.appendChild(pixiApp.view);
+// const pixiApp = new Application({
+//     resizeTo: window,
+//     backgroundColor: 0x000000,
+// });
+// // @ts-expect-error - PIXI.Application.view is buggy
+// document.getElementById("game")?.appendChild(pixiApp.view);
 
 /**
  * Game instance.
  */
-const Game = new PixiGame({
+const Game = new GameClass({
     mode: ((): "development" | "production" => {
         try {
             // @ts-expect-error - MODE is replaced by webpack, as type: "development" | "production"
@@ -32,9 +32,9 @@ const Game = new PixiGame({
     settings: {
         framerate: 30,
     },
-    pixi: {
-        app: pixiApp,
-    },
+    // pixi: {
+    //     app: pixiApp,
+    // },
 });
 
 // console.log(Game);

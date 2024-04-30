@@ -4,7 +4,7 @@
 import { E, ESource } from "emath.js";
 import Game from "../game";
 
-const { app } = Game.PIXI;
+// const { app } = Game.PIXI;
 
 // Playtime
 /**
@@ -28,10 +28,11 @@ const passive = Game.addCurrency("passive");
  */
 const chronos = Game.addCurrency("chronos");
 
-app.ticker.add(function (dt: number) {
+// app.ticker.add(function (dt: number) {
+Game.eventManager.setEvent("chronos", "interval", 0, (dt: number) => {
     // dt is mul of deviation (ex. 1.02 is 1.02 times fps) so we need to convert it to ms
     // !Note: "This does not factor in the value of PIXI.Ticker#speed , which is specific to scaling PIXI.Ticker#deltaTime."
-    dt *= (1000 / app.ticker.FPS) * 1000; // convert to ms (mul by 1000)
+    dt *= (1000 / (Game.eventManager.config.fps ?? 30)) * 1000; // convert to ms (mul by 1000)
     // console.log(dt);
     tActive.static.gain(dt);
     tPassive.static.gain(dt);

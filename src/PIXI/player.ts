@@ -55,6 +55,7 @@ const player = {
 };
 Game.keyManager.addKey([
     {
+        id: "moveUp",
         name: "Move Up",
         key: "w",
         onDownContinuous: (): void => {
@@ -62,6 +63,7 @@ Game.keyManager.addKey([
         },
     },
     {
+        id: "moveLeft",
         name: "Move Left",
         key: "a",
         onDownContinuous: (): void => {
@@ -69,6 +71,7 @@ Game.keyManager.addKey([
         },
     },
     {
+        id: "moveDown",
         name: "Move Down",
         key: "s",
         onDownContinuous: (): void => {
@@ -76,6 +79,7 @@ Game.keyManager.addKey([
         },
     },
     {
+        id: "moveRight",
         name: "Move Right",
         key: "d",
         onDownContinuous: (): void => {

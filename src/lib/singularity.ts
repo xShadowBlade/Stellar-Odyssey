@@ -1,7 +1,7 @@
 /**
  * @file Singularity / loop currency (at the very end) and related functions
  */
-import { E, BoostsObjectInit } from "emath.js";
+import { E, BoostsObjectInit, BoostObject } from "emath.js";
 import { GameCurrency } from "emath.js/game";
 import Game from "../game";
 
@@ -82,4 +82,14 @@ class SCurrency<U extends string[] = string[], N extends string = string> {
     }
 }
 
-export { SCurrency, singularity, singularityBoost };
+const defaultBoostObject: BoostObject = {
+    id: "defaultBoost",
+    name: "Default Boost",
+    description: "Default Boost",
+    descriptionFn: () => "Default Boost",
+    desc: "Default Boost",
+    value: (n: E): E => n,
+    order: 1,
+};
+
+export { SCurrency, singularity, singularityBoost, defaultBoostObject };
