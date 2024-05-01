@@ -12,7 +12,13 @@ import { SCurrency, defaultBoostObject } from "../lib/singularity";
  * Quarks currency (layer 0)
  */
 // const quarks = new SCurrency<`upg${number}Quarks`[]>("quarks");
-const quarks = new SCurrency("quarks");
+const quarks = new SCurrency("quarks", {
+    display: {
+        name: "Quarks",
+        description: "The base currency",
+        plural: "quarks",
+    },
+});
 const quarksStatic = quarks.currency.static;
 
 const regenRate = Game.addAttribute("regenRate", true, 1);

@@ -7,10 +7,54 @@ import { SCurrency, defaultBoostObject } from "../lib/singularity";
 import { quarks, quarksStatic, mass } from "./quarks";
 
 // const genesis = Game.addCurrency("genesis");
+const cosmicCell = new SCurrency("cosmicCell", {
+    ticker: true,
+    display: {
+        name: "Cosmic Cells",
+        description: "Accumulated energy from the cosmos",
+        plural: "cosmic cells",
+    },
+});
+const cosmicCellStatic = cosmicCell.currency.static;
+
+// const cosmicCellIsUnlocked = Game.dataManager.setData("cosmicCellIsUnlocked", false);
+
+cosmicCellStatic.boost.setBoost({
+    id: "isUnlocked",
+    name: "Unlock",
+    value: (): E => atomsStatic.getUpgrade("unlockCosmicCell")?.level.eq(2) ? E(1) : E(0),
+    order: 0,
+});
+
+cosmicCellStatic.addUpgrade([
+    {
+        id: "unlockQuarksBoost",
+        name: "Unlock Quarks Boost",
+        get description (): string {
+            const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("cosmicCellBoost")[0] ?? defaultBoostObject).value(E(1)));
+            return `Cosmic Cell - Multiplies the value of quarks by ${effect}`;
+        },
+        cost: (n): E => n.eq(1) ? E(10) : E.dInf,
+    },
+]);
+
+quarksStatic.boost.setBoost({
+    id: "cosmicCellBoost",
+    name: "Cosmic Cell",
+    value: n => cosmicCellStatic.getUpgrade("unlockQuarksBoost")?.level.eq(2) ? n.mul(cosmicCell.currency.value.add(1).ln().pow(0.85)) : n,
+    order: 3,
+});
+
 /**
  * Atoms currency (layer 1)
  */
-const atoms = new SCurrency("atoms");
+const atoms = new SCurrency("atoms", {
+    display: {
+        name: "Atoms",
+        description: "The first reset layer",
+        plural: "atoms",
+    },
+});
 const atomsStatic = atoms.currency.static;
 
 atomsStatic.boost.setBoost({
@@ -41,6 +85,16 @@ atomsStatic.addUpgrade([
             );
         },
     },
+    {
+        id: "unlockCosmicCell",
+        name: "Cosmic Cell",
+        description: "Unlocks the cosmic cell currency",
+        cost: (n): E => n.eq(1) ? E(1e3) : E.dInf,
+        // effect: function (level): void {
+        //     // cosmicCellIsUnlocked.setValue(true);
+        //     if (level.eq(2)) cosmicCellIsUnlocked.setValue(true);
+        // },
+    },
 ] as UpgradeInit[]);
 
 const genesisReset = Game.addReset(quarks.currency);
@@ -56,4 +110,4 @@ function genesisPulse (): void {
     genesisReset.reset(); // Resets quarks
 }
 
-export { atoms, genesisPulse };
+export { atoms, genesisPulse, cosmicCell, cosmicCellIsUnlocked };

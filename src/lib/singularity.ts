@@ -2,7 +2,8 @@
  * @file Singularity / loop currency (at the very end) and related functions
  */
 import { E, BoostsObjectInit, BoostObject } from "emath.js";
-import { GameCurrency } from "emath.js/game";
+import { GameCurrency, ConfigManager } from "emath.js/game";
+import { RequiredDeep } from "emath.js/game";
 import Game from "../game";
 
 /**
@@ -50,35 +51,58 @@ interface SCurrencySettings {
     useDefaultBoosts?: boolean;
     /** Whether to have the currency gain in the ticker */
     ticker?: boolean;
+    display?: {
+        /** The name of the currency, for headers */
+        name?: string;
+        /** The description of the currency */
+        description?: string;
+        /** The name of the currency, for display in small text */
+        plural?: string;
+    };
 }
+
+const defaultSCurrencySettings: RequiredDeep<SCurrencySettings> = {
+    useDefaultBoosts: true,
+    ticker: false,
+    display: {
+        name: "Currency",
+        description: "Currency",
+        plural: "currencies",
+    },
+};
 
 /**
  * A currency that is affected by singularity and other default boosts
  */
 class SCurrency<U extends string[] = string[], N extends string = string> {
+    /** The config manager for the currency */
+    private static readonly configManager = new ConfigManager(defaultSCurrencySettings);
+
     /** The currencies */
-    public static currencies: SCurrency[] = [];
+    public static readonly currencies: SCurrency[] = [];
 
     /** The currency */
-    public currency: GameCurrency<N, U>;
+    public readonly currency: GameCurrency<N, U>;
 
     /** The settings for the currency */
-    public settings: SCurrencySettings;
+    public readonly config: typeof SCurrency.configManager.options;
 
     /**
      * Creates a new currency
      * @param name - The name of the currency
-     * @param settings - The settings for the currency. See {@link SCurrencySettings}
+     * @param config - The settings for the currency. See {@link SCurrencySettings}
      */
-    constructor (name: N, settings?: SCurrencySettings) {
+    constructor (name: N, config?: Partial<SCurrencySettings>) {
         this.currency = Game.addCurrency(name);
-        this.settings = Object.assign({}, settings, {
-            useDefaultBoosts: true,
-            ticker: false,
-        });
+        this.config = SCurrency.configManager.parse(config);
         SCurrency.currencies.push(this as SCurrency);
 
-        if (this.settings.useDefaultBoosts) this.currency.static.boost.setBoost(defaultBoosts);
+        if (this.config.useDefaultBoosts) this.currency.static.boost.setBoost(defaultBoosts);
+        if (this.config.ticker) {
+            Game.eventManager.setEvent(`ticker-${name}`, "interval", 0, (dt) => {
+                this.currency.static.gain(dt);
+            });
+        }
     }
 }
 

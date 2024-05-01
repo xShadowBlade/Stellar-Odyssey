@@ -7,13 +7,13 @@ import { E } from "emath.js";
 
 import Game from "./game";
 import { quarks, mass } from "./features/quarks";
-import { atoms, genesisPulse } from "./features/atom";
+import { atoms, genesisPulse, cosmicCell } from "./features/atom";
 import type { SCurrency } from "./lib/singularity";
 
 interface SCurrencyDisplayProps {
     currency: SCurrency;
     renderCount: number;
-    gainFn?: () => void;
+    gainFn?: false | (() => void);
 }
 
 /**
@@ -44,14 +44,14 @@ function SCurrencyDisplay (props: SCurrencyDisplayProps): JSX.Element {
                             <p>
                                 Level: {upgrade.level.format()}
                             </p>
-                            Next upgrade cost: {upgrade.cost(upgrade.level.add(upgCalc[0])).add(upgCalc[1]).format()} {currency.name}
+                            Next upgrade cost: {upgrade.cost(upgrade.level.add(upgCalc[0])).add(upgCalc[1]).format()} {props.currency.config.display.plural}
                             <br />
                             <button
                                 onClick={() => {
                                     currencyStatic.buyUpgrade(key);
                                 }}
                             >
-                                Buy {upgCalc[0].format()} Upgrades for {upgCalc[1].format()} {currency.name}
+                                Buy {upgCalc[0].format()} Upgrades for {upgCalc[1].format()} {props.currency.config.display.plural}
                             </button>
                         </div>
                         <br />
@@ -63,11 +63,14 @@ function SCurrencyDisplay (props: SCurrencyDisplayProps): JSX.Element {
 
     return (
         <div>
-            <h2>{currency.name}</h2>
+            <h2>{props.currency.config.display.name}</h2>
             <p>
-                {value.format()} ({E.formats.formatMult(currencyStatic.boost.calculate())})
+                {props.currency.config.display.description}
             </p>
-            <button onClick={() => { props.gainFn ? props.gainFn() : currencyStatic.gain(); }}>Gain</button>
+            <p>
+                {value.format()} {props.currency.config.ticker ? value.formatGain(currencyStatic.boost.calculate()) : `(${E.formats.formatMult(currencyStatic.boost.calculate())})`}
+            </p>
+            {props.gainFn !== false && <button onClick={() => { props.gainFn ? props.gainFn() : currencyStatic.gain(); }}>Gain</button>}
             <br />
             <br />
             {renderUpgrades()}
@@ -105,16 +108,24 @@ function GameApp (): JSX.Element {
             <h1>Stellar Odyssey</h1>
             Mass level: {mass.level.current.format()} (Req: {mass.level.nextRequirement.format()})
             <br />
+            <button onClick={() => { Game.dataManager.resetData(true); }}>Reset Data</button>
+            <br />
             <hr />
             <SCurrencyDisplay
                 renderCount={renderCount}
                 currency={quarks}
+                // gainFn={false}
             />
             <hr />
             <SCurrencyDisplay
                 renderCount={renderCount}
                 currency={atoms}
                 gainFn={genesisPulse}
+            />
+            <SCurrencyDisplay
+                renderCount={renderCount}
+                currency={cosmicCell}
+                gainFn={false}
             />
             <hr />
         </div>
