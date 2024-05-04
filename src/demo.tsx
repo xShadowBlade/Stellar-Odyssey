@@ -34,29 +34,27 @@ function SCurrencyDisplay (props: SCurrencyDisplayProps): JSX.Element {
         return (<>
             {upgradesEntries.map(([key, upgrade]) => {
                 const upgCalc = currencyStatic.calculateUpgrade(key);
-                return (
-                    <>
-                        <div key={key}>
-                            <h3>{upgrade.name}</h3>
-                            <p>
-                                {upgrade.description}
-                            </p>
-                            <p>
-                                Level: {upgrade.level.format()}
-                            </p>
-                            Next upgrade cost: {upgrade.cost(upgrade.level.add(upgCalc[0])).add(upgCalc[1]).format()} {props.currency.config.display.plural}
-                            <br />
-                            <button
-                                onClick={() => {
-                                    currencyStatic.buyUpgrade(key);
-                                }}
-                            >
-                                Buy {upgCalc[0].format()} Upgrades for {upgCalc[1].format()} {props.currency.config.display.plural}
-                            </button>
-                        </div>
+                return (<>
+                    <div key={key}>
+                        <h3>{upgrade.name}</h3>
+                        <p>
+                            {upgrade.description}
+                        </p>
+                        <p>
+                            Level: {upgrade.level.format()}
+                        </p>
+                        Next upgrade cost: {upgrade.cost(upgrade.level.add(upgCalc[0])).add(upgCalc[1]).format()} {props.currency.config.display.plural}
                         <br />
-                    </>
-                );
+                        <button
+                            onClick={() => {
+                                currencyStatic.buyUpgrade(key);
+                            }}
+                        >
+                            Buy {upgCalc[0].format()} Upgrades for {upgCalc[1].format()} {props.currency.config.display.plural}
+                        </button>
+                    </div>
+                    <br />
+                </>);
             })}
         </>);
     };

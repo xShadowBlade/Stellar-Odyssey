@@ -73,16 +73,16 @@ atomsStatic.addUpgrade([
             const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("valueUpg1Genesis")[0] ?? defaultBoostObject).value(E(1)));
             return `Quarks Value - Multiplies the value of quarks by ${effect}`;
         },
-        cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
+        cost: (n): E => E.pow(1.1, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
         effect: function (level: E): void {
-            quarksStatic.boost.setBoost(
-                "valueUpg1Genesis",
-                "Quarks Value - Genesis",
-                "Quarks Value - Genesis",
-                n => E(n).mul(E.floor(E.mul(0.5, level).mul(E.ln(level)).add(level))),
-                2,
-            );
+            quarksStatic.boost.setBoost({
+                id: "valueUpg1Genesis",
+                name: "Quarks Value - Genesis",
+                description: "Quarks Value - Genesis",
+                value: (n): E => n.mul(E.floor(level.mul(level.sqrt().add(1).mul(2)).add(level))),
+                order: 2,
+            });
         },
     },
     {
@@ -94,6 +94,42 @@ atomsStatic.addUpgrade([
         //     // cosmicCellIsUnlocked.setValue(true);
         //     if (level.eq(2)) cosmicCellIsUnlocked.setValue(true);
         // },
+    },
+    {
+        id: "quarksBoostSelf",
+        name: "Quarks Boost Themselves",
+        // description: "Quarks boost themselves",
+        get description (): string {
+            const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("quarksBoostSelf")[0] ?? defaultBoostObject).value(E(1)));
+            return `Quarks Boost - Multiplies the value of quarks by ${effect}`;
+        },
+        cost: (n): E => n.eq(1) ? E(1e5) : E.dInf,
+        effect: function (level): void {
+            quarksStatic.boost.setBoost({
+                id: "quarksBoostSelf",
+                name: "Quarks ^2",
+                value: n => level.eq(2) ? n.mul(quarksStatic.value.add(1).pow(0.2).add(1)) : n,
+                order: 2,
+            });
+        },
+    },
+    {
+        id: "powQuarks",
+        name: "Quarks Power",
+        get description (): string {
+            // const effect = this.level?.div(10).add(1).format();
+            const effect = atomsStatic.getUpgrade("powQuarks")?.level?.sub(1).div(10).add(1).format();
+            return `Quarks Power - Increases the value of quarks by ^${effect}`;
+        },
+        cost: (n): E => n.mul(5).pow(10),
+        effect: function (level): void {
+            quarksStatic.boost.setBoost({
+                id: "powQuarks",
+                name: "Quarks Power",
+                value: n => n.pow(level.sub(1).div(10).add(1)),
+                order: 3,
+            });
+        },
     },
 ] as UpgradeInit[]);
 
@@ -110,4 +146,4 @@ function genesisPulse (): void {
     genesisReset.reset(); // Resets quarks
 }
 
-export { atoms, genesisPulse, cosmicCell, cosmicCellIsUnlocked };
+export { atoms, genesisPulse, cosmicCell };
