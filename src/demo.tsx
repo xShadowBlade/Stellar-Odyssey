@@ -105,6 +105,7 @@ function GameApp (): JSX.Element {
             <hr />
             <h1>Stellar Odyssey</h1>
             Mass level: {mass.level.current.format()} (Req: {mass.level.nextRequirement.format()})
+            <p>This is just a test for gameplay. Complete overhaul coming soon.</p>
             <br />
             <button onClick={() => { Game.dataManager.resetData(true); }}>Reset Data</button>
             <br />

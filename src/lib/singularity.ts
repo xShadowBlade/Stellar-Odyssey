@@ -93,7 +93,7 @@ class SCurrency<U extends string[] = string[], N extends string = string> {
      * @param config - The settings for the currency. See {@link SCurrencySettings}
      */
     constructor (name: N, config?: Partial<SCurrencySettings>) {
-        this.currency = Game.addCurrency(name);
+        this.currency = Game.addCurrency<N, U>(name);
         this.config = SCurrency.configManager.parse(config);
         SCurrency.currencies.push(this as SCurrency);
 

@@ -108,7 +108,7 @@ atomsStatic.addUpgrade([
             quarksStatic.boost.setBoost({
                 id: "quarksBoostSelf",
                 name: "Quarks ^2",
-                value: n => level.eq(2) ? n.mul(quarksStatic.value.add(1).pow(0.2).add(1)) : n,
+                value: n => level.eq(2) ? n.mul(quarksStatic.value.add(1).ln().add(1)) : n,
                 order: 2,
             });
         },
@@ -118,7 +118,7 @@ atomsStatic.addUpgrade([
         name: "Quarks Power",
         get description (): string {
             // const effect = this.level?.div(10).add(1).format();
-            const effect = atomsStatic.getUpgrade("powQuarks")?.level?.sub(1).div(10).add(1).format();
+            const effect = atomsStatic.getUpgrade("powQuarks")?.level.sub(1).div(10).add(1).format();
             return `Quarks Power - Increases the value of quarks by ^${effect}`;
         },
         cost: (n): E => n.mul(5).pow(10),
