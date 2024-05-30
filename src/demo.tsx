@@ -3,7 +3,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { E } from "emath.js";
+import { E, UpgradeStatic } from "emath.js";
 
 import Game from "./game";
 import { quarks, mass } from "./features/quarks";
@@ -30,7 +30,7 @@ function SCurrencyDisplay (props: SCurrencyDisplayProps): JSX.Element {
     }, [props.renderCount]);
 
     const renderUpgrades = (): JSX.Element => {
-        const upgradesEntries = Object.entries(currencyStatic.upgrades);
+        const upgradesEntries = Object.entries(currencyStatic.upgrades) as unknown as [string, UpgradeStatic][];
         return (<>
             {upgradesEntries.map(([key, upgrade]) => {
                 const upgCalc = currencyStatic.calculateUpgrade(key);
