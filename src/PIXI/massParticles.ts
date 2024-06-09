@@ -5,7 +5,7 @@ import Game from "../game";
 
 import { Graphics } from "pixi.js";
 // import { E } from "emath.js";
-import { GameSprite } from "emath.js/pixiGame";
+import type { GameSprite } from "emath.js/pixiGame";
 
 const massParticles: GameSprite[] = [];
 

@@ -1,9 +1,11 @@
 /**
  * @file Singularity / loop currency (at the very end) and related functions
  */
-import { E, BoostsObjectInit, BoostObject } from "emath.js";
-import { GameCurrency, ConfigManager } from "emath.js/game";
-import { RequiredDeep } from "emath.js/game";
+import type { E, BoostObject } from "emath.js";
+import type { UpgradeInit, BoostsObjectInit } from "emath.js";
+import type { GameCurrency} from "emath.js/game";
+import { ConfigManager } from "emath.js/game";
+import type { RequiredDeep } from "emath.js/game";
 import Game from "../game";
 
 /**
@@ -74,7 +76,7 @@ const defaultSCurrencySettings: RequiredDeep<SCurrencySettings> = {
 /**
  * A currency that is affected by singularity and other default boosts
  */
-class SCurrency<U extends string[] = string[], N extends string = string> {
+class SCurrency<N extends string = string, U extends UpgradeInit[] = []> {
     /** The config manager for the currency */
     private static readonly configManager = new ConfigManager(defaultSCurrencySettings);
 
@@ -90,10 +92,11 @@ class SCurrency<U extends string[] = string[], N extends string = string> {
     /**
      * Creates a new currency
      * @param name - The name of the currency
+     * @param upgrades
      * @param config - The settings for the currency. See {@link SCurrencySettings}
      */
-    constructor (name: N, config?: Partial<SCurrencySettings>) {
-        this.currency = Game.addCurrency<N, U>(name);
+    constructor (name: N, upgrades?: U, config?: Partial<SCurrencySettings>) {
+        this.currency = Game.addCurrency<N, U>(name, upgrades);
         this.config = SCurrency.configManager.parse(config);
         SCurrency.currencies.push(this as SCurrency);
 

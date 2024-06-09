@@ -30,7 +30,7 @@ const Game = new GameClass({
         version: "0.1.0",
     },
     settings: {
-        framerate: 30,
+        framerate: 5,
     },
     // pixi: {
     //     app: pixiApp,
@@ -45,6 +45,9 @@ if (Game.config.mode === "development") {
     void (async (): Promise<void> => {
         const eMath = await import("emath.js");
         (window as typeof window & { eMath: typeof eMath }).eMath = eMath;
+
+        const eMathGame = await import("emath.js/game");
+        (window as typeof window & { eMathGame: typeof eMathGame }).eMathGame = eMathGame;
     })();
 }
 

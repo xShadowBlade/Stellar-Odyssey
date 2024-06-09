@@ -6,9 +6,10 @@
 // import { Stage, Sprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { GlowFilter } from "pixi-filters";
-import { E, ESource } from "emath.js";
+import type { ESource } from "emath.js";
+import { E } from "emath.js";
 import Game from "../game";
-import { GameSprite } from "emath.js/pixiGame";
+import type { GameSprite } from "emath.js/pixiGame";
 
 const { app } = Game.PIXI;
 // Camera properties
@@ -109,23 +110,23 @@ app.ticker.add((dt: number) => {
     player.velocity.y *= player.friction;
 
     switch (player.state[0]) {
-    case "lockedToMass": {
-        const particle = player.state[1] as GameSprite;
-        player.position.x = player.sprite.x = E.smoothDamp(player.sprite.x, particle.x, player.smoothDamp, dt).toNumber();
-        player.position.y = player.sprite.y = E.smoothDamp(player.sprite.y, particle.y, player.smoothDamp, dt).toNumber();
-        Game.PIXI.camera.x = player.sprite.x - app.screen.width / 2;
-        Game.PIXI.camera.y = player.sprite.y - app.screen.height / 2;
-    } break;
-    case "lockedToMassExit":
-        player.position.x -= app.screen.width / 2;
-        player.position.y -= app.screen.height / 2;
-        updateCamera(dt);
-        player.state = ["idle"];
-        break;
-    case "idle":
-    default:
-        updateCamera(dt);
-        break;
+        case "lockedToMass": {
+            const particle = player.state[1] as GameSprite;
+            player.position.x = player.sprite.x = E.smoothDamp(player.sprite.x, particle.x, player.smoothDamp, dt).toNumber();
+            player.position.y = player.sprite.y = E.smoothDamp(player.sprite.y, particle.y, player.smoothDamp, dt).toNumber();
+            Game.PIXI.camera.x = player.sprite.x - app.screen.width / 2;
+            Game.PIXI.camera.y = player.sprite.y - app.screen.height / 2;
+        } break;
+        case "lockedToMassExit":
+            player.position.x -= app.screen.width / 2;
+            player.position.y -= app.screen.height / 2;
+            updateCamera(dt);
+            player.state = ["idle"];
+            break;
+        case "idle":
+        default:
+            updateCamera(dt);
+            break;
     }
 });
 

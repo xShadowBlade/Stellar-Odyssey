@@ -1,7 +1,8 @@
 /**
  * @file Chronos (time) currency and related functions
  */
-import { E, ESource } from "emath.js";
+import type { ESource } from "emath.js";
+import { E } from "emath.js";
 import Game from "../game";
 
 // const { app } = Game.PIXI;

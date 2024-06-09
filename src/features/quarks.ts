@@ -1,43 +1,28 @@
 /**
  * @file Mass (quarks) currency and related functions
  */
-import { E, UpgradeInit } from "emath.js";
+import type { UpgradeInit } from "emath.js";
+import { E } from "emath.js";
 import Game from "../game";
 import { SCurrency, defaultBoostObject } from "../lib/singularity";
 // import { player } from "../PIXI/player";
 // import { massParticles, spawnStaticCircles } from "../PIXI/massParticles";
 
-// const quarks = Game.addCurrency("quarks");
-/**
- * Quarks currency (layer 0)
- */
-// const quarks = new SCurrency<`upg${number}Quarks`[]>("quarks");
-const quarks = new SCurrency("quarks", {
-    display: {
-        name: "Quarks",
-        description: "The base currency",
-        plural: "quarks",
-    },
-});
-const quarksStatic = quarks.currency.static;
-
-const regenRate = Game.addAttribute("regenRate", true, 1);
-const absorbRate = Game.addAttribute("absorbRate", true, 2);
-const maxParticles = Game.addAttribute("maxParticles", true, 5);
-
-quarksStatic.addUpgrade([
+const quarksUpgrades = [
     {
         id: "upg1Quarks",
         name: "Value",
         get description (): string {
-            const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("upg1Quarks")[0] ?? defaultBoostObject).value(E(1)));
-            return `Quarks Value - Multiplies the value of quarks by ${effect}`;
+            // const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("upg1Quarks")[0] ?? defaultBoostObject).value(E(1)));
+            // return `Quarks Value - Multiplies the value of quarks by ${effect}`;
+
+            return "TODO"
         },
         // cost: E(5),
         cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),
         maxLevel: E(1000),
-        effect: function (level: E): void {
-            quarksStatic.boost.setBoost({
+        effect: function (level, _, currency): void {
+            currency.boost.setBoost({
                 id: "upg1Quarks",
                 name: "Quarks Value - Quarks",
                 description: "Quarks Value - Quarks",
@@ -88,7 +73,23 @@ quarksStatic.addUpgrade([
     //         // Placeholder
     //     },
     // },
-] as UpgradeInit[]);
+] as const satisfies UpgradeInit[];
+
+/**
+ * Quarks currency (layer 0)
+ */
+const quarks = new SCurrency("quarks", quarksUpgrades, {
+    display: {
+        name: "Quarks",
+        description: "The base currency",
+        plural: "quarks",
+    },
+});
+const quarksStatic = quarks.currency.static;
+
+const regenRate = Game.addAttribute("regenRate", true, 1);
+const absorbRate = Game.addAttribute("absorbRate", true, 2);
+const maxParticles = Game.addAttribute("maxParticles", true, 5);
 
 // test
 // const a = quarksStatic.getUpgrade("upg1Quarks")

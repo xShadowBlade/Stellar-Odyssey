@@ -7,7 +7,7 @@ import { E, UpgradeStatic } from "emath.js";
 
 import Game from "./game";
 import { quarks, mass } from "./features/quarks";
-import { atoms, genesisPulse, cosmicCell } from "./features/atom";
+import { atoms, cosmicCell, genesisReset } from "./features/atom";
 import type { SCurrency } from "./lib/singularity";
 
 interface SCurrencyDisplayProps {
@@ -119,7 +119,10 @@ function GameApp (): JSX.Element {
             <SCurrencyDisplay
                 renderCount={renderCount}
                 currency={atoms}
-                gainFn={genesisPulse}
+                gainFn={() => {
+                    console.log("Genesis reset");
+                    genesisReset.reset();
+                }}
             />
             <SCurrencyDisplay
                 renderCount={renderCount}
