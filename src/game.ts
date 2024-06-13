@@ -27,10 +27,10 @@ const Game = new GameClass({
     name: {
         title: "Stellar Odyssey",
         id: "stellar-odyssey",
-        version: "0.1.0",
+        version: "0.2.0",
     },
     settings: {
-        framerate: 5,
+        framerate: 30,
     },
     // pixi: {
     //     app: pixiApp,

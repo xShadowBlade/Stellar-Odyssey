@@ -12,11 +12,9 @@ const quarksUpgrades = [
     {
         id: "upg1Quarks",
         name: "Value",
-        get description (): string {
-            // const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("upg1Quarks")[0] ?? defaultBoostObject).value(E(1)));
-            // return `Quarks Value - Multiplies the value of quarks by ${effect}`;
-
-            return "TODO"
+        description: (level, upgrade, currency): string => {
+            const effect = E.formats.formatMult((currency.boost.getBoosts("upg1Quarks")[0] ?? defaultBoostObject).value(E(1)));
+            return `Quarks Value - Multiplies the value of quarks by ${effect}`;
         },
         // cost: E(5),
         cost: (n): E => E.pow(1.2, E.scale(E(n), 1e6, 2, 0)).mul(10).ceil(),

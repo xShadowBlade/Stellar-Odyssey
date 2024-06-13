@@ -3,7 +3,8 @@
  */
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { E, UpgradeStatic } from "emath.js";
+import { E } from "emath.js";
+import type { UpgradeStatic } from "emath.js";
 
 import Game from "./game";
 import { quarks, mass } from "./features/quarks";
@@ -21,7 +22,7 @@ interface SCurrencyDisplayProps {
  * @param props - props
  * @returns The currency display component
  */
-function SCurrencyDisplay (props: SCurrencyDisplayProps): JSX.Element {
+const SCurrencyDisplay: React.FC<SCurrencyDisplayProps> = (props) => {
     const currency = props.currency.currency;
     const currencyStatic = currency.static;
     const [value, setValue] = useState(currencyStatic.value);

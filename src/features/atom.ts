@@ -42,7 +42,7 @@ const atomsUpgrades = [
     {
         id: "valueUpg1Genesis",
         name: "Quarks Value",
-        get description (): string {
+        description: (): string => {
             const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("valueUpg1Genesis")[0] ?? defaultBoostObject).value(E(1)));
             return `Quarks Value - Multiplies the value of quarks by ${effect}`;
         },
@@ -72,7 +72,7 @@ const atomsUpgrades = [
         id: "quarksBoostSelf",
         name: "Quarks Boost Themselves",
         // description: "Quarks boost themselves",
-        get description (): string {
+        description: (): string => {
             const effect = E.formats.formatMult((quarksStatic.boost.getBoosts("quarksBoostSelf")[0] ?? defaultBoostObject).value(E(1)));
             return `Quarks Boost - Multiplies the value of quarks by ${effect}`;
         },
@@ -89,12 +89,10 @@ const atomsUpgrades = [
     {
         id: "powQuarks",
         name: "Quarks Power",
-        get description (): string {
+        description: (level): string => {
             // const effect = this.level?.div(10).add(1).format();
-            // const effect = atomsStatic.getUpgrade("powQuarks").level.sub(1).div(10).add(1).format();
-            // return `Quarks Power - Increases the value of quarks by ^${effect}`;
-
-            return ""; // TODO
+            const effect = level.sub(1).div(10).add(1).format();
+            return `Quarks Power - Increases the value of quarks by ^${effect}`;
         },
         cost: (n): E => n.mul(5).pow(10),
         effect: function (level): void {
